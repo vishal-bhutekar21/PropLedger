@@ -20,6 +20,15 @@ async function handleRequest(request) {
   const url = new URL(request.url);
   const hostname = url.hostname.toLowerCase();
 
+  // Multi-level subdomains (2 dots) cannot be covered by Cloudflare's free Universal SSL (*.vishalbhutekar.me).
+  // Redirect any HTTP requests to their secure, working single-level counterparts!
+  if (hostname === 'admin.propledger.vishalbhutekar.me') {
+    return Response.redirect(`https://admin.vishalbhutekar.me${url.pathname}${url.search}`, 301);
+  }
+  if (hostname === 'home.propledger.vishalbhutekar.me') {
+    return Response.redirect(`https://propledger.vishalbhutekar.me${url.pathname}${url.search}`, 301);
+  }
+
   // Handle CORS preflight
   if (request.method === 'OPTIONS') {
     return new Response(null, {
