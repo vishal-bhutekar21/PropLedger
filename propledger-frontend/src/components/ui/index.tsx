@@ -1,54 +1,63 @@
 import { clsx } from 'clsx';
 
-// ── StatusBadge ──────────────────────────────────────────
-const STATUS_CLASSES: Record<string, string> = {
-  ACTIVE: 'badge-success',
-  OCCUPIED: 'badge-info',
-  VACANT: 'badge-neutral',
-  MAINTENANCE: 'badge-warning',
-  RESERVED: 'badge-purple',
-  INACTIVE: 'badge-neutral',
-  BLACKLISTED: 'badge-danger',
-  PENDING: 'badge-warning',
-  EXPIRED: 'badge-neutral',
-  TERMINATED: 'badge-danger',
-  PAID: 'badge-success',
-  PARTIALLY_PAID: 'badge-warning',
-  UNPAID: 'badge-neutral',
-  OVERDUE: 'badge-danger',
-  VOID: 'badge-neutral',
-  SUCCESS: 'badge-success',
-  FAILED: 'badge-danger',
-  REFUNDED: 'badge-purple',
-  CANCELLED: 'badge-neutral',
-  OPEN: 'badge-info',
-  ASSIGNED: 'badge-warning',
-  IN_PROGRESS: 'badge-purple',
-  RESOLVED: 'badge-success',
-  CLOSED: 'badge-neutral',
-  LOW: 'badge-neutral',
-  MEDIUM: 'badge-warning',
-  HIGH: 'badge-danger',
-  URGENT: 'badge-danger',
-  APPROVED: 'badge-success',
-  REJECTED: 'badge-danger',
+// ── StatusBadge (Swish / BookMyShow pill chip with status dot) ───────
+const STATUS_CLASSES: Record<string, { bg: string; dot: string }> = {
+  ACTIVE:         { bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
+  OCCUPIED:       { bg: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20', dot: 'bg-sky-500' },
+  VACANT:         { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  MAINTENANCE:    { bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20', dot: 'bg-amber-500' },
+  RESERVED:       { bg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20', dot: 'bg-purple-500' },
+  INACTIVE:       { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  BLACKLISTED:    { bg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20', dot: 'bg-rose-500' },
+  PENDING:        { bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20', dot: 'bg-amber-500' },
+  EXPIRED:        { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  TERMINATED:     { bg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20', dot: 'bg-rose-500' },
+  PAID:           { bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
+  PARTIALLY_PAID: { bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20', dot: 'bg-amber-500' },
+  PARTIAL:        { bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20', dot: 'bg-amber-500' },
+  UNPAID:         { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  OVERDUE:        { bg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20', dot: 'bg-rose-500 animate-pulse' },
+  VOID:           { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  SUCCESS:        { bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
+  FAILED:         { bg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20', dot: 'bg-rose-500' },
+  REFUNDED:       { bg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20', dot: 'bg-purple-500' },
+  CANCELLED:      { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  OPEN:           { bg: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20', dot: 'bg-sky-500' },
+  ASSIGNED:       { bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20', dot: 'bg-amber-500' },
+  IN_PROGRESS:    { bg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20', dot: 'bg-purple-500' },
+  RESOLVED:       { bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
+  CLOSED:         { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  LOW:            { bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20', dot: 'bg-slate-400' },
+  MEDIUM:         { bg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20', dot: 'bg-amber-500' },
+  HIGH:           { bg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20', dot: 'bg-rose-500' },
+  URGENT:         { bg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20', dot: 'bg-rose-500 animate-pulse' },
+  APPROVED:       { bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
+  REJECTED:       { bg: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20', dot: 'bg-rose-500' },
 };
 
 export function StatusBadge({ status }: { status: string }) {
-  const cls = STATUS_CLASSES[status] ?? 'badge-neutral';
-  return <span className={cls}>{status.replace(/_/g, ' ')}</span>;
+  const meta = STATUS_CLASSES[status] ?? {
+    bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20',
+    dot: 'bg-slate-400'
+  };
+  return (
+    <span className={clsx('inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase border', meta.bg)}>
+      <span className={clsx('w-1.5 h-1.5 rounded-full', meta.dot)} />
+      {status.replace(/_/g, ' ')}
+    </span>
+  );
 }
 
 // ── LoadingState ─────────────────────────────────────────
 export function LoadingState({ message = 'Loading...' }: { message?: string }) {
   return (
-    <div className="flex items-center justify-center py-20">
-      <div className="flex flex-col items-center gap-3 text-text-secondary dark:text-slate-400">
-        <svg className="animate-spin h-6 w-6 text-brand-500" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-        </svg>
-        <span className="text-sm">{message}</span>
+    <div className="flex items-center justify-center py-24">
+      <div className="flex flex-col items-center gap-4 text-text-secondary dark:text-slate-400">
+        <div className="relative flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full border-2 border-brand-500/20 border-t-brand-500 animate-spin" />
+          <div className="absolute w-2 h-2 rounded-full bg-brand-500 animate-ping" />
+        </div>
+        <span className="text-sm font-semibold tracking-tight text-slate-600 dark:text-slate-300">{message}</span>
       </div>
     </div>
   );
@@ -65,14 +74,16 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="empty-state">
-      <svg className="h-12 w-12 mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-      <p className="font-medium text-text-primary dark:text-slate-200">{title}</p>
-      {description && <p className="text-sm mt-1">{description}</p>}
-      {action && <div className="mt-4">{action}</div>}
+    <div className="card p-12 flex flex-col items-center justify-center text-center my-6">
+      <div className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-800/60 flex items-center justify-center mb-4 text-slate-400 shadow-inner">
+        <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+      <p className="font-extrabold text-base text-text-primary dark:text-white">{title}</p>
+      {description && <p className="text-sm text-text-secondary dark:text-slate-400 mt-1 max-w-sm">{description}</p>}
+      {action && <div className="mt-5">{action}</div>}
     </div>
   );
 }
@@ -80,21 +91,23 @@ export function EmptyState({
 // ── ErrorState ───────────────────────────────────────────
 export function ErrorState({ message, onRetry }: { message?: string; onRetry?: () => void }) {
   return (
-    <div className="empty-state">
-      <svg className="h-12 w-12 mb-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-      </svg>
-      <p className="font-medium text-text-primary dark:text-slate-200">Something went wrong</p>
-      {message && <p className="text-sm mt-1">{message}</p>}
+    <div className="card p-12 flex flex-col items-center justify-center text-center my-6 border-rose-500/20">
+      <div className="w-16 h-16 rounded-3xl bg-rose-500/10 flex items-center justify-center mb-4 text-rose-500">
+        <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <p className="font-bold text-base text-text-primary dark:text-white">Something went wrong</p>
+      {message && <p className="text-sm text-text-secondary dark:text-slate-400 mt-1 max-w-md font-mono text-xs">{message}</p>}
       {onRetry && (
-        <button onClick={onRetry} className="btn-secondary btn-sm mt-4">Try again</button>
+        <button onClick={onRetry} className="btn-secondary btn-sm mt-5">Try again</button>
       )}
     </div>
   );
 }
 
-// ── StatCard ─────────────────────────────────────────────
+// ── StatCard (Swish style with pill trend and rounded-2xl icon badge) ─
 export function StatCard({
   label,
   title,
@@ -118,38 +131,40 @@ export function StatCard({
   const cardTitle = label || title || '';
   return (
     <div className="stat-card">
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between gap-3">
         <span className="stat-label">{cardTitle}</span>
         {Icon && (
-          <div className={clsx('p-2 rounded', `bg-${color}-50 dark:bg-${color}-900/20`)}>
+          <div className={clsx('p-2.5 rounded-2xl flex items-center justify-center shrink-0 shadow-sm', `bg-${color}-500/10 text-${color}-500`)}>
             {typeof Icon === 'function' ? (
-              <Icon className={clsx('h-4 w-4', `text-${color}-500`)} />
+              <Icon className="h-5 w-5" />
             ) : (
               Icon
             )}
           </div>
         )}
       </div>
-      <span className="stat-value">{value}</span>
-      {(trend !== undefined || subtitle) && (
-        <div className="flex items-center gap-2">
-          {trend !== undefined && (
-            <span className={clsx('stat-change', trendPos ? 'up' : 'down')}>
-              {trendPos ? '▲' : '▼'} {Math.abs(trend).toFixed(1)}%
-            </span>
-          )}
-          {(trendLabel || subtitle) && (
-            <span className="text-xs text-text-secondary dark:text-slate-500">
-              {trendLabel ?? subtitle}
-            </span>
-          )}
-        </div>
-      )}
+      <div>
+        <div className="stat-value">{value}</div>
+        {(trend !== undefined || subtitle) && (
+          <div className="flex items-center gap-2 mt-2">
+            {trend !== undefined && (
+              <span className={clsx('stat-change', trendPos ? 'up' : 'down')}>
+                {trendPos ? '↑' : '↓'} {Math.abs(trend).toFixed(1)}%
+              </span>
+            )}
+            {(trendLabel || subtitle) && (
+              <span className="text-xs font-medium text-text-secondary dark:text-slate-400">
+                {trendLabel ?? subtitle}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-// ── Pagination ───────────────────────────────────────────
+// ── Pagination (Swish rounded-full pill buttons) ────────────────────
 export function Pagination({
   page, currentPage, totalPages, onPageChange, totalElements, size = 15,
 }: {
@@ -166,24 +181,26 @@ export function Pagination({
   const to = Math.min((activePage + 1) * size, total);
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-t border-border dark:border-border-dark text-sm">
-      <span className="text-text-secondary dark:text-slate-400">
-        Showing {from}–{to} of {total.toLocaleString()}
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 card rounded-2xl text-sm">
+      <span className="text-xs font-semibold text-text-secondary dark:text-slate-400">
+        Showing <strong className="text-text-primary dark:text-white font-mono">{from}–{to}</strong> of <strong className="text-text-primary dark:text-white font-mono">{total.toLocaleString()}</strong> records
       </span>
-      <div className="flex items-center gap-1">
-        <button className="btn-ghost btn-sm" disabled={activePage === 0} onClick={() => onPageChange(0)}>«</button>
-        <button className="btn-ghost btn-sm" disabled={activePage === 0} onClick={() => onPageChange(activePage - 1)}>‹</button>
-        <span className="px-3 py-1 text-xs font-medium">{activePage + 1} / {totalPages}</span>
-        <button className="btn-ghost btn-sm" disabled={activePage >= totalPages - 1} onClick={() => onPageChange(activePage + 1)}>›</button>
-        <button className="btn-ghost btn-sm" disabled={activePage >= totalPages - 1} onClick={() => onPageChange(totalPages - 1)}>»</button>
+      <div className="flex items-center gap-1.5">
+        <button className="btn-secondary btn-sm" disabled={activePage === 0} onClick={() => onPageChange(0)} title="First page">«</button>
+        <button className="btn-secondary btn-sm" disabled={activePage === 0} onClick={() => onPageChange(activePage - 1)} title="Previous page">‹ Prev</button>
+        <span className="px-3.5 py-1 text-xs font-bold font-mono rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+          {activePage + 1} / {totalPages}
+        </span>
+        <button className="btn-secondary btn-sm" disabled={activePage >= totalPages - 1} onClick={() => onPageChange(activePage + 1)} title="Next page">Next ›</button>
+        <button className="btn-secondary btn-sm" disabled={activePage >= totalPages - 1} onClick={() => onPageChange(totalPages - 1)} title="Last page">»</button>
       </div>
     </div>
   );
 }
 
-// ── SearchBar ────────────────────────────────────────────
+// ── SearchBar (Rounded-full pill search input) ──────────────────────
 export function SearchBar({
-  value, onChange, placeholder = 'Search...',
+  value, onChange, placeholder = 'Search portfolio...',
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -191,7 +208,7 @@ export function SearchBar({
 }) {
   return (
     <div className="relative">
-      <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-secondary"
+      <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-text-secondary dark:text-slate-400 pointer-events-none"
            fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -201,13 +218,13 @@ export function SearchBar({
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="input pl-9 w-64"
+        className="input pl-11 pr-4 py-2.5 rounded-full text-xs font-medium w-full sm:w-72"
       />
     </div>
   );
 }
 
-// ── Modal ────────────────────────────────────────────────
+// ── Modal (Swish rounded-3xl smooth backdrop blur modal) ────────────
 export function Modal({
   open, isOpen, onClose, title, children, size = 'md',
 }: {
@@ -222,18 +239,18 @@ export function Modal({
   if (!isVisible) return null;
   const widths = { sm: 'max-w-sm', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-4xl' };
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className={clsx('relative w-full card shadow-modal animate-slide-in', widths[size])}>
-        <div className="card-header">
-          <h3 className="font-semibold text-text-primary dark:text-white">{title}</h3>
-          <button onClick={onClose} className="btn-ghost btn-icon">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
+      <div className={clsx('relative w-full card shadow-modal animate-slide-in overflow-hidden z-10', widths[size])}>
+        <div className="card-header bg-slate-50/50 dark:bg-white/[0.02]">
+          <h3 className="font-extrabold text-base text-text-primary dark:text-white tracking-tight">{title}</h3>
+          <button onClick={onClose} className="btn-ghost btn-icon" title="Close">
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
         </div>
-        <div className="card-body">{children}</div>
+        <div className="card-body max-h-[80vh] overflow-y-auto">{children}</div>
       </div>
     </div>
   );
@@ -253,10 +270,10 @@ export function ConfirmDialog({
 }) {
   return (
     <Modal open={open} onClose={onClose} title={title} size="sm">
-      <p className="text-sm text-text-secondary dark:text-slate-400 mb-5">{message}</p>
-      <div className="flex justify-end gap-2">
-        <button className="btn-secondary" onClick={onClose}>Cancel</button>
-        <button className={danger ? 'btn-danger' : 'btn-primary'} onClick={onConfirm}>{confirmLabel}</button>
+      <p className="text-sm text-text-secondary dark:text-slate-300 mb-6 leading-relaxed">{message}</p>
+      <div className="flex justify-end gap-2.5">
+        <button className="btn-secondary btn-sm" onClick={onClose}>Cancel</button>
+        <button className={danger ? 'btn-danger btn-sm' : 'btn-primary btn-sm'} onClick={onConfirm}>{confirmLabel}</button>
       </div>
     </Modal>
   );
@@ -267,10 +284,10 @@ export function TableSkeleton({ rows = 5, cols = 5 }: { rows?: number; cols?: nu
   return (
     <>
       {Array.from({ length: rows }).map((_, r) => (
-        <tr key={r} className="border-b border-border dark:border-border-dark">
+        <tr key={r} className="border-b border-border dark:border-white/5">
           {Array.from({ length: cols }).map((_, c) => (
-            <td key={c} className="px-4 py-3">
-              <div className="skeleton h-4 rounded w-full" />
+            <td key={c} className="px-5 py-4">
+              <div className="skeleton h-4 rounded-xl w-full" />
             </td>
           ))}
         </tr>

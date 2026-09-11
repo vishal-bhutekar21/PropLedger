@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -13,142 +13,159 @@
   }
 
   .dark {
-    --color-surface: 15 17 23;
-    --color-muted: 26 29 39;
-    --color-border: 45 48 72;
+    --color-surface: 12 16 23;
+    --color-muted: 15 19 28;
+    --color-border: 30 35 48;
   }
 
   * {
     @apply border-border;
   }
 
+  html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
-    @apply bg-muted text-text-primary font-sans antialiased;
+    @apply bg-[#f8fafc] text-text-primary font-sans antialiased;
   }
 
   html.dark body {
-    @apply bg-[#0f1117] text-slate-100;
+    @apply bg-[#0b0e14] text-slate-100;
   }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { @apply bg-transparent; }
-  ::-webkit-scrollbar-thumb { @apply bg-slate-300 rounded-full; }
-  .dark ::-webkit-scrollbar-thumb { @apply bg-slate-600; }
+  ::-webkit-scrollbar-thumb { @apply bg-slate-300 dark:bg-slate-700 rounded-full; }
 }
 
 @layer components {
-  /* ── Buttons ── */
+  /* ── Buttons (Swish / BookMyShow rounded-full pill buttons) ── */
   .btn {
-    @apply inline-flex items-center gap-1.5 px-3.5 py-2 rounded text-sm font-medium
-           transition-all duration-150 focus-visible:outline-none focus-visible:ring-2
-           focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold tracking-tight
+           transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none;
   }
   .btn-primary {
-    @apply btn bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700;
+    @apply btn bg-gradient-to-r from-brand-500 to-indigo-600 text-white hover:from-brand-600 hover:to-indigo-700 shadow-md shadow-brand-500/25 hover:shadow-lg hover:shadow-brand-500/35;
   }
   .btn-secondary {
-    @apply btn bg-white border border-border text-text-primary hover:bg-muted dark:bg-muted-dark dark:border-border-dark dark:text-slate-200 dark:hover:bg-slate-700;
+    @apply btn bg-white border border-slate-200 dark:border-slate-700/80 text-text-primary hover:bg-slate-50 dark:bg-[#151924] dark:text-slate-200 dark:hover:bg-slate-800/80 shadow-sm;
   }
   .btn-danger {
-    @apply btn bg-red-600 text-white hover:bg-red-700;
+    @apply btn bg-gradient-to-r from-rose-500 to-red-600 text-white hover:from-rose-600 hover:to-red-700 shadow-md shadow-rose-500/25;
   }
   .btn-ghost {
-    @apply btn text-text-secondary hover:bg-muted dark:hover:bg-slate-800 hover:text-text-primary;
+    @apply btn text-text-secondary hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-text-primary dark:hover:text-white;
   }
   .btn-sm {
-    @apply px-2.5 py-1.5 text-xs;
+    @apply px-3.5 py-1.5 text-xs rounded-full;
   }
   .btn-icon {
-    @apply btn p-2 aspect-square;
+    @apply p-2.5 rounded-full aspect-square;
   }
 
-  /* ── Cards ── */
+  /* ── Cards (Swish / BookMyShow rounded-3xl smooth container cards) ── */
   .card {
-    @apply bg-white dark:bg-[#1a1d27] border border-border dark:border-border-dark rounded shadow-card;
+    @apply bg-white dark:bg-[#121622] border border-slate-200/80 dark:border-white/5 rounded-3xl shadow-card transition-all duration-300;
+  }
+  .card:hover {
+    @apply shadow-card-hover;
   }
   .card-header {
-    @apply px-5 py-4 border-b border-border dark:border-border-dark flex items-center justify-between;
+    @apply px-6 py-5 border-b border-slate-100 dark:border-white/5 flex items-center justify-between;
   }
   .card-body {
-    @apply p-5;
+    @apply p-6;
   }
 
-  /* ── Form elements ── */
+  /* ── Form elements (Clean rounded-2xl inputs) ── */
   .input {
-    @apply block w-full px-3 py-2 rounded border border-border dark:border-border-dark
-           bg-white dark:bg-[#1a1d27] text-sm text-text-primary dark:text-slate-200
-           placeholder-text-secondary dark:placeholder-slate-500
-           focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent
-           transition-colors duration-150;
+    @apply block w-full px-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-800
+           bg-slate-50/60 dark:bg-[#0c0f17] text-sm text-text-primary dark:text-slate-100
+           placeholder-text-secondary/70 dark:placeholder-slate-500
+           focus:bg-white dark:focus:bg-[#121622] focus:outline-none focus:ring-4 focus:ring-brand-500/15 focus:border-brand-500
+           transition-all duration-200;
   }
   .label {
-    @apply block text-xs font-medium text-text-secondary dark:text-slate-400 mb-1.5;
+    @apply block text-xs font-bold text-text-secondary dark:text-slate-400 uppercase tracking-wider mb-2;
   }
   .field-error {
-    @apply text-xs text-red-500 mt-1;
+    @apply text-xs font-medium text-red-500 mt-1.5 flex items-center gap-1;
   }
   .select {
-    @apply input appearance-none cursor-pointer;
+    @apply input appearance-none cursor-pointer pr-10;
   }
 
-  /* ── Table ── */
+  /* ── Table (Rounded container with clean borders) ── */
   .table-container {
-    @apply overflow-x-auto;
+    @apply overflow-x-auto rounded-3xl border border-slate-200/80 dark:border-white/5 bg-white dark:bg-[#121622] shadow-card;
   }
   .table {
     @apply w-full text-sm;
   }
   .table thead {
-    @apply border-b border-border dark:border-border-dark;
+    @apply border-b border-slate-100 dark:border-white/5 bg-slate-50/70 dark:bg-slate-800/40;
   }
   .table thead th {
-    @apply px-4 py-3 text-left text-xs font-semibold text-text-secondary dark:text-slate-400
+    @apply px-5 py-4 text-left text-xs font-bold text-text-secondary dark:text-slate-400
            uppercase tracking-wider whitespace-nowrap select-none;
   }
   .table tbody tr {
-    @apply border-b border-border dark:border-border-dark last:border-0
-           hover:bg-muted dark:hover:bg-slate-800/50 transition-colors duration-100;
+    @apply border-b border-slate-100 dark:border-white/5 last:border-0
+           hover:bg-slate-50/70 dark:hover:bg-slate-800/30 transition-colors duration-150;
   }
   .table tbody td {
-    @apply px-4 py-3 text-text-primary dark:text-slate-200;
+    @apply px-5 py-4 text-text-primary dark:text-slate-200;
   }
 
-  /* ── Badges ── */
+  /* ── Badges (Swish pill chips) ── */
   .badge {
-    @apply inline-flex items-center px-2 py-0.5 rounded text-2xs font-semibold uppercase tracking-wide;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase border;
   }
-  .badge-success  { @apply badge bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400; }
-  .badge-warning  { @apply badge bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400; }
-  .badge-danger   { @apply badge bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400; }
-  .badge-info     { @apply badge bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400; }
-  .badge-neutral  { @apply badge bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400; }
-  .badge-purple   { @apply badge bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400; }
+  .badge-success  { @apply bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20; }
+  .badge-warning  { @apply bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20; }
+  .badge-danger   { @apply bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20; }
+  .badge-info     { @apply bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20; }
+  .badge-neutral  { @apply bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20; }
+  .badge-purple   { @apply bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20; }
 
-  /* ── Stat card ── */
+  /* ── Stat card (Swish clean rounded card) ── */
   .stat-card {
-    @apply card p-5 flex flex-col gap-2;
+    @apply bg-white dark:bg-[#121622] border border-slate-200/80 dark:border-white/5 rounded-3xl shadow-card p-6 flex flex-col justify-between gap-3 hover:-translate-y-1 hover:shadow-card-hover transition-all duration-300;
   }
   .stat-value {
-    @apply text-2xl font-bold text-text-primary dark:text-white;
+    @apply text-3xl font-black text-text-primary dark:text-white tracking-tight;
   }
   .stat-label {
-    @apply text-xs font-medium text-text-secondary dark:text-slate-400 uppercase tracking-wider;
+    @apply text-xs font-bold text-text-secondary dark:text-slate-400 uppercase tracking-wider;
   }
   .stat-change {
-    @apply text-xs font-medium;
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold;
   }
-  .stat-change.up   { @apply text-green-600; }
-  .stat-change.down { @apply text-red-500; }
+  .stat-change.up   { @apply bg-emerald-500/10 text-emerald-600 dark:text-emerald-400; }
+  .stat-change.down { @apply bg-rose-500/10 text-rose-600 dark:text-rose-400; }
+
+  /* ── BookMyShow Ticket Receipt Styles ── */
+  .ticket-card {
+    @apply relative bg-white dark:bg-[#121622] rounded-3xl border border-slate-200/80 dark:border-white/10 shadow-2xl overflow-hidden;
+  }
+  .ticket-divider {
+    @apply relative my-4 border-t-2 border-dashed border-slate-200 dark:border-slate-800;
+  }
 
   /* ── Page header ── */
   .page-header {
-    @apply mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3;
+    @apply mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4;
   }
   .page-title {
-    @apply text-xl font-semibold text-text-primary dark:text-white;
+    @apply text-2xl sm:text-3xl font-black text-text-primary dark:text-white tracking-tight;
   }
   .page-subtitle {
-    @apply text-sm text-text-secondary dark:text-slate-400 mt-0.5;
+    @apply text-sm text-text-secondary dark:text-slate-400 mt-1;
   }
 
   /* ── Empty state ── */
@@ -158,20 +175,23 @@
 
   /* ── Skeleton loader ── */
   .skeleton {
-    @apply bg-slate-200 dark:bg-slate-700 rounded animate-pulse;
+    @apply bg-slate-200/80 dark:bg-slate-800/80 rounded-2xl animate-pulse;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-brand-500 to-brand-700 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600 bg-clip-text text-transparent;
   }
   .sidebar-link {
-    @apply flex items-center gap-2.5 px-3 py-2 rounded text-sm font-medium text-text-secondary
-           dark:text-slate-400 hover:text-text-primary dark:hover:text-white hover:bg-muted
-           dark:hover:bg-slate-800 transition-all duration-150;
+    @apply flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold text-text-secondary
+           dark:text-slate-400 hover:text-text-primary dark:hover:text-white hover:bg-slate-100
+           dark:hover:bg-white/5 transition-all duration-200;
   }
   .sidebar-link.active {
-    @apply bg-brand-50 dark:bg-brand-900/20 text-brand-600 dark:text-brand-400;
+    @apply bg-brand-500 text-white font-bold shadow-md shadow-brand-500/25 hover:bg-brand-600 hover:text-white;
+  }
+  .pill-chip {
+    @apply px-4 py-2 rounded-full font-bold text-xs tracking-wide uppercase transition-all duration-200;
   }
 }

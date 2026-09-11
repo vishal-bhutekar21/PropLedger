@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import {
   LayoutDashboard, Building2, Home, Users, FileText, Receipt,
   CreditCard, TrendingUp, Wrench, Store, BarChart3, Shield,
-  Settings, LogOut, Menu, Sun, Moon, ChevronDown, ShieldCheck
+  Settings, LogOut, Menu, Sun, Moon, ShieldCheck
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -50,29 +50,40 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   const Sidebar = () => (
     <aside className={clsx(
-      'fixed inset-y-0 left-0 z-40 w-60 flex flex-col',
-      'bg-white dark:bg-[#13151f] border-r border-border dark:border-border-dark',
-      'transition-transform duration-200',
+      'fixed inset-y-0 left-0 z-40 w-64 flex flex-col',
+      'bg-white dark:bg-[#0e121a] border-r border-slate-200/80 dark:border-white/5',
+      'transition-transform duration-300 ease-in-out',
       sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
     )}>
-      {/* Logo */}
-      <div className="h-14 flex items-center px-5 border-b border-border dark:border-border-dark shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded bg-brand-500 flex items-center justify-center shrink-0">
-            <Building2 className="w-4 h-4 text-white" />
+      {/* Logo Header */}
+      <div className="h-18 flex items-center px-6 border-b border-slate-100 dark:border-white/5 shrink-0 py-5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-500 to-indigo-600 flex items-center justify-center shrink-0 shadow-lg shadow-brand-500/30 text-white font-black text-lg">
+            P
           </div>
-          <span className="font-bold text-sm tracking-tight text-text-primary dark:text-white">PropLedger</span>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">PropLedger</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">PRO</span>
+            </div>
+            <p className="text-[11px] text-slate-400 font-medium">Enterprise Real Estate</p>
+          </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
+      <nav className="flex-1 overflow-y-auto px-4 py-5 space-y-1">
         {NAV_ITEMS.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
             to={to}
             end={to === '/'}
-            className={({ isActive }) => clsx('sidebar-link', isActive && 'active')}
+            className={({ isActive }) => clsx(
+              'flex items-center gap-3 px-4 py-2.5 rounded-2xl text-xs font-bold tracking-tight transition-all duration-200',
+              isActive
+                ? 'bg-gradient-to-r from-brand-500 to-indigo-600 text-white shadow-md shadow-brand-500/25'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+            )}
             onClick={() => setSidebarOpen(false)}
           >
             <Icon className="h-4 w-4 shrink-0" />
@@ -81,18 +92,24 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         ))}
       </nav>
 
-      {/* User section */}
-      <div className="shrink-0 border-t border-border dark:border-border-dark p-3">
-        <div className="flex items-center gap-2.5 px-2 py-2 rounded hover:bg-muted dark:hover:bg-slate-800 transition-colors group">
-          <div className="w-7 h-7 rounded-full bg-brand-500 flex items-center justify-center text-white text-xs font-semibold shrink-0">
-            {user?.fullName?.[0] ?? 'U'}
+      {/* User Section (Pill card format) */}
+      <div className="shrink-0 p-4 border-t border-slate-100 dark:border-white/5">
+        <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-100 dark:border-white/5">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-extrabold shrink-0 shadow-sm">
+              {user?.fullName?.[0] ?? 'V'}
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{user?.fullName || 'Vishal Bhutekar'}</p>
+              <p className="text-[10px] text-slate-400 truncate font-mono">{user?.roles?.[0] || 'SUPER_ADMIN'}</p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-text-primary dark:text-white truncate">{user?.fullName}</p>
-            <p className="text-2xs text-text-secondary dark:text-slate-500 truncate">{user?.roles?.[0]}</p>
-          </div>
-          <button onClick={handleLogout} className="opacity-0 group-hover:opacity-100 transition-opacity btn-ghost btn-icon p-1" title="Sign out">
-            <LogOut className="h-3.5 w-3.5" />
+          <button
+            onClick={handleLogout}
+            className="p-1.5 rounded-full hover:bg-rose-500/10 text-slate-400 hover:text-rose-500 transition-colors"
+            title="Sign out"
+          >
+            <LogOut className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -100,33 +117,50 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen flex bg-muted dark:bg-[#0f1117]">
+    <div className="min-h-screen flex bg-[#f8fafc] dark:bg-[#0b0e14]">
       <Sidebar />
 
-      {/* Overlay */}
+      {/* Mobile Overlay */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Main */}
-      <div className="flex-1 flex flex-col lg:ml-60 min-w-0">
-        {/* Top bar */}
-        <header className="h-14 shrink-0 flex items-center gap-3 px-4 bg-white dark:bg-[#13151f] border-b border-border dark:border-border-dark sticky top-0 z-20">
-          <button className="btn-ghost btn-icon lg:hidden" onClick={() => setSidebarOpen(true)}>
-            <Menu className="h-4 w-4" />
+      {/* Main Container */}
+      <div className="flex-1 flex flex-col lg:ml-64 min-w-0">
+        {/* Top Floating Header */}
+        <header className="h-16 shrink-0 flex items-center justify-between px-6 bg-white/80 dark:bg-[#0e121a]/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/5 sticky top-0 z-20">
+          <button
+            className="p-2 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/5 lg:hidden text-slate-700 dark:text-slate-300"
+            onClick={() => setSidebarOpen(true)}
+            title="Open menu"
+          >
+            <Menu className="h-5 w-5" />
           </button>
-          <div className="flex-1" />
-          <button onClick={toggle} className="btn-ghost btn-icon" title="Toggle dark mode">
-            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </button>
-          <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-slate-400">
-            <span className="hidden sm:block">{user?.fullName}</span>
-            <ChevronDown className="h-3.5 w-3.5" />
+
+          <div className="hidden sm:flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-mono tracking-tight">Cloudflare Edge Live</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggle}
+              className="p-2.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:scale-105 active:scale-95 transition-all"
+              title="Toggle theme"
+            >
+              {dark ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-600" />}
+            </button>
+
+            <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="hidden md:inline">{user?.fullName || 'Master Administrator'}</span>
+              <span className="font-mono text-[10px] text-slate-400">vishalbhutekar.me</span>
+            </div>
           </div>
         </header>
 
-        {/* Content */}
-        <main className="flex-1 p-5 lg:p-6 overflow-auto">
+        {/* Page Content */}
+        <main className="flex-1 p-6 lg:p-8 overflow-auto">
           {children}
         </main>
       </div>
