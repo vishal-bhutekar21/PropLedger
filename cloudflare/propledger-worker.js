@@ -773,6 +773,23 @@ function renderHomePage(hostname) {
         </a>
       </div>
 
+      <!-- Strategic Yardi Modernization Whitepaper Banner -->
+      <div class="p-5 rounded-2xl bg-gradient-to-r from-indigo-950/60 via-slate-900 to-sky-950/60 border border-indigo-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">Strategic Whitepaper</span>
+            <span class="text-xs text-slate-400 font-mono">PROP-YRD-2026-V1</span>
+          </div>
+          <h3 class="text-base font-black text-white">Modernizing Real Estate Operations: The PropLedger Proposal</h3>
+          <p class="text-xs text-slate-300 leading-relaxed max-w-2xl">
+            Detailed architectural blueprint for Yardi Systems and enterprise REITs covering dual-run GL coexistence, database temporal exclusion constraints, and 73.7% 5-year TCO reduction.
+          </p>
+        </div>
+        <a href="https://github.com/vishal-bhutekar21/PropLedger/blob/main/docs/YARDI_ENTERPRISE_PROPOSAL.md" target="_blank" class="pill-btn px-5 py-2.5 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs shadow-lg shadow-indigo-600/30 text-center whitespace-nowrap self-start md:self-center">
+          Read Executive Proposal &rarr;
+        </a>
+      </div>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="swish-inner p-4 flex items-center justify-between">
           <div>

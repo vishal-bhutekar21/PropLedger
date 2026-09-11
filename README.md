@@ -14,22 +14,30 @@
 
 ---
 
-## 🌐 Live Cloudflare Edge Deployment & Master Admin Portal
+## 📑 Strategic Enterprise Whitepaper & Yardi Modernization Proposal
 
-| Property | Value |
-| :--- | :--- |
-| **Primary Production Domain** | [**https://propledger.vishalbhutekar.me**](https://propledger.vishalbhutekar.me) |
-| **Subdomain Alias** | [**https://porpledger.vishalbhutekar.me**](https://porpledger.vishalbhutekar.me) |
-| **Edge Status Endpoint** | [`https://propledger.vishalbhutekar.me/api/status`](https://propledger.vishalbhutekar.me/api/status) |
-| **Edge Mail Routing Endpoint** | `POST https://propledger.vishalbhutekar.me/api/send-invoice` |
-| **Cloudflare Zone ID** | `84d04451d623e1d6885d01c55a89ce3a` (Proxied DNS + TLS 1.3 Full Strict) |
+> **Must Read for Enterprise Evaluators & CTOs:**  
+> Read the complete architectural proposal on how PropLedger modernizes or replaces legacy ERP systems (Yardi Voyager, RealPage, MRI):  
+> 🔗 [**Enterprise Solution Proposal: Modernizing Real Estate Operations with PropLedger**](docs/YARDI_ENTERPRISE_PROPOSAL.md)
+
+---
+
+## 🌐 Live Cloudflare Edge Deployment & Portals
+
+| Portal | URL | Purpose |
+| :--- | :--- | :--- |
+| **Public Showcase & Ledger** | [**https://propledger.vishalbhutekar.me**](https://propledger.vishalbhutekar.me) | Clean modern showcase, resident statements, concierge desk |
+| **Master Admin Console** | [**https://admin.vishalbhutekar.me**](https://admin.vishalbhutekar.me) | Executive operations center, credentials vault, email triggers |
+| **Alternate Admin Route** | [**https://admin-propledger.vishalbhutekar.me**](https://admin-propledger.vishalbhutekar.me) | Dedicated admin gateway (SSL covered) |
+| **Zensar Preparation Suite** | [**https://zensar-prep.vishalbhutekar.me**](https://zensar-prep.vishalbhutekar.me) | High-speed edge reverse proxy to Netlify preparation suite |
+| **Inbound Concierge Email** | `support@propledger.vishalbhutekar.me` | Auto-forwarded via Cloudflare Workers to executive desk |
 
 ### 🛡️ Master Administrator Access
 PropLedger is pre-configured with a master super-administrator account auto-provisioned on startup:
 * **Email:** `vishal.bhutekar1@gmail.com`
 * **Password:** `Vishal@1233`
 * **Assigned Roles:** `ROLE_SUPER_ADMIN`, `ROLE_PROPERTY_MANAGER`, `ROLE_ACCOUNTANT`
-* **Master Admin Console:** [`/master-admin`](https://propledger.vishalbhutekar.me/master-admin)
+* **Master Admin Console:** [**https://admin.vishalbhutekar.me**](https://admin.vishalbhutekar.me)
 
 ### 📬 Transactional Email & Invoice Pipeline (Resend + Cloudflare Workers)
 The platform integrates **Resend** transactional mail routing directly into Cloudflare Workers and Spring Boot:
