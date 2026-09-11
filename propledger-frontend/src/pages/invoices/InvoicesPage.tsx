@@ -53,7 +53,7 @@ export default function InvoicesPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Header (Swish / BookMyShow Clean Layout) */}
+      {/* Header Layout */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
@@ -169,7 +169,7 @@ export default function InvoicesPage() {
         />
       )}
 
-      {/* BookMyShow Style Ticket Receipt Modal */}
+      {/* Enterprise Financial Statement Modal */}
       <Modal
         isOpen={!!selectedInvoice}
         onClose={() => setSelectedInvoice(null)}
@@ -178,7 +178,7 @@ export default function InvoicesPage() {
       >
         {selectedInvoice && (
           <div className="space-y-6">
-            {/* Ticket Header */}
+            {/* Statement Header */}
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/5">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-brand-500/10 text-brand-500 flex items-center justify-center font-bold">
@@ -194,7 +194,7 @@ export default function InvoicesPage() {
               <StatusBadge status={selectedInvoice.status} />
             </div>
 
-            {/* Ticket Information Grid */}
+            {/* Information Grid */}
             <div className="p-4 rounded-2xl bg-slate-50 dark:bg-white/[0.02] border border-slate-100 dark:border-white/5 grid grid-cols-2 gap-4 text-xs">
               <div>
                 <span className="text-slate-400 block font-semibold">Tenant</span>
@@ -214,10 +214,8 @@ export default function InvoicesPage() {
               </div>
             </div>
 
-            {/* BookMyShow Perforated Divider */}
-            <div className="relative py-2">
-              <div className="border-t-2 border-dashed border-slate-200 dark:border-slate-800 w-full" />
-            </div>
+            {/* Clean Subtle Divider */}
+            <div className="border-t border-slate-100 dark:border-white/5 my-2" />
 
             {/* Line Items Table */}
             {selectedInvoice.items && selectedInvoice.items.length > 0 ? (
@@ -243,7 +241,7 @@ export default function InvoicesPage() {
               </div>
             )}
 
-            {/* Total Payable Box (BookMyShow High Contrast Ticket Style) */}
+            {/* Total Balance Summary Box */}
             <div className="p-5 rounded-2xl bg-gradient-to-r from-brand-500/10 via-indigo-500/10 to-purple-500/10 border border-brand-500/20 flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-wider">Total Payable</span>

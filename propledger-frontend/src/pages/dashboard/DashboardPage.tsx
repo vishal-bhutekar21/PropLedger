@@ -86,7 +86,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* KPI Grid — Operational (Swish / BookMyShow rounded-3xl cards) */}
+      {/* KPI Grid — Operational (rounded-3xl cards) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-5">
         <StatCard label="Total Properties" value={s.totalProperties} icon={Building2} color="brand" />
         <StatCard label="Total Units" value={s.totalUnits.toLocaleString()} icon={Home} color="blue" />

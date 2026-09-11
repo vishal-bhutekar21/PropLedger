@@ -29,7 +29,7 @@ if os.path.exists(pdf_path):
     with open(pdf_path, "rb") as f:
         pdf_b64 = base64.b64encode(f.read()).decode("utf-8")
 
-# Swish & BookMyShow Inspired Clean, Rounded-Corner Email Design
+# Enterprise Clean, Rounded-Corner Email Design
 html_content = """
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +78,7 @@ html_content = """
       </td>
     </tr>
 
-    <!-- Ticket-Style Receipt Card with 20px Corners -->
+    <!-- Financial Statement Card with 22px Corners -->
     <tr>
       <td style="padding: 0 32px 32px 32px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #0b0e14; border: 1px solid #1e293b; border-radius: 22px; overflow: hidden;">
@@ -98,10 +98,10 @@ html_content = """
             </td>
           </tr>
 
-          <!-- Perforated Dashed Divider (BookMyShow / Swish Receipt Style) -->
+          <!-- Sleek Divider -->
           <tr>
             <td style="padding: 0 28px;">
-              <div style="border-top: 1px dashed #242d3d; height: 1px; width: 100%;"></div>
+              <div style="border-top: 1px solid #242d3d; height: 1px; width: 100%;"></div>
             </td>
           </tr>
 
@@ -237,7 +237,7 @@ def send_email():
     try:
         with urllib.request.urlopen(req) as resp:
             data = resp.read().decode("utf-8")
-            print("SWISH / BOOKMYSHOW STYLE EMAIL DELIVERED:", data)
+            print("ENTERPRISE INVOICE STATEMENT EMAIL DELIVERED:", data)
             return True, data
     except urllib.error.HTTPError as e:
         err = e.read().decode("utf-8")

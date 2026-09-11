@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-// ── StatusBadge (Swish / BookMyShow pill chip with status dot) ───────
+// ── StatusBadge (Pill chip with status dot) ───────────────────────
 const STATUS_CLASSES: Record<string, { bg: string; dot: string }> = {
   ACTIVE:         { bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
   OCCUPIED:       { bg: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20', dot: 'bg-sky-500' },

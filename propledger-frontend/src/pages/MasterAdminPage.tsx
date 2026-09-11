@@ -80,7 +80,7 @@ export const MasterAdminPage = () => {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      {/* Top Banner (Swish / BookMyShow rounded-3xl container) */}
+      {/* Top Banner (Executive rounded-3xl container) */}
       <div className="card p-8 sm:p-10 bg-gradient-to-r from-slate-900 via-[#121722] to-indigo-950 border border-slate-700/60 shadow-2xl relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-3">

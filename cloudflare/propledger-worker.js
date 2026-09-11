@@ -494,7 +494,7 @@ ${message}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. PUBLIC WEBSITE: home.propledger.vishalbhutekar.me
-// Clean Swish (justswish.in) & BookMyShow aesthetic for general public & residents
+// Clean modern enterprise aesthetic for general public & residents
 // ─────────────────────────────────────────────────────────────────────────────
 function renderHomePage(hostname) {
   return `<!DOCTYPE html>
@@ -510,18 +510,15 @@ function renderHomePage(hostname) {
   <style>
     body { font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #070a10; color: #f8fafc; -webkit-font-smoothing: antialiased; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .swish-card { background: #0f141f; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); }
-    .swish-inner { background: #080b12; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 24px; }
+    .swish-card { background: #0f141f; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 28px; box-shadow: 0 20px 45px -12px rgba(0,0,0,0.6); }
+    .swish-inner { background: #080b12; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; }
     .pill-btn { border-radius: 9999px; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
     .pill-btn:hover { transform: translateY(-1.5px); }
-    .dashed-split { border-top: 2px dashed rgba(255, 255, 255, 0.12); }
-    .bms-notch-left { position: absolute; left: -14px; width: 28px; height: 28px; border-radius: 50%; background: #070a10; border-right: 1px solid rgba(255, 255, 255, 0.1); }
-    .bms-notch-right { position: absolute; right: -14px; width: 28px; height: 28px; border-radius: 50%; background: #070a10; border-left: 1px solid rgba(255, 255, 255, 0.1); }
   </style>
 </head>
 <body class="min-h-screen antialiased selection:bg-indigo-500 selection:text-white pb-32">
 
-  <!-- Floating Sticky Header (Swish justswish.in inspired) -->
+  <!-- Floating Sticky Header -->
   <div class="sticky top-4 z-50 px-4 max-w-6xl mx-auto">
     <header class="bg-[#0b0f19]/85 backdrop-blur-2xl border border-white/10 rounded-full px-6 py-3.5 shadow-2xl flex items-center justify-between">
       
@@ -542,14 +539,14 @@ function renderHomePage(hostname) {
       <!-- Quick Nav Links -->
       <nav class="hidden md:flex items-center gap-2">
         <a href="#features" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Features</a>
-        <a href="#resident-voucher" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Statement Pass</a>
+        <a href="#resident-voucher" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Financial Statement</a>
         <a href="#concierge" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Concierge Desk</a>
-        <a href="#handbooks" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Docs</a>
+        <a href="#handbooks" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Documentation</a>
       </nav>
 
       <!-- Admin Portal Action Button -->
       <div class="flex items-center gap-2">
-        <a href="https://admin.propledger.vishalbhutekar.me" class="pill-btn text-xs font-black px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-md shadow-indigo-600/30 flex items-center gap-1.5">
+        <a href="https://admin.vishalbhutekar.me" class="pill-btn text-xs font-black px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-md shadow-indigo-600/30 flex items-center gap-1.5">
           <span>Master Admin</span>
           <span>&rarr;</span>
         </a>
@@ -576,15 +573,15 @@ function renderHomePage(hostname) {
 
       <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
         <a href="#resident-voucher" class="pill-btn px-7 py-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-sm shadow-xl">
-          View Interactive Statement Pass &darr;
+          Explore Financial Statement &darr;
         </a>
-        <a href="https://admin.propledger.vishalbhutekar.me" class="pill-btn px-7 py-3.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white border border-white/10 font-bold text-sm shadow-xl">
+        <a href="https://admin.vishalbhutekar.me" class="pill-btn px-7 py-3.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white border border-white/10 font-bold text-sm shadow-xl">
           Launch Master Admin Console &rarr;
         </a>
       </div>
     </div>
 
-    <!-- 4 Key Architecture Pillars (Swish rounded-3xl cards) -->
+    <!-- 4 Key Architecture Pillars -->
     <div id="features" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
       <div class="swish-card p-7 space-y-3">
         <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-black text-lg border border-indigo-500/20">
@@ -627,26 +624,22 @@ function renderHomePage(hostname) {
       </div>
     </div>
 
-    <!-- BookMyShow Style Interactive Resident Statement Pass -->
+    <!-- Clean Enterprise Resident Statement Card -->
     <div id="resident-voucher" class="swish-card p-8 sm:p-12 relative overflow-hidden">
       <div class="max-w-2xl mx-auto space-y-6">
         <div class="text-center space-y-2">
           <span class="text-xs font-extrabold px-3.5 py-1 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
-            Interactive Digital Pass
+            Automated Ledger Statement
           </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">BookMyShow Style Billing Statement</h2>
-          <p class="text-xs text-slate-400">Itemized breakdown for residential and commercial assets with perforated cut styling</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Resident Billing & Financial Statement</h2>
+          <p class="text-xs text-slate-400">Real-time resident subledger breakdown, line-item reconciliation, and payment settlement</p>
         </div>
 
-        <div class="relative bg-[#090d15] border border-white/10 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl">
-          <!-- Cutout Notches -->
-          <div class="bms-notch-left top-1/2 -translate-y-1/2"></div>
-          <div class="bms-notch-right top-1/2 -translate-y-1/2"></div>
-
+        <div class="relative bg-[#090d15] border border-white/10 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl space-y-6">
           <!-- Header -->
-          <div class="flex items-center justify-between pb-6 border-b border-white/5">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center font-black text-xl text-white shadow-lg">
+          <div class="flex items-center justify-between pb-6 border-b border-white/10">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center font-black text-xl text-white shadow-lg shadow-indigo-600/30">
                 P
               </div>
               <div>
@@ -654,38 +647,63 @@ function renderHomePage(hostname) {
                 <p class="text-xs text-slate-400 font-mono">Unit 402 &bull; Resident: Vishal Bhutekar</p>
               </div>
             </div>
-            <span class="px-3.5 py-1 rounded-full text-xs font-extrabold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-              STATEMENT PASS
+            <span class="px-3.5 py-1 rounded-full text-xs font-extrabold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono">
+              POSTED &bull; CLEARED
             </span>
           </div>
 
-          <!-- Perforated Cut Line -->
-          <div class="my-6 dashed-split"></div>
-
-          <!-- Itemized Breakdown -->
-          <div class="space-y-3 text-xs">
-            <div class="flex justify-between py-1">
-              <span class="text-slate-400 font-medium">Base Monthly Rent (Sep 2026)</span>
-              <span class="text-white font-mono font-bold">$2,850.00</span>
+          <!-- Metadata Ribbon -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 text-xs">
+            <div>
+              <span class="text-slate-400 block font-medium">Billing Period</span>
+              <span class="text-white font-mono font-semibold">Sep 01 – Sep 30, 2026</span>
             </div>
-            <div class="flex justify-between py-1">
-              <span class="text-slate-400 font-medium">Assigned Valet Parking Bay #14</span>
-              <span class="text-white font-mono font-bold">$250.00</span>
+            <div>
+              <span class="text-slate-400 block font-medium">Statement ID</span>
+              <span class="text-indigo-400 font-mono font-bold">STM-202609-0402</span>
             </div>
-            <div class="flex justify-between py-1">
-              <span class="text-slate-400 font-medium">Common Area Maintenance & HVAC</span>
-              <span class="text-white font-mono font-bold">$150.00</span>
+            <div class="col-span-2 sm:col-span-1">
+              <span class="text-slate-400 block font-medium">Payment Method</span>
+              <span class="text-emerald-400 font-mono font-semibold">Automated Bank ACH</span>
             </div>
           </div>
 
-          <!-- Total Payable High Contrast Box -->
-          <div class="mt-6 p-5 rounded-2xl bg-gradient-to-r from-indigo-950/70 to-purple-950/70 border border-indigo-500/30 flex items-center justify-between">
+          <!-- Itemized Breakdown -->
+          <div class="space-y-3 text-xs">
+            <div class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider pb-1 border-b border-white/5">
+              Itemized Charges
+            </div>
+            <div class="flex justify-between py-1.5 border-b border-white/[0.04]">
+              <div>
+                <span class="text-slate-200 font-medium block">Residential Space Lease Fee (Unit 402)</span>
+                <span class="text-[10px] text-slate-500">Contractual Monthly Base Rent</span>
+              </div>
+              <span class="text-white font-mono font-bold self-center">$2,850.00</span>
+            </div>
+            <div class="flex justify-between py-1.5 border-b border-white/[0.04]">
+              <div>
+                <span class="text-slate-200 font-medium block">Assigned Subterranean Parking Bay #14</span>
+                <span class="text-[10px] text-slate-500">Dedicated Secure Vehicle Space</span>
+              </div>
+              <span class="text-white font-mono font-bold self-center">$250.00</span>
+            </div>
+            <div class="flex justify-between py-1.5 border-b border-white/[0.04]">
+              <div>
+                <span class="text-slate-200 font-medium block">Common Area Maintenance (CAM Allocation)</span>
+                <span class="text-[10px] text-slate-500">HVAC, Security & Building Services</span>
+              </div>
+              <span class="text-white font-mono font-bold self-center">$150.00</span>
+            </div>
+          </div>
+
+          <!-- Total Balance Summary -->
+          <div class="p-5 rounded-2xl bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <span class="text-[11px] font-extrabold text-indigo-400 uppercase tracking-wider">Total Payable Amount</span>
+              <span class="text-[11px] font-extrabold text-indigo-300 uppercase tracking-wider">Total Statement Balance</span>
               <p class="text-3xl font-black text-emerald-400 font-mono tracking-tight mt-1">$3,250.00</p>
             </div>
-            <a href="mailto:support@propledger.vishalbhutekar.me?subject=Inquiry%20regarding%20Unit%20402%20Statement" class="pill-btn px-6 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-black text-xs shadow-lg shadow-indigo-500/30">
-              Contact Concierge &rarr;
+            <a href="mailto:support@propledger.vishalbhutekar.me?subject=Inquiry%20regarding%20Unit%20402%20Statement" class="pill-btn px-6 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white font-extrabold text-xs shadow-lg shadow-indigo-500/30 text-center">
+              Inquire with Concierge Desk &rarr;
             </a>
           </div>
         </div>
@@ -885,7 +903,7 @@ function renderAdminPage(hostname) {
 
       <!-- Quick Actions -->
       <div class="flex items-center gap-3">
-        <a href="https://home.propledger.vishalbhutekar.me" class="pill-btn text-xs font-bold px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10">
+        <a href="https://propledger.vishalbhutekar.me" class="pill-btn text-xs font-bold px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10">
           &larr; Public Website
         </a>
         <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400 font-mono">
@@ -922,15 +940,15 @@ function renderAdminPage(hostname) {
     <!-- 4 System Infrastructure Status Cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="swish-card p-6">
-        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Public Subdomain</p>
-        <p class="text-lg font-black text-white mt-1">home.propledger</p>
+        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Public Portal</p>
+        <p class="text-lg font-black text-white mt-1">propledger</p>
         <p class="text-xs text-sky-400 font-mono mt-1">vishalbhutekar.me</p>
       </div>
 
       <div class="swish-card p-6">
-        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Admin Subdomain</p>
-        <p class="text-lg font-black text-white mt-1">admin.propledger</p>
-        <p class="text-xs text-emerald-400 font-mono mt-1">Dedicated Edge</p>
+        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Admin Portal</p>
+        <p class="text-lg font-black text-white mt-1">admin</p>
+        <p class="text-xs text-emerald-400 font-mono mt-1">vishalbhutekar.me</p>
       </div>
 
       <div class="swish-card p-6">
