@@ -1,9 +1,9 @@
 /**
  * PropLedger Enterprise - Cloudflare Worker & Edge Mail Routing
- * Inspired by Swish (justswish.in) & BookMyShow:
- * Clean, modern, Figtree typography, smooth rounded corners, ticket receipts, pill badges.
- * Host Subdomain: propledger.vishalbhutekar.me / porpledger.vishalbhutekar.me
- * Support Email: support@propledger.vishalbhutekar.me -> vishal.bhutekar1@gmail.com
+ * Host Subdomains:
+ * - Public Main Portal: home.propledger.vishalbhutekar.me / propledger.vishalbhutekar.me
+ * - Master Admin Console: admin.propledger.vishalbhutekar.me
+ * - Inbound Support Desk: support@propledger.vishalbhutekar.me -> vishal.bhutekar1@gmail.com
  * Zone ID: 84d04451d623e1d6885d01c55a89ce3a
  */
 
@@ -18,6 +18,7 @@ addEventListener('fetch', event => {
 
 async function handleRequest(request) {
   const url = new URL(request.url);
+  const hostname = url.hostname.toLowerCase();
 
   // Handle CORS preflight
   if (request.method === 'OPTIONS') {
@@ -30,12 +31,42 @@ async function handleRequest(request) {
     });
   }
 
+  // 1. Zensar Prep Suite Proxy (https://zensar-prep-suite-vishal.netlify.app/)
+  if (hostname.includes('zensar-prep')) {
+    try {
+      const netlifyUrl = new URL(request.url);
+      netlifyUrl.hostname = 'zensar-prep-suite-vishal.netlify.app';
+      netlifyUrl.protocol = 'https:';
+      netlifyUrl.port = '';
+
+      const netlifyResp = await fetch(netlifyUrl.toString(), {
+        method: request.method,
+        headers: {
+          'Host': 'zensar-prep-suite-vishal.netlify.app',
+          'User-Agent': request.headers.get('user-agent') || 'Mozilla/5.0',
+          'Accept': request.headers.get('accept') || '*/*',
+          'Accept-Language': request.headers.get('accept-language') || 'en-US,en;q=0.9',
+        }
+      });
+
+      const respHeaders = new Headers(netlifyResp.headers);
+      respHeaders.set('Access-Control-Allow-Origin', '*');
+      return new Response(netlifyResp.body, {
+        status: netlifyResp.status,
+        statusText: netlifyResp.statusText,
+        headers: respHeaders
+      });
+    } catch (e) {
+      return new Response('Netlify Proxy Error: ' + e.message, { status: 502 });
+    }
+  }
+
   // API: Health & Status
   if (url.pathname === '/api/status') {
     return new Response(JSON.stringify({
       status: 'operational',
       app: 'PropLedger Enterprise',
-      subdomain: url.hostname,
+      subdomain: hostname,
       supportEmail: 'support@propledger.vishalbhutekar.me',
       forwardDestination: FORWARD_DESTINATION,
       edgeLocation: request.cf?.colo || 'GLOBAL',
@@ -430,8 +461,21 @@ ${message}
     }
   }
 
-  // Serve Single Page Web Application
-  return new Response(renderWebPage(url.hostname), {
+  // Subdomain Routing Engine:
+  // - admin.propledger.vishalbhutekar.me / admin.vishalbhutekar.me (or /admin) -> Master Admin Console
+  // - home.propledger.vishalbhutekar.me / propledger.vishalbhutekar.me -> Public Website
+  const isAdminHost = hostname.startsWith('admin.') || hostname.startsWith('admin-') || url.pathname.startsWith('/admin');
+
+  if (isAdminHost) {
+    return new Response(renderAdminPage(hostname), {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-cache'
+      }
+    });
+  }
+
+  return new Response(renderHomePage(hostname), {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'no-cache'
@@ -439,243 +483,489 @@ ${message}
   });
 }
 
-function renderWebPage(hostname) {
+// ─────────────────────────────────────────────────────────────────────────────
+// 1. PUBLIC WEBSITE: home.propledger.vishalbhutekar.me
+// Clean Swish (justswish.in) & BookMyShow aesthetic for general public & residents
+// ─────────────────────────────────────────────────────────────────────────────
+function renderHomePage(hostname) {
   return `<!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PropLedger | Modern Property Operations & Financial Ledger</title>
+  <title>PropLedger | Autonomous Property Operations & Financial Ledger</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #090d14; color: #f8fafc; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #070a10; color: #f8fafc; -webkit-font-smoothing: antialiased; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .swish-card { background: #111622; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5); }
-    .swish-inner { background: #090c13; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 22px; }
-    .pill-tab { border-radius: 9999px; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
-    .pill-tab:hover { transform: translateY(-1px); }
+    .swish-card { background: #0f141f; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); }
+    .swish-inner { background: #080b12; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 24px; }
+    .pill-btn { border-radius: 9999px; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .pill-btn:hover { transform: translateY(-1.5px); }
     .dashed-split { border-top: 2px dashed rgba(255, 255, 255, 0.12); }
-    .bms-notch-left { position: absolute; left: -14px; width: 28px; height: 28px; border-radius: 50%; background: #090d14; border-right: 1px solid rgba(255, 255, 255, 0.08); }
-    .bms-notch-right { position: absolute; right: -14px; width: 28px; height: 28px; border-radius: 50%; background: #090d14; border-left: 1px solid rgba(255, 255, 255, 0.08); }
+    .bms-notch-left { position: absolute; left: -14px; width: 28px; height: 28px; border-radius: 50%; background: #070a10; border-right: 1px solid rgba(255, 255, 255, 0.1); }
+    .bms-notch-right { position: absolute; right: -14px; width: 28px; height: 28px; border-radius: 50%; background: #070a10; border-left: 1px solid rgba(255, 255, 255, 0.1); }
   </style>
 </head>
 <body class="min-h-screen antialiased selection:bg-indigo-500 selection:text-white pb-32">
 
   <!-- Floating Sticky Header (Swish justswish.in inspired) -->
   <div class="sticky top-4 z-50 px-4 max-w-6xl mx-auto">
-    <header class="bg-[#0e131f]/85 backdrop-blur-2xl border border-white/10 rounded-full px-6 py-3.5 shadow-2xl flex items-center justify-between">
+    <header class="bg-[#0b0f19]/85 backdrop-blur-2xl border border-white/10 rounded-full px-6 py-3.5 shadow-2xl flex items-center justify-between">
       
-      <!-- Brand Logo Chip -->
-      <div class="flex items-center gap-3">
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-indigo-600 to-violet-600 flex items-center justify-center font-black text-lg text-white shadow-lg shadow-indigo-500/30">
           P
         </div>
         <div>
           <div class="flex items-center gap-2">
             <span class="font-black text-lg tracking-tight text-white">PropLedger</span>
-            <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 tracking-wider">ENTERPRISE</span>
+            <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 tracking-wider">PLATFORM</span>
           </div>
           <p class="text-[10px] text-slate-400 font-mono tracking-tight">${hostname}</p>
         </div>
-      </div>
+      </a>
 
-      <!-- Quick Action Navigation Pills -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <a href="#ticket-pass" class="pill-tab text-xs font-bold px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 hover:bg-emerald-500/20">
-          Ticket Pass
-        </a>
-        <a href="#support-desk" class="pill-tab text-xs font-bold px-4 py-2 bg-sky-500/10 text-sky-400 border border-sky-500/25 hover:bg-sky-500/20">
-          Concierge
-        </a>
-        <a href="#dispatcher-section" class="pill-tab text-xs font-bold px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30">
-          Dispatch
+      <!-- Quick Nav Links -->
+      <nav class="hidden md:flex items-center gap-2">
+        <a href="#features" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Features</a>
+        <a href="#resident-voucher" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Statement Pass</a>
+        <a href="#concierge" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Concierge Desk</a>
+        <a href="#handbooks" class="pill-btn text-xs font-bold px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5">Docs</a>
+      </nav>
+
+      <!-- Admin Portal Action Button -->
+      <div class="flex items-center gap-2">
+        <a href="https://admin.propledger.vishalbhutekar.me" class="pill-btn text-xs font-black px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-md shadow-indigo-600/30 flex items-center gap-1.5">
+          <span>Master Admin</span>
+          <span>&rarr;</span>
         </a>
       </div>
     </header>
   </div>
 
-  <!-- Content Container -->
-  <main class="max-w-6xl mx-auto px-6 pt-10 space-y-12">
+  <!-- Hero Section -->
+  <main class="max-w-6xl mx-auto px-6 pt-12 space-y-16">
 
-    <!-- Hero Card (BookMyShow / Swish Rounded Style) -->
-    <div class="swish-card p-8 sm:p-12 relative overflow-hidden">
-      <div class="max-w-3xl space-y-5 relative z-10">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-extrabold uppercase tracking-wider">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Cloudflare Edge Subdomain Active
+    <div class="text-center max-w-3xl mx-auto space-y-6 pt-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-extrabold uppercase tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Enterprise Cloudflare Edge Platform Live
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.15]">
+        Autonomous Property Operations & Financial Subledger
+      </h1>
+
+      <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
+        Engineered with the transactional consistency of Tier-1 ERPs (Yardi, RealPage). Automated recurring billing, GAAP balance double-entry, and instant edge communication.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <a href="#resident-voucher" class="pill-btn px-7 py-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-sm shadow-xl">
+          View Interactive Statement Pass &darr;
+        </a>
+        <a href="https://admin.propledger.vishalbhutekar.me" class="pill-btn px-7 py-3.5 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white border border-white/10 font-bold text-sm shadow-xl">
+          Launch Master Admin Console &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- 4 Key Architecture Pillars (Swish rounded-3xl cards) -->
+    <div id="features" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="swish-card p-7 space-y-3">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-black text-lg border border-indigo-500/20">
+          01
         </div>
-
-        <h1 class="text-4xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-          Commercial Property Operations & Financial Subledger
-        </h1>
-
-        <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
-          High-performance rental operations with automated recurring lease statements, double-entry payment balancing, and instant email dispatch.
+        <h3 class="text-lg font-black text-white">Subledger Engine</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Double-entry bookkeeping balancing rent invoices, utilities, late penalties, and payments with zero discrepancy.
         </p>
+      </div>
 
-        <!-- Master Credentials Pill Box -->
-        <div class="swish-inner p-6 mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div class="space-y-1.5">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-extrabold text-indigo-400 uppercase tracking-wider">Master Administrator Account</span>
-              <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">SUPER ADMIN</span>
-            </div>
-            <p class="text-sm font-mono font-bold text-white">vishal.bhutekar1@gmail.com</p>
-            <p class="text-xs text-slate-400">Direct Inquiries: <span class="text-sky-400 font-mono font-semibold">support@propledger.vishalbhutekar.me</span></p>
-          </div>
-          <div class="bg-black/50 px-5 py-3 rounded-2xl border border-white/10 text-xs font-mono text-slate-300 self-start sm:self-auto shadow-inner">
-            Password: <strong class="text-white">Vishal@1233</strong>
-          </div>
+      <div class="swish-card p-7 space-y-3">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-black text-lg border border-emerald-500/20">
+          02
         </div>
+        <h3 class="text-lg font-black text-white">Anti-Collision Shield</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          PostgreSQL <code class="font-mono text-emerald-400">btree_gist</code> temporal exclusion constraints completely prevent overlapping unit leases.
+        </p>
+      </div>
+
+      <div class="swish-card p-7 space-y-3">
+        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-black text-lg border border-purple-500/20">
+          03
+        </div>
+        <h3 class="text-lg font-black text-white">Automated Billing</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Scheduled billing engine auto-generates recurring invoices and itemized statements with automated email delivery via Resend.
+        </p>
+      </div>
+
+      <div class="swish-card p-7 space-y-3">
+        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-black text-lg border border-sky-500/20">
+          04
+        </div>
+        <h3 class="text-lg font-black text-white">Facilities & Triage</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Priority ticket triage with automated SLA tracking, vendor dispatch, and work order cost allocation to operating expenses.
+        </p>
       </div>
     </div>
 
-    <!-- 4 Quick Stats Chips (Swish / BookMyShow rounded-2xl format) -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="swish-card p-6">
-        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Subdomain</p>
-        <p class="text-xl font-black text-white mt-1">propledger</p>
-        <p class="text-xs text-sky-400 font-mono mt-1">vishalbhutekar.me</p>
-      </div>
-
-      <div class="swish-card p-6">
-        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Inbound Support</p>
-        <p class="text-xl font-black text-white mt-1">support@</p>
-        <p class="text-xs text-emerald-400 font-mono mt-1">Auto-Forwarding</p>
-      </div>
-
-      <div class="swish-card p-6">
-        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Database Core</p>
-        <p class="text-xl font-black text-white mt-1">PostgreSQL 16</p>
-        <p class="text-xs text-indigo-400 font-mono mt-1">12 Migrations</p>
-      </div>
-
-      <div class="swish-card p-6">
-        <p class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Mail Routing</p>
-        <p class="text-xl font-black text-white mt-1">Resend API</p>
-        <p class="text-xs text-purple-400 font-mono mt-1">DKIM & SPF Live</p>
-      </div>
-    </div>
-
-    <!-- BookMyShow Interactive Ticket Pass Section -->
-    <div id="ticket-pass" class="swish-card p-8 sm:p-10 relative overflow-hidden">
+    <!-- BookMyShow Style Interactive Resident Statement Pass -->
+    <div id="resident-voucher" class="swish-card p-8 sm:p-12 relative overflow-hidden">
       <div class="max-w-2xl mx-auto space-y-6">
         <div class="text-center space-y-2">
-          <span class="text-xs font-extrabold px-3.5 py-1 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 uppercase tracking-wider">
-            Live Ticket Voucher
+          <span class="text-xs font-extrabold px-3.5 py-1 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
+            Interactive Digital Pass
           </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Commercial Lease Statement Voucher</h2>
-          <p class="text-xs text-slate-400">BookMyShow perforated ticket format with automated edge email dispatch</p>
+          <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">BookMyShow Style Billing Statement</h2>
+          <p class="text-xs text-slate-400">Itemized breakdown for residential and commercial assets with perforated cut styling</p>
         </div>
 
-        <!-- Ticket Card Box -->
-        <div class="relative bg-[#0b0e14] border border-white/10 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl">
-          <!-- Notches -->
+        <div class="relative bg-[#090d15] border border-white/10 rounded-3xl p-6 sm:p-8 overflow-hidden shadow-2xl">
+          <!-- Cutout Notches -->
           <div class="bms-notch-left top-1/2 -translate-y-1/2"></div>
           <div class="bms-notch-right top-1/2 -translate-y-1/2"></div>
 
-          <!-- Top Ticket Details -->
+          <!-- Header -->
           <div class="flex items-center justify-between pb-6 border-b border-white/5">
             <div class="flex items-center gap-3">
               <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center font-black text-xl text-white shadow-lg">
                 P
               </div>
               <div>
-                <h3 class="font-black text-base text-white">The Grand Horizon Suites</h3>
-                <p class="text-xs text-slate-400">Unit 402 &bull; Vishal Bhutekar</p>
+                <h3 class="font-black text-base text-white">The Grand Horizon Luxury Suites</h3>
+                <p class="text-xs text-slate-400 font-mono">Unit 402 &bull; Resident: Vishal Bhutekar</p>
               </div>
             </div>
-            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-              ACTIVE PASS
+            <span class="px-3.5 py-1 rounded-full text-xs font-extrabold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              STATEMENT PASS
             </span>
           </div>
 
-          <!-- Perforated Line -->
+          <!-- Perforated Cut Line -->
           <div class="my-6 dashed-split"></div>
 
-          <!-- Line Items Breakdown -->
+          <!-- Itemized Breakdown -->
           <div class="space-y-3 text-xs">
             <div class="flex justify-between py-1">
-              <span class="text-slate-400 font-medium">Base Rent (September 2026)</span>
+              <span class="text-slate-400 font-medium">Base Monthly Rent (Sep 2026)</span>
               <span class="text-white font-mono font-bold">$2,850.00</span>
             </div>
             <div class="flex justify-between py-1">
-              <span class="text-slate-400 font-medium">Valet Parking Bay #14</span>
+              <span class="text-slate-400 font-medium">Assigned Valet Parking Bay #14</span>
               <span class="text-white font-mono font-bold">$250.00</span>
             </div>
             <div class="flex justify-between py-1">
-              <span class="text-slate-400 font-medium">Common Area Maintenance (CAM)</span>
+              <span class="text-slate-400 font-medium">Common Area Maintenance & HVAC</span>
               <span class="text-white font-mono font-bold">$150.00</span>
             </div>
           </div>
 
           <!-- Total Payable High Contrast Box -->
-          <div class="mt-6 p-5 rounded-2xl bg-gradient-to-r from-indigo-950/60 to-purple-950/60 border border-indigo-500/30 flex items-center justify-between">
+          <div class="mt-6 p-5 rounded-2xl bg-gradient-to-r from-indigo-950/70 to-purple-950/70 border border-indigo-500/30 flex items-center justify-between">
             <div>
               <span class="text-[11px] font-extrabold text-indigo-400 uppercase tracking-wider">Total Payable Amount</span>
               <p class="text-3xl font-black text-emerald-400 font-mono tracking-tight mt-1">$3,250.00</p>
             </div>
-            <button onclick="dispatchEmail()" class="pill-tab px-6 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-black text-xs shadow-lg shadow-indigo-500/30">
-              Dispatch Now &rarr;
-            </button>
+            <a href="mailto:support@propledger.vishalbhutekar.me?subject=Inquiry%20regarding%20Unit%20402%20Statement" class="pill-btn px-6 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-black text-xs shadow-lg shadow-indigo-500/30">
+              Contact Concierge &rarr;
+            </a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Support Desk Form (BookMyShow clean card style) -->
-    <div id="support-desk" class="swish-card p-8 sm:p-10 border border-sky-500/20 space-y-6">
+    <!-- Resident Concierge Inbound Desk -->
+    <div id="concierge" class="swish-card p-8 sm:p-10 border border-sky-500/20 space-y-6">
       <div class="flex items-center justify-between pb-4 border-b border-white/5">
         <div class="flex items-center gap-3.5">
           <div class="w-10 h-10 rounded-2xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center font-bold">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
           </div>
           <div>
-            <h2 class="text-xl font-black text-white">Support & Resident Concierge</h2>
-            <p class="text-xs text-slate-400">Emails submitted to <span class="text-sky-400 font-mono font-medium">support@propledger.vishalbhutekar.me</span> forward directly to <span class="text-white font-mono">vishal.bhutekar1@gmail.com</span></p>
+            <h2 class="text-xl font-black text-white">Resident Support & Concierge</h2>
+            <p class="text-xs text-slate-400">Direct inquiries sent to <span class="text-sky-400 font-mono font-medium">support@propledger.vishalbhutekar.me</span></p>
           </div>
         </div>
         <span class="hidden sm:inline-flex px-3.5 py-1 rounded-full text-xs font-mono font-extrabold bg-sky-500/10 text-sky-400 border border-sky-500/20">
-          Forwarding Active
+          Auto-Forwarding Active
         </span>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Sender Name</label>
-          <input id="supName" type="text" value="Resident Inquirer" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-sky-500 focus:outline-none transition">
+          <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Your Name</label>
+          <input id="pubName" type="text" placeholder="John Doe" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-sky-500 focus:outline-none transition">
         </div>
         <div>
           <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Your Email</label>
-          <input id="supEmail" type="email" value="resident@example.com" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-sky-500 focus:outline-none transition">
+          <input id="pubEmail" type="email" placeholder="john@example.com" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-sky-500 focus:outline-none transition">
         </div>
       </div>
 
       <div>
         <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Subject</label>
-        <input id="supSubject" type="text" value="Inquiry Regarding September Lease Statement INV-202609-00001" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-sky-500 focus:outline-none transition">
+        <input id="pubSubject" type="text" value="Resident Inquiry regarding amenities & parking" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-sky-500 focus:outline-none transition">
       </div>
 
       <div>
-        <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Message</label>
-        <textarea id="supMessage" rows="3" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-sky-500 focus:outline-none transition">Hello, I would like to inquire about the scheduled HVAC inspection for Unit 402.</textarea>
+        <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Inquiry Details</label>
+        <textarea id="pubMessage" rows="3" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-sky-500 focus:outline-none transition" placeholder="Write your inquiry here...">Hello concierge team, I would like to confirm my parking bay allocation for Unit 402.</textarea>
       </div>
 
-      <button id="supBtn" onclick="submitSupportQuery()" class="w-full py-4 px-6 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-extrabold text-sm transition shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2">
+      <button id="pubBtn" onclick="submitPublicQuery()" class="w-full py-4 px-6 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-extrabold text-sm transition shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-        <span>Send Query to support@propledger.vishalbhutekar.me</span>
+        <span>Send Inquiry to support@propledger.vishalbhutekar.me</span>
       </button>
 
-      <div id="supStatus" class="hidden p-4 rounded-2xl border text-xs leading-relaxed font-mono"></div>
+      <div id="pubStatus" class="hidden p-4 rounded-2xl border text-xs leading-relaxed font-mono"></div>
     </div>
 
-    <!-- Dispatcher & Volumes Row -->
-    <div id="dispatcher-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Master Architecture Handbooks Section -->
+    <div id="handbooks" class="swish-card p-8 sm:p-10 space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-white/5">
+        <div class="flex items-center gap-3.5">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-black text-white">Master Engineering Handbooks</h2>
+            <p class="text-xs text-slate-400">10 Volumes &bull; 100 Pages of Enterprise Technical Specifications</p>
+          </div>
+        </div>
+        <a href="https://github.com/vishal-bhutekar21/PropLedger" target="_blank" class="pill-btn text-xs text-indigo-400 hover:text-indigo-300 font-extrabold px-4 py-2 border border-indigo-500/30">
+          GitHub Repo &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="swish-inner p-4 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-bold text-white">Vol 1: Enterprise Architecture</p>
+            <p class="text-xs text-slate-400">Spring Boot & Subledger Topology</p>
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-mono font-semibold">10 Pages</span>
+        </div>
+        <div class="swish-inner p-4 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-bold text-white">Vol 4: Concurrency & Locks</p>
+            <p class="text-xs text-slate-400">Pessimistic & GiST Constraints</p>
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-semibold">10 Pages</span>
+        </div>
+        <div class="swish-inner p-4 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-bold text-white">Vol 5: Billing & Invoicing Engine</p>
+            <p class="text-xs text-slate-400">Resend & Transactional Ledger</p>
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-mono font-semibold">10 Pages</span>
+        </div>
+        <div class="swish-inner p-4 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-bold text-white">Vol 8: Financial SQL Analytics</p>
+            <p class="text-xs text-slate-400">Rent Roll, Aging AR, P&L Reports</p>
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 font-mono font-semibold">10 Pages</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-6xl mx-auto px-6 mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+    <p>&copy; 2026 PropLedger Technologies &bull; Powered by Cloudflare Edge & Spring Boot</p>
+    <div class="flex items-center gap-4">
+      <a href="https://admin.propledger.vishalbhutekar.me" class="text-indigo-400 hover:text-indigo-300 font-bold">Admin Portal</a>
+      <a href="https://zensar-prep.vishalbhutekar.me" target="_blank" class="hover:text-slate-300">Zensar Prep Suite</a>
+      <a href="https://github.com/vishal-bhutekar21/PropLedger" target="_blank" class="hover:text-slate-300">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    async function submitPublicQuery() {
+      const btn = document.getElementById('pubBtn');
+      const statusBox = document.getElementById('pubStatus');
+      const name = document.getElementById('pubName').value || 'Resident';
+      const email = document.getElementById('pubEmail').value || 'resident@example.com';
+      const subject = document.getElementById('pubSubject').value;
+      const message = document.getElementById('pubMessage').value;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Forwarding to concierge desk...';
+      statusBox.className = 'p-4 rounded-2xl border border-sky-500/30 bg-sky-950/40 text-sky-300 block text-xs leading-relaxed font-mono';
+      statusBox.innerHTML = 'Routing to support@propledger.vishalbhutekar.me...';
+
+      try {
+        const resp = await fetch('/api/support-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senderName: name, senderEmail: email, subject: subject, message: message })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          statusBox.className = 'p-4 rounded-2xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 block text-xs leading-relaxed font-mono';
+          statusBox.innerHTML = '<strong>Inquiry Forwarded Successfully!</strong><br>Our team has received your inquiry and will respond directly to ' + email + '.';
+        } else {
+          statusBox.className = 'p-4 rounded-2xl border border-amber-500/30 bg-amber-950/40 text-amber-300 block text-xs leading-relaxed font-mono';
+          statusBox.innerHTML = 'Status notice: ' + JSON.stringify(data);
+        }
+      } catch (e) {
+        statusBox.className = 'p-4 rounded-2xl border border-red-500/30 bg-red-950/40 text-red-300 block text-xs leading-relaxed font-mono';
+        statusBox.innerHTML = 'Error transmitting inquiry: ' + e.message;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg><span>Send Inquiry to support@propledger.vishalbhutekar.me</span>';
+      }
+    }
+  </script>
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 2. MASTER ADMIN PORTAL: admin.propledger.vishalbhutekar.me
+// Executive Master Operations & Infrastructure Control Center
+// ─────────────────────────────────────────────────────────────────────────────
+function renderAdminPage(hostname) {
+  return `<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropLedger Master Admin | Executive Control Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #080b11; color: #f8fafc; -webkit-font-smoothing: antialiased; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .swish-card { background: #101521; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7); }
+    .swish-inner { background: #090d15; border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 22px; }
+    .pill-btn { border-radius: 9999px; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .pill-btn:hover { transform: translateY(-1px); }
+  </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-indigo-500 selection:text-white pb-32">
+
+  <!-- Floating Sticky Header -->
+  <div class="sticky top-4 z-50 px-4 max-w-6xl mx-auto">
+    <header class="bg-[#0e131f]/90 backdrop-blur-2xl border border-white/10 rounded-full px-6 py-3.5 shadow-2xl flex items-center justify-between">
       
-      <!-- Dispatcher Ticket Card -->
+      <!-- Brand Logo & Super Admin Pill -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center font-black text-lg text-white shadow-lg shadow-emerald-500/30">
+          M
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-black text-lg tracking-tight text-white">PropLedger</span>
+            <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 tracking-wider">MASTER ADMIN</span>
+          </div>
+          <p class="text-[10px] text-slate-400 font-mono tracking-tight">${hostname}</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-3">
+        <a href="https://home.propledger.vishalbhutekar.me" class="pill-btn text-xs font-bold px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10">
+          &larr; Public Website
+        </a>
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-bold text-emerald-400 font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>vishal.bhutekar1@gmail.com</span>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Admin Content Container -->
+  <main class="max-w-6xl mx-auto px-6 pt-10 space-y-10">
+
+    <!-- Hero Header -->
+    <div class="swish-card p-8 sm:p-10 relative overflow-hidden bg-gradient-to-r from-slate-900 via-[#101521] to-indigo-950/80">
+      <div class="max-w-3xl space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3.5 py-1 text-xs font-black rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 tracking-wider">
+            ROOT EXECUTIVE PRIVILEGES
+          </span>
+          <span class="text-xs text-slate-400 font-mono">Global Edge Active</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+          Master Operations & Cloudflare Infrastructure Console
+        </h1>
+
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Dedicated administrative control plane for transactional email triggers, Cloudflare edge subdomains, database schema integrity, and inbound concierge routing.
+        </p>
+      </div>
+    </div>
+
+    <!-- 4 System Infrastructure Status Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="swish-card p-6">
+        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Public Subdomain</p>
+        <p class="text-lg font-black text-white mt-1">home.propledger</p>
+        <p class="text-xs text-sky-400 font-mono mt-1">vishalbhutekar.me</p>
+      </div>
+
+      <div class="swish-card p-6">
+        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Admin Subdomain</p>
+        <p class="text-lg font-black text-white mt-1">admin.propledger</p>
+        <p class="text-xs text-emerald-400 font-mono mt-1">Dedicated Edge</p>
+      </div>
+
+      <div class="swish-card p-6">
+        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Inbound Concierge</p>
+        <p class="text-lg font-black text-white mt-1">support@</p>
+        <p class="text-xs text-indigo-400 font-mono mt-1">Forwarding Active</p>
+      </div>
+
+      <div class="swish-card p-6">
+        <p class="text-xs font-black text-slate-400 uppercase tracking-wider">Transactional Mail</p>
+        <p class="text-lg font-black text-white mt-1">Resend API</p>
+        <p class="text-xs text-purple-400 font-mono mt-1">DKIM & SPF Live</p>
+      </div>
+    </div>
+
+    <!-- Master Credentials Pill Card -->
+    <div class="swish-card p-8 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/5">
+        <h2 class="text-lg font-black text-white tracking-tight">Master Administrator Account Specification</h2>
+        <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          BCrypt 12 Provisioned
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+        <div class="swish-inner p-4">
+          <span class="text-slate-400 block mb-1">Master Email Address</span>
+          <span class="text-white font-bold text-sm">vishal.bhutekar1@gmail.com</span>
+        </div>
+        <div class="swish-inner p-4">
+          <span class="text-slate-400 block mb-1">Security Password</span>
+          <span class="text-white font-bold text-sm">Vishal@1233</span>
+        </div>
+        <div class="swish-inner p-4">
+          <span class="text-slate-400 block mb-1">Security Roles</span>
+          <span class="text-emerald-400 font-bold text-xs">SUPER_ADMIN, MGR, ACCT</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operations & Dispatcher Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- Statement Dispatch Console -->
       <div class="swish-card p-8 space-y-6">
         <div class="flex items-center gap-3.5 pb-4 border-b border-white/5">
           <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center font-bold">
@@ -689,171 +979,140 @@ function renderWebPage(hostname) {
 
         <div class="space-y-4">
           <div>
-            <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Recipient Email</label>
-            <input id="emailInput" type="email" value="vishal.bhutekar1@gmail.com" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-indigo-500 focus:outline-none transition">
+            <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Recipient Email Address</label>
+            <input id="adminEmailInput" type="email" value="vishal.bhutekar1@gmail.com" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-indigo-500 focus:outline-none transition">
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Invoice #</label>
-              <input id="invNumber" type="text" value="INV-202609-00001" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-indigo-500 focus:outline-none transition">
+              <input id="adminInvNumber" type="text" value="INV-202609-00001" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-indigo-500 focus:outline-none transition">
             </div>
             <div>
               <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Amount</label>
-              <input id="invAmount" type="text" value="$3,250.00" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-indigo-500 focus:outline-none transition">
+              <input id="adminInvAmount" type="text" value="$3,250.00" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm font-mono focus:border-indigo-500 focus:outline-none transition">
             </div>
           </div>
 
           <div>
             <label class="block text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-2">Property Asset</label>
-            <input id="invProperty" type="text" value="The Grand Horizon Luxury Suites - Unit 402" class="w-full bg-[#0a0d13] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-indigo-500 focus:outline-none transition">
+            <input id="adminInvProperty" type="text" value="The Grand Horizon Luxury Suites - Unit 402" class="w-full bg-[#080b12] border border-white/10 rounded-2xl px-4 py-3 text-white text-sm focus:border-indigo-500 focus:outline-none transition">
           </div>
 
-          <button id="sendBtn" onclick="dispatchEmail()" class="w-full py-4 px-6 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-extrabold text-sm transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+          <button id="adminSendBtn" onclick="adminDispatchEmail()" class="w-full py-4 px-6 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-extrabold text-sm transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-            <span>Dispatch Statement & Itemized Invoice</span>
+            <span>Dispatch Statement via Resend</span>
           </button>
 
-          <div id="statusResult" class="hidden p-4 rounded-2xl border text-xs leading-relaxed font-mono"></div>
+          <div id="adminStatusResult" class="hidden p-4 rounded-2xl border text-xs leading-relaxed font-mono"></div>
         </div>
       </div>
 
-      <!-- Engineering Handbooks Card -->
-      <div class="swish-card p-8 space-y-6 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center gap-3.5 pb-4 border-b border-white/5">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <div>
-              <h2 class="text-xl font-black text-white">Master Engineering Handbooks</h2>
-              <p class="text-xs text-slate-400">10 Volumes &bull; 100 Pages Architectural Suite</p>
-            </div>
+      <!-- Inbound Support Pipeline Simulator -->
+      <div class="swish-card p-8 space-y-6">
+        <div class="flex items-center gap-3.5 pb-4 border-b border-white/5">
+          <div class="w-10 h-10 rounded-2xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center font-bold">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
-
-          <div class="mt-6 space-y-3">
-            <div class="swish-inner p-4 flex items-center justify-between">
-              <div>
-                <p class="text-sm font-bold text-white">Vol 1: Enterprise System Architecture</p>
-                <p class="text-xs text-slate-400">Spring Boot, Subledger Engine, Clean Architecture</p>
-              </div>
-              <span class="text-xs px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-mono font-semibold">10 Pages</span>
-            </div>
-
-            <div class="swish-inner p-4 flex items-center justify-between">
-              <div>
-                <p class="text-sm font-bold text-white">Vol 4: Concurrency & Double-Booking</p>
-                <p class="text-xs text-slate-400">Pessimistic Locking & btree Exclusion Constraints</p>
-              </div>
-              <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-mono font-semibold">10 Pages</span>
-            </div>
-
-            <div class="swish-inner p-4 flex items-center justify-between">
-              <div>
-                <p class="text-sm font-bold text-white">Vol 5: Billing & Invoicing Engine</p>
-                <p class="text-xs text-slate-400">Stripe Webhooks, Resend Integration, Ledger Posting</p>
-              </div>
-              <span class="text-xs px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-mono font-semibold">10 Pages</span>
-            </div>
-
-            <div class="swish-inner p-4 flex items-center justify-between">
-              <div>
-                <p class="text-sm font-bold text-white">Vol 8: Analytics & SQL Window Engine</p>
-                <p class="text-xs text-slate-400">Rent Roll, Aging AR, 12-Month Property P&L</p>
-              </div>
-              <span class="text-xs px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 font-mono font-semibold">10 Pages</span>
-            </div>
+          <div>
+            <h2 class="text-xl font-black text-white">Inbound Support Routing Monitor</h2>
+            <p class="text-xs text-slate-400">Verifies pipeline to <span class="text-sky-400 font-mono">vishal.bhutekar1@gmail.com</span></p>
           </div>
         </div>
 
-        <div class="pt-4 border-t border-white/5 flex items-center justify-between">
-          <span class="text-xs text-slate-500 font-mono">&copy; 2026 PropLedger Technologies</span>
-          <a href="https://github.com/vishal-bhutekar21/PropLedger" target="_blank" class="pill-tab text-xs text-indigo-400 hover:text-indigo-300 font-extrabold px-4 py-2 border border-indigo-500/30">
-            GitHub Repo &rarr;
-          </a>
+        <div class="space-y-4">
+          <div class="swish-inner p-4 space-y-2 text-xs">
+            <div class="flex items-center justify-between text-slate-300 font-bold">
+              <span>Target Inbound Address:</span>
+              <span class="font-mono text-sky-400">support@propledger.vishalbhutekar.me</span>
+            </div>
+            <div class="flex items-center justify-between text-slate-400">
+              <span>Forward Destination:</span>
+              <span class="font-mono text-white">vishal.bhutekar1@gmail.com</span>
+            </div>
+            <div class="flex items-center justify-between text-slate-400">
+              <span>Cloudflare Zone:</span>
+              <span class="font-mono">84d04451d623e1d6885d01c55a89ce3a</span>
+            </div>
+          </div>
+
+          <button id="adminPingBtn" onclick="adminPingSupport()" class="w-full py-4 px-6 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-extrabold text-sm transition border border-white/10 flex items-center justify-center gap-2">
+            <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Simulate Live Inbound Support Forwarding</span>
+          </button>
+
+          <div id="adminPingResult" class="hidden p-4 rounded-2xl border text-xs leading-relaxed font-mono"></div>
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    async function submitSupportQuery() {
-      const btn = document.getElementById('supBtn');
-      const statusBox = document.getElementById('supStatus');
-      const name = document.getElementById('supName').value;
-      const email = document.getElementById('supEmail').value;
-      const subject = document.getElementById('supSubject').value;
-      const message = document.getElementById('supMessage').value;
-
-      btn.disabled = true;
-      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Routing to vishal.bhutekar1@gmail.com...';
-      statusBox.className = 'p-4 rounded-2xl border border-sky-500/30 bg-sky-950/40 text-sky-300 block text-xs leading-relaxed font-mono';
-      statusBox.innerHTML = 'Connecting to Cloudflare edge support mail routing...';
-
-      try {
-        const resp = await fetch('/api/support-query', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ senderName: name, senderEmail: email, subject: subject, message: message })
-        });
-
-        const data = await resp.json();
-        if (data.success) {
-          statusBox.className = 'p-4 rounded-2xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 block text-xs leading-relaxed font-mono';
-          statusBox.innerHTML = '<strong>Query Forwarded!</strong><br>Forwarded To: ' + data.forwardedTo + '<br>Target Address: ' + data.targetEmail + '<br>Message ID: ' + (data.messageId || 'OK');
-        } else {
-          statusBox.className = 'p-4 rounded-2xl border border-amber-500/30 bg-amber-950/40 text-amber-300 block text-xs leading-relaxed font-mono';
-          statusBox.innerHTML = '<strong>Routing Status:</strong> ' + JSON.stringify(data);
-        }
-      } catch (e) {
-        statusBox.className = 'p-4 rounded-2xl border border-red-500/30 bg-red-950/40 text-red-300 block text-xs leading-relaxed font-mono';
-        statusBox.innerHTML = '<strong>Transmission Error:</strong> ' + e.message;
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg><span>Send Query to support@propledger.vishalbhutekar.me</span>';
-      }
-    }
-
-    async function dispatchEmail() {
-      const btn = document.getElementById('sendBtn');
-      const statusBox = document.getElementById('statusResult');
-      const email = document.getElementById('emailInput').value;
-      const invNum = document.getElementById('invNumber').value;
-      const amount = document.getElementById('invAmount').value;
-      const property = document.getElementById('invProperty').value;
+    async function adminDispatchEmail() {
+      const btn = document.getElementById('adminSendBtn');
+      const statusBox = document.getElementById('adminStatusResult');
+      const email = document.getElementById('adminEmailInput').value;
+      const invNum = document.getElementById('adminInvNumber').value;
+      const amount = document.getElementById('adminInvAmount').value;
+      const property = document.getElementById('adminInvProperty').value;
 
       btn.disabled = true;
       btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Dispatching via Resend API...';
       statusBox.className = 'p-4 rounded-2xl border border-indigo-500/30 bg-indigo-950/40 text-indigo-300 block text-xs leading-relaxed font-mono';
-      statusBox.innerHTML = 'Connecting to Resend transactional mail engine at edge...';
+      statusBox.innerHTML = 'Connecting to transactional mail engine...';
 
       try {
         const resp = await fetch('/api/send-invoice', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            recipientEmail: email,
-            invoiceNumber: invNum,
-            amount: amount,
-            property: property,
-            tenant: 'Vishal Bhutekar'
-          })
+          body: JSON.stringify({ recipientEmail: email, invoiceNumber: invNum, amount: amount, property: property, tenant: 'Vishal Bhutekar' })
         });
-
         const data = await resp.json();
         if (data.success) {
           statusBox.className = 'p-4 rounded-2xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 block text-xs leading-relaxed font-mono';
-          statusBox.innerHTML = '<strong>Email Delivered!</strong><br>Message ID: ' + (data.messageId || 'OK') + '<br>Recipient: ' + email + '<br>Statement: ' + invNum;
+          statusBox.innerHTML = '<strong>Email Delivered!</strong><br>Message ID: ' + (data.messageId || 'OK') + '<br>Recipient: ' + email;
         } else {
           statusBox.className = 'p-4 rounded-2xl border border-amber-500/30 bg-amber-950/40 text-amber-300 block text-xs leading-relaxed font-mono';
-          statusBox.innerHTML = '<strong>Email Response:</strong> ' + JSON.stringify(data);
+          statusBox.innerHTML = 'Response: ' + JSON.stringify(data);
         }
       } catch (e) {
         statusBox.className = 'p-4 rounded-2xl border border-red-500/30 bg-red-950/40 text-red-300 block text-xs leading-relaxed font-mono';
-        statusBox.innerHTML = '<strong>Transmission Error:</strong> ' + e.message;
+        statusBox.innerHTML = 'Error: ' + e.message;
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg><span>Dispatch Statement & Itemized Invoice</span>';
+        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg><span>Dispatch Statement via Resend</span>';
+      }
+    }
+
+    async function adminPingSupport() {
+      const btn = document.getElementById('adminPingBtn');
+      const statusBox = document.getElementById('adminPingResult');
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Testing forward routing...';
+      statusBox.className = 'p-4 rounded-2xl border border-sky-500/30 bg-sky-950/40 text-sky-300 block text-xs leading-relaxed font-mono';
+      statusBox.innerHTML = 'Sending diagnostic packet...';
+
+      try {
+        const resp = await fetch('/api/support-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senderName: 'Admin Portal Ping', senderEmail: 'diagnostics@propledger.com', subject: 'Diagnostic verification of edge forward pipeline', message: 'Testing forward routing to vishal.bhutekar1@gmail.com' })
+        });
+        const data = await resp.json();
+        if (data.success) {
+          statusBox.className = 'p-4 rounded-2xl border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 block text-xs leading-relaxed font-mono';
+          statusBox.innerHTML = '<strong>Support Routing Verified!</strong><br>Forwarded to: ' + data.forwardedTo + '<br>Message ID: ' + (data.messageId || 'OK');
+        } else {
+          statusBox.className = 'p-4 rounded-2xl border border-amber-500/30 bg-amber-950/40 text-amber-300 block text-xs leading-relaxed font-mono';
+          statusBox.innerHTML = 'Response: ' + JSON.stringify(data);
+        }
+      } catch (e) {
+        statusBox.className = 'p-4 rounded-2xl border border-red-500/30 bg-red-950/40 text-red-300 block text-xs leading-relaxed font-mono';
+        statusBox.innerHTML = 'Error: ' + e.message;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg><span>Simulate Live Inbound Support Forwarding</span>';
       }
     }
   </script>
