@@ -602,8 +602,9 @@ function renderHomePage(hostname) {
 
       <!-- Right Action Buttons (Koshpal Style) -->
       <div class="flex items-center gap-2.5">
-        <button onclick="openPaymentModal()" class="pill-btn px-5 sm:px-6 py-2.5 bg-[#2546A6] hover:bg-[#1D367E] text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-900/20 transition flex items-center gap-1.5">
-          <span>💳 Pay Rent Online</span>
+        <button onclick="openPaymentModal()" class="pill-btn px-5 sm:px-6 py-2.5 bg-[#2546A6] hover:bg-[#1D367E] text-white text-xs sm:text-sm font-bold shadow-md shadow-blue-900/20 transition flex items-center gap-2">
+          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          <span>Pay Rent Online</span>
         </button>
         <a href="https://admin.vishalbhutekar.me" class="pill-btn px-4 sm:px-5 py-2 border-2 border-[#1E293B] text-[#1E293B] hover:bg-[#1E293B] hover:text-white text-xs sm:text-sm font-bold transition">
           <span>Login &rarr;</span>
@@ -757,7 +758,8 @@ function renderHomePage(hostname) {
       
       <div class="text-center max-w-3xl mx-auto space-y-3">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-[#2546A6] text-xs font-bold">
-          ✨ What Makes Us Different
+          <svg class="w-3.5 h-3.5 text-[#00A896]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+          <span>What Makes Us Different</span>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
           Help landlords and tenants take control of rental finances
@@ -772,8 +774,8 @@ function renderHomePage(hostname) {
         
         <!-- Pastel 1: Soft Mint Green -->
         <div class="rounded-[28px] p-8 bg-[#E8F5E9] border border-emerald-200/50 space-y-4 hover:-translate-y-1.5 transition-all shadow-sm">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-emerald-700/20">
-            🛡️
+          <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-700/20">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
           </div>
           <h3 class="text-lg font-bold text-emerald-950">Privacy-First Technology</h3>
           <p class="text-xs text-emerald-900/80 leading-relaxed">
@@ -783,8 +785,8 @@ function renderHomePage(hostname) {
 
         <!-- Pastel 2: Soft Rose / Coral -->
         <div class="rounded-[28px] p-8 bg-[#FDE8E8] border border-rose-200/50 space-y-4 hover:-translate-y-1.5 transition-all shadow-sm">
-          <div class="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-rose-700/20">
-            ⚡
+          <div class="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center shadow-md shadow-rose-700/20">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </div>
           <h3 class="text-lg font-bold text-rose-950">Real-time Insights</h3>
           <p class="text-xs text-rose-900/80 leading-relaxed">
@@ -794,8 +796,8 @@ function renderHomePage(hostname) {
 
         <!-- Pastel 3: Soft Ice Blue -->
         <div class="rounded-[28px] p-8 bg-[#E0E7FF] border border-indigo-200/50 space-y-4 hover:-translate-y-1.5 transition-all shadow-sm">
-          <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-indigo-700/20">
-            💳
+          <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-md shadow-indigo-700/20">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
           </div>
           <h3 class="text-lg font-bold text-indigo-950">Automated Settlement</h3>
           <p class="text-xs text-indigo-900/80 leading-relaxed">
@@ -805,8 +807,8 @@ function renderHomePage(hostname) {
 
         <!-- Pastel 4: Soft Amber / Gold -->
         <div class="rounded-[28px] p-8 bg-[#FEF3C7] border border-amber-200/50 space-y-4 hover:-translate-y-1.5 transition-all shadow-sm">
-          <div class="w-12 h-12 rounded-2xl bg-amber-600 text-white flex items-center justify-center font-black text-xl shadow-md shadow-amber-700/20">
-            📊
+          <div class="w-12 h-12 rounded-2xl bg-amber-600 text-white flex items-center justify-center shadow-md shadow-amber-700/20">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>
           </div>
           <h3 class="text-lg font-bold text-amber-950">ROI Tracking</h3>
           <p class="text-xs text-amber-900/80 leading-relaxed">
@@ -866,18 +868,21 @@ function renderHomePage(hostname) {
       
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 text-[#2546A6] text-xs font-bold">
-          ⚡ Interactive App Experience
+          <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Interactive App Experience</span>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Experience Both Sides of PropLedger</h2>
         <p class="text-xs sm:text-sm text-slate-500">Toggle between the Landlord Management Console and the Resident Portal below.</p>
         
         <!-- Toggle Switcher -->
         <div class="inline-flex p-1.5 rounded-full bg-slate-100 border border-slate-200 gap-2 mt-4">
-          <button onclick="switchExperience('landlord')" id="tabBtnLandlord" class="pill-btn px-6 py-2.5 text-xs font-bold active-tab">
-            🏢 Landlord Experience
+          <button onclick="switchExperience('landlord')" id="tabBtnLandlord" class="pill-btn px-6 py-2.5 text-xs font-bold active-tab flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-current" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path></svg>
+            <span>Landlord Experience</span>
           </button>
-          <button onclick="switchExperience('tenant')" id="tabBtnTenant" class="pill-btn px-6 py-2.5 text-xs font-bold inactive-tab">
-            🏡 Resident & Tenant Portal
+          <button onclick="switchExperience('tenant')" id="tabBtnTenant" class="pill-btn px-6 py-2.5 text-xs font-bold inactive-tab flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-current" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Resident & Tenant Portal</span>
           </button>
         </div>
       </div>
@@ -921,7 +926,8 @@ function renderHomePage(hostname) {
               <p class="text-xs text-slate-500">Real-time status of all apartments under management</p>
             </div>
             <button onclick="dispatchBatchBills()" id="batchDispatchBtn" class="pill-btn px-5 py-2.5 bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition">
-              <span>⚡ Batch Send Monthly Invoices</span>
+              <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>Batch Send Monthly Invoices</span>
             </button>
           </div>
 
@@ -1005,8 +1011,9 @@ function renderHomePage(hostname) {
               </div>
             </div>
 
-            <button onclick="openPaymentModal()" class="w-full py-3 rounded-2xl bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs shadow-md shadow-blue-900/20 flex items-center justify-center gap-1.5 transition">
-              <span>💳 Pay October Rent ($3,250.00)</span>
+            <button onclick="openPaymentModal()" class="w-full py-3 rounded-2xl bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs shadow-md shadow-blue-900/20 flex items-center justify-center gap-2 transition">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+              <span>Pay October Rent ($3,250.00)</span>
             </button>
           </div>
 
@@ -1051,11 +1058,13 @@ function renderHomePage(hostname) {
                 <span class="text-2xl font-black text-emerald-600 font-mono">$3,250.00</span>
               </div>
               <div class="flex flex-wrap gap-2">
-                <button onclick="openMaintenanceModal()" class="pill-btn px-4 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition">
-                  🛠️ Report Repair
+                <button onclick="openMaintenanceModal()" class="pill-btn px-4 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                  <span>Report Repair</span>
                 </button>
-                <button onclick="downloadStatementPdf()" class="pill-btn px-4 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition">
-                  📄 Download PDF
+                <button onclick="downloadStatementPdf()" class="pill-btn px-4 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  <span>Download PDF</span>
                 </button>
                 <button onclick="openPaymentModal()" class="pill-btn px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
                   Pay Now &rarr;
@@ -1074,7 +1083,8 @@ function renderHomePage(hostname) {
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#2546A6] text-xs font-bold mb-2">
-          🏢 The Grand Horizon Residences
+          <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path></svg>
+          <span>The Grand Horizon Residences</span>
         </div>
         <h2 class="text-3xl font-black text-slate-900 tracking-tight">Featured Apartment Inventory</h2>
         <p class="text-xs sm:text-sm text-slate-500">Live inventory of premium luxury living spaces with real-time lease status.</p>
@@ -1202,7 +1212,8 @@ function renderHomePage(hostname) {
     <div class="koshpal-card p-8 sm:p-12 space-y-8 border border-slate-200">
       <div class="text-center max-w-2xl mx-auto space-y-2">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
-          💰 Landlord Profit & Efficiency Calculator
+          <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          <span>Landlord Profit & Efficiency Calculator</span>
         </div>
         <h2 class="text-3xl font-black text-slate-900 tracking-tight">Calculate Your Time & Money Saved</h2>
         <p class="text-xs sm:text-sm text-slate-500">See how much manual paperwork PropLedger eliminates for your rental portfolio.</p>
@@ -1273,7 +1284,8 @@ function renderHomePage(hostname) {
       
       <div class="text-center space-y-3">
         <div class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-[#E0E7FF] text-[#1E3A8A] text-xs font-bold">
-          ✨ FAQs
+          <svg class="w-3.5 h-3.5 text-[#1E3A8A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <span>Frequently Asked Questions</span>
         </div>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
           Commonly asked <span class="text-[#00A896]">questions</span>
@@ -1717,29 +1729,30 @@ function renderHomePage(hostname) {
   <div class="fixed bottom-6 inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
     <div class="pointer-events-auto bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-full px-5 py-2.5 shadow-[0_12px_36px_-4px_rgba(16,24,40,0.14)] flex items-center gap-2 sm:gap-4 transition hover:scale-[1.02]">
       <button onclick="openPaymentModal()" class="flex items-center gap-1.5 text-xs font-bold text-white bg-[#2546A6] hover:bg-[#1D367E] px-4 py-2 rounded-full shadow-sm transition">
-        <span>💳</span>
+        <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
         <span>Pay Rent</span>
       </button>
       <a href="#developer" class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-[#2546A6] bg-blue-50 hover:bg-blue-100 px-3.5 py-2 rounded-full transition">
-        <span>👨‍💻</span>
+        <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
         <span>Developer</span>
       </a>
       <button onclick="openTourModal('The Grand Horizon Luxury Suites', '$1,650 - $3,100 / mo', 'Full Suite Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-full transition">
-        <span>📅</span>
+        <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         <span class="hidden sm:inline">Schedule Tour</span>
         <span class="sm:hidden">Tour</span>
       </button>
       <button onclick="openMaintenanceModal()" class="hidden md:flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-full transition">
-        <span>🛠️</span>
+        <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
         <span>Resident Desk</span>
       </button>
       <a href="#concierge" class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-full transition">
-        <span>💬</span>
+        <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span class="hidden sm:inline">Concierge</span>
       </a>
       <div class="h-4 w-px bg-slate-200"></div>
       <a href="https://admin.vishalbhutekar.me" class="flex items-center gap-1.5 text-xs font-bold text-[#2546A6] hover:underline transition">
-        <span>⚡ Master Admin</span>
+        <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <span>Master Admin</span>
       </a>
     </div>
   </div>
@@ -1751,8 +1764,8 @@ function renderHomePage(hostname) {
       <!-- Modal Header -->
       <div class="flex items-center justify-between pb-4 border-b border-slate-100">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-blue-50 text-[#2546A6] flex items-center justify-center font-black text-lg">
-            💳
+          <div class="w-10 h-10 rounded-2xl bg-blue-50 text-[#2546A6] flex items-center justify-center font-black">
+            <svg class="w-5 h-5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
           </div>
           <div>
             <h3 class="font-bold text-slate-900 text-base">Secure Rent Settlement</h3>
@@ -1864,8 +1877,9 @@ function renderHomePage(hostname) {
             <span>Confirm & Settle $3,250.00</span>
             <span>&rarr;</span>
           </button>
-          <p class="text-[11px] text-center text-slate-400 font-mono">
-            🔒 256-Bit Bank Grade Encryption &bull; Instant Subledger Clearance
+          <p class="text-[11px] text-center text-slate-400 font-mono flex items-center justify-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>256-Bit Bank Grade Encryption &bull; Instant Subledger Clearance</span>
           </p>
         </div>
       </div>
@@ -1905,10 +1919,12 @@ function renderHomePage(hostname) {
 
         <div class="flex flex-col sm:flex-row gap-3">
           <button onclick="window.print()" class="flex-1 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition">
-            <span>🖨️ Print Receipt</span>
+            <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>Print Receipt</span>
           </button>
           <button onclick="downloadStatementPdf()" class="flex-1 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition">
-            <span>📥 Download PDF</span>
+            <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Download PDF</span>
           </button>
           <button onclick="closePaymentModal()" class="flex-1 py-3 rounded-xl bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition">
             <span>Done</span>
@@ -1924,8 +1940,8 @@ function renderHomePage(hostname) {
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 overflow-hidden max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-4 border-b border-slate-100">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-blue-50 text-[#2546A6] flex items-center justify-center font-black text-lg">
-            🏢
+          <div class="w-10 h-10 rounded-2xl bg-blue-50 text-[#2546A6] flex items-center justify-center font-black">
+            <svg class="w-5 h-5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path></svg>
           </div>
           <div>
             <h3 class="font-bold text-slate-900 text-base">Schedule Private Tour & Apply</h3>
@@ -1952,11 +1968,13 @@ function renderHomePage(hostname) {
         <div>
           <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Select Tour Experience</label>
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <button type="button" onclick="setTourType('person')" id="ttPerson" class="p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center">
-              🏢 In-Person Tour
+            <button type="button" onclick="setTourType('person')" id="ttPerson" class="p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path></svg>
+              <span>In-Person Tour</span>
             </button>
-            <button type="button" onclick="setTourType('video')" id="ttVideo" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center hover:border-slate-300">
-              📹 4K Virtual Walkthrough
+            <button type="button" onclick="setTourType('video')" id="ttVideo" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center hover:border-slate-300 flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+              <span>4K Virtual Walkthrough</span>
             </button>
           </div>
         </div>
@@ -2021,8 +2039,8 @@ function renderHomePage(hostname) {
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 overflow-hidden max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-4 border-b border-slate-100">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-black text-lg">
-            🛠️
+          <div class="w-10 h-10 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-black">
+            <svg class="w-5 h-5 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
           </div>
           <div>
             <h3 class="font-bold text-slate-900 text-base">Resident Maintenance Desk</h3>
@@ -2038,23 +2056,29 @@ function renderHomePage(hostname) {
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Issue Category</label>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            <button type="button" onclick="setMaintCategory(this, 'Plumbing & Water')" class="p-2 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-left">
-              💧 Plumbing / Leak
+            <button type="button" onclick="setMaintCategory(this, 'Plumbing & Water')" class="p-2 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-left flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-blue-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+              <span>Plumbing / Leak</span>
             </button>
-            <button type="button" onclick="setMaintCategory(this, 'HVAC & Climate')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
-              ❄️ HVAC / A/C
+            <button type="button" onclick="setMaintCategory(this, 'HVAC & Climate')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"></path></svg>
+              <span>HVAC / A/C</span>
             </button>
-            <button type="button" onclick="setMaintCategory(this, 'Electrical & Lighting')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
-              ⚡ Electrical
+            <button type="button" onclick="setMaintCategory(this, 'Electrical & Lighting')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>Electrical</span>
             </button>
-            <button type="button" onclick="setMaintCategory(this, 'Kitchen Appliance')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
-              🍳 Appliances
+            <button type="button" onclick="setMaintCategory(this, 'Kitchen Appliance')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="4" y1="10" x2="20" y2="10"></line><line x1="15" y1="4" x2="15" y2="6"></line><line x1="15" y1="14" x2="15" y2="18"></line></svg>
+              <span>Appliances</span>
             </button>
-            <button type="button" onclick="setMaintCategory(this, 'Lock & Keycard')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
-              🔑 Key & Fob
+            <button type="button" onclick="setMaintCategory(this, 'Lock & Keycard')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-1.5 1.5L14 9l-3-3-4 4 3 3-5 5a2.12 2.12 0 0 0 3 3l5-5 3 3 4-4-3-3 3.5-3.5L22 4z"></path><circle cx="7.5" cy="16.5" r="1.5"></circle></svg>
+              <span>Key & Fob</span>
             </button>
-            <button type="button" onclick="setMaintCategory(this, 'General Repair')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
-              📦 Other Repair
+            <button type="button" onclick="setMaintCategory(this, 'General Repair')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              <span>Other Repair</span>
             </button>
           </div>
         </div>
@@ -2080,7 +2104,7 @@ function renderHomePage(hostname) {
         </div>
 
         <div class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 cursor-pointer hover:bg-slate-100 transition">
-          <span>📷</span>
+          <svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
           <span>Attach Photo or Video (Optional)</span>
         </div>
 
@@ -2116,13 +2140,13 @@ function renderHomePage(hostname) {
       if (type === 'landlord') {
         landlordView.classList.remove('hidden');
         tenantView.classList.add('hidden');
-        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab';
-        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab';
+        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab flex items-center gap-1.5';
+        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab flex items-center gap-1.5';
       } else {
         landlordView.classList.add('hidden');
         tenantView.classList.remove('hidden');
-        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab';
-        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab';
+        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab flex items-center gap-1.5';
+        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab flex items-center gap-1.5';
       }
     }
 
@@ -2136,7 +2160,7 @@ function renderHomePage(hostname) {
         notice.classList.remove('hidden');
         notice.innerHTML = '<strong>Batch Invoicing Complete!</strong><br>Successfully generated and emailed itemized statements across all 402 occupied units via Resend API.';
         btn.disabled = false;
-        btn.innerHTML = '<span>⚡ Invoices Dispatched (402 Sent)</span>';
+        btn.innerHTML = '<span class="flex items-center justify-center gap-1.5"><svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Invoices Dispatched (402 Sent)</span></span>';
       }, 800);
     }
 
