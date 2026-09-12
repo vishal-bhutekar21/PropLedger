@@ -586,10 +586,14 @@ function renderHomePage(hostname) {
       </a>
 
       <!-- Center Nav Links -->
-      <nav class="hidden lg:flex items-center gap-6">
+      <nav class="hidden lg:flex items-center gap-5">
         <a href="#overview" class="text-xs font-semibold text-slate-700 hover:text-[#2563EB] transition">Overview</a>
         <a href="#why-it-matters" class="text-xs font-semibold text-slate-700 hover:text-[#2563EB] transition">Why It Matters</a>
         <a href="#what-we-do" class="text-xs font-semibold text-slate-700 hover:text-[#2563EB] transition">What We Do</a>
+        <a href="#developer" class="text-xs font-bold text-[#2546A6] hover:text-[#1D367E] transition flex items-center gap-1.5 bg-blue-50/80 px-3 py-1 rounded-full border border-blue-200/60 shadow-xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#00A896] animate-pulse"></span>
+          <span>Developer</span>
+        </a>
         <a href="#how-it-works" class="text-xs font-semibold text-slate-700 hover:text-[#2563EB] transition">How It Works</a>
         <a href="#dual-experience" class="text-xs font-semibold text-slate-700 hover:text-[#2563EB] transition">Dual Portal</a>
         <a href="#roi-calculator" class="text-xs font-semibold text-slate-700 hover:text-[#2563EB] transition">ROI Calc</a>
@@ -618,10 +622,11 @@ function renderHomePage(hostname) {
       
       <!-- Left Column: Typography & CTAs -->
       <div class="lg:col-span-7 space-y-6 text-left">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-blue-100 text-xs font-semibold">
+        <a href="#developer" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/15 text-blue-100 text-xs font-semibold transition group">
           <span class="w-2 h-2 rounded-full bg-[#00A896] animate-pulse"></span>
-          Where Property Operations & Money Make Sense
-        </div>
+          <span>Engineered by <strong>Vishal Bhutekar</strong> &bull; <span class="font-mono text-[#38BDF8]">vishalbhutekar.me</span></span>
+          <span class="group-hover:translate-x-0.5 transition-transform text-[#38BDF8]">&rarr;</span>
+        </a>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
           Financial wellbeing,<br>
@@ -1311,7 +1316,310 @@ function renderHomePage(hostname) {
     </div>
   </section>
 
-  <!-- SECTION 9: RESIDENT SUPPORT & CONCIERGE DESK -->
+  <!-- SECTION 9: DEVELOPER & SYSTEM ARCHITECTURE INFOGRAPHICS (Vishal Bhutekar • vishalbhutekar.me) -->
+  <section id="developer" class="py-24 px-6 bg-[#0B1736] text-white relative overflow-hidden">
+    <!-- Background Blueprint Grid overlay for Developer Section -->
+    <div class="absolute inset-0 pointer-events-none opacity-25" style="background-image: linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px); background-size: 48px 48px;"></div>
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#2563EB]/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-[#00A896]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto space-y-16 relative z-10">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-blue-200 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-[#00A896] animate-pulse"></span>
+          <span>Lead Enterprise Architect & Full-Stack Systems Engineer</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          Architected & Engineered by <span class="text-[#38BDF8]">Vishal Bhutekar</span>
+        </h2>
+        <p class="text-blue-200/80 text-sm sm:text-base leading-relaxed">
+          The creator behind PropLedger's autonomous property subledger engine, distributed edge microservices, and mathematical calendar collision defense &mdash; hosted on <a href="https://vishalbhutekar.me" class="text-[#38BDF8] underline font-mono font-bold">vishalbhutekar.me</a>.
+        </p>
+      </div>
+
+      <!-- Developer Profile & Credentials Card -->
+      <div class="bg-white/5 backdrop-blur-xl border border-white/15 rounded-[32px] p-8 sm:p-12 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <!-- Avatar & Identity Medallion -->
+        <div class="lg:col-span-4 flex flex-col items-center text-center space-y-4 border-b lg:border-b-0 lg:border-r border-white/10 pb-6 lg:pb-0 lg:pr-8">
+          <div class="relative">
+            <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-tr from-[#15337C] via-[#2563EB] to-[#00A896] p-1 shadow-xl flex items-center justify-center">
+              <div class="w-full h-full bg-[#0B1736] rounded-[22px] flex flex-col items-center justify-center text-white">
+                <span class="text-4xl font-black font-mono tracking-tighter text-[#38BDF8]">VB</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">Lead Architect</span>
+              </div>
+            </div>
+            <span class="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-emerald-500 text-white font-mono text-[10px] font-bold shadow-md">
+              &check; Verified
+            </span>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-black text-white">Vishal Bhutekar</h3>
+            <a href="https://vishalbhutekar.me" class="text-xs font-mono text-[#38BDF8] hover:underline block mt-0.5">vishalbhutekar.me</a>
+            <p class="text-xs text-slate-300 mt-2 font-medium">Distributed Systems Engineer & Enterprise Cloud Architect</p>
+          </div>
+
+          <!-- Social / Portfolio links -->
+          <div class="flex flex-wrap gap-2 justify-center pt-2">
+            <a href="https://github.com/vishal-bhutekar21" target="_blank" class="pill-btn px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition flex items-center gap-1.5 border border-white/10">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              <span>GitHub Profile</span>
+            </a>
+            <a href="mailto:vishal.bhutekar1@gmail.com" class="pill-btn px-4 py-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>Email Vishal</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bio & Architectural Philosophy -->
+        <div class="lg:col-span-8 space-y-6">
+          <div>
+            <div class="text-xs uppercase font-mono font-bold tracking-wider text-[#00A896] mb-1">Architectural Philosophy</div>
+            <h4 class="text-xl sm:text-2xl font-bold text-white leading-snug">
+              &ldquo;Eliminating real estate financial chaos through deterministic subledger mathematics and zero-trust cloud infrastructure.&rdquo;
+            </h4>
+          </div>
+
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+            PropLedger was conceptualized and built end-to-end by <strong>Vishal Bhutekar</strong> to replace brittle manual spreadsheets with an immutable, double-entry property accounting system. By fusing <strong>Spring Boot 3.3.4 (Java 21 LTS)</strong> microservices with <strong>PostgreSQL 16 GiST Exclusion Locks</strong> and <strong>Cloudflare Global Edge Workers</strong>, Vishal created a platform capable of mathematically preventing double-booked leases, guaranteeing ACID ledger parity, and settling tenant payments in milliseconds.
+          </p>
+
+          <!-- Core Competencies Chips -->
+          <div class="space-y-2">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block font-mono">Core Engineering Competencies</span>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10">&bull; Java 21 LTS & Virtual Threads</span>
+              <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10">&bull; Spring Boot 3.3 & Spring Security 6</span>
+              <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10">&bull; PostgreSQL 16 GiST Range Locks</span>
+              <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10">&bull; Cloudflare Workers V8 Edge Runtime</span>
+              <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10">&bull; Double-Entry Subledger FinTech</span>
+              <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10">&bull; Flyway V12 Schema Evolution</span>
+              <span class="px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10">&bull; Docker, Maven, & TLS 1.3 Anycast</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFOGRAPHIC MATERIAL 1: 4-TIER DISTRIBUTED SYSTEM ARCHITECTURE -->
+      <div class="space-y-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <span class="text-xs font-bold text-[#38BDF8] uppercase tracking-wider font-mono">Infographic Material #1</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">4-Tier Distributed System Architecture</h3>
+          <p class="text-xs sm:text-sm text-slate-400">Engineered with defense-in-depth from global anycast edge to kernel-level database locking.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Tier 1 -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 hover:border-[#38BDF8]/50 transition shadow-lg">
+            <div class="w-10 h-10 rounded-xl bg-[#38BDF8]/20 text-[#38BDF8] flex items-center justify-center font-mono font-bold text-base">
+              01
+            </div>
+            <div>
+              <span class="text-[10px] font-mono text-[#38BDF8] uppercase font-bold tracking-wider block">Global Edge Layer</span>
+              <h4 class="text-base font-bold text-white mt-1">Cloudflare Edge & Anycast</h4>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 font-mono leading-relaxed">
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Subdomain Router (admin, home, support)</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>TLS 1.3 Anycast Termination</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Resend API Inbound Email Webhook</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>&lt;20ms Cold-Start Edge Execution</span></li>
+            </ul>
+          </div>
+
+          <!-- Tier 2 -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 hover:border-[#2563EB]/50 transition shadow-lg">
+            <div class="w-10 h-10 rounded-xl bg-[#2563EB]/20 text-[#60A5FA] flex items-center justify-center font-mono font-bold text-base">
+              02
+            </div>
+            <div>
+              <span class="text-[10px] font-mono text-[#60A5FA] uppercase font-bold tracking-wider block">Core Domain Services</span>
+              <h4 class="text-base font-bold text-white mt-1">Spring Boot 3.3.4 (Java 21)</h4>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 font-mono leading-relaxed">
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Spring Security 6 + Stateless JWT</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>OpenAPI 3.0 / Swagger Interactive Docs</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Automated 1st-of-Month Bill Generator</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Virtual Threads (Project Loom) Ready</span></li>
+            </ul>
+          </div>
+
+          <!-- Tier 3 -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 hover:border-[#00A896]/50 transition shadow-lg">
+            <div class="w-10 h-10 rounded-xl bg-[#00A896]/20 text-[#2DD4BF] flex items-center justify-center font-mono font-bold text-base">
+              03
+            </div>
+            <div>
+              <span class="text-[10px] font-mono text-[#2DD4BF] uppercase font-bold tracking-wider block">Immutable Subledger</span>
+              <h4 class="text-base font-bold text-white mt-1">Double-Entry Accounting</h4>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 font-mono leading-relaxed">
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Strict Debit = Credit Parity Invariants</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Real-time Tenant Balance Rollup</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Reconciliation Audit Log Trails</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Yardi Voyager GL Mapping Alignment</span></li>
+            </ul>
+          </div>
+
+          <!-- Tier 4 -->
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4 hover:border-emerald-400/50 transition shadow-lg">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono font-bold text-base">
+              04
+            </div>
+            <div>
+              <span class="text-[10px] font-mono text-emerald-400 uppercase font-bold tracking-wider block">Data & Lock Engine</span>
+              <h4 class="text-base font-bold text-white mt-1">PostgreSQL 16 & Flyway</h4>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2 font-mono leading-relaxed">
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>GiST Range Exclusion Constraints</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Zero Double-Booking Mathematical Proof</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>Flyway V12 Schema Evolution Pipeline</span></li>
+              <li class="flex items-start gap-1.5"><span class="text-[#00A896]">&check;</span> <span>HikariCP Microsecond Connection Pool</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFOGRAPHIC MATERIAL 2: MATHEMATICAL EXCLUSION LOCK vs CONVENTIONAL SPREADSHEETS -->
+      <div class="bg-white/5 border border-white/10 rounded-[32px] p-8 sm:p-10 space-y-8">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+          <div>
+            <span class="text-xs font-bold text-[#00A896] uppercase tracking-wider font-mono">Infographic Material #2 &bull; Algorithmic Comparison</span>
+            <h3 class="text-2xl font-black text-white mt-1">Conventional Real Estate Software vs. PropLedger GiST Engine</h3>
+          </div>
+          <span class="px-4 py-1.5 rounded-full bg-[#00A896]/20 text-[#2DD4BF] font-mono text-xs font-bold border border-[#00A896]/30">
+            Engineered by Vishal Bhutekar
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- The Bad Way -->
+          <div class="bg-red-950/20 border border-red-500/20 rounded-2xl p-6 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center font-bold">&times;</div>
+              <h4 class="text-base font-bold text-red-200">Conventional Approach (Spreadsheets & Optimistic Locks)</h4>
+            </div>
+            <div class="p-4 rounded-xl bg-black/30 font-mono text-xs text-red-300/90 space-y-2 border border-red-500/10">
+              <p>// Two leasing agents submit applications concurrently</p>
+              <p class="text-red-400">Thread A: SELECT * FROM leases WHERE unit_id=402; // OK</p>
+              <p class="text-red-400">Thread B: SELECT * FROM leases WHERE unit_id=402; // OK</p>
+              <p class="text-red-500 font-bold">&bull; RACE CONDITION: Both insert leases for the same date range!</p>
+              <p class="text-slate-400">Result: Costly double-booking disputes, tenant conflicts, and manual emergency audits.</p>
+            </div>
+            <p class="text-xs text-slate-300">
+              Legacy systems rely on manual human vigilance or naive application checks that collapse under simultaneous load.
+            </p>
+          </div>
+
+          <!-- The PropLedger Way -->
+          <div class="bg-emerald-950/20 border border-emerald-500/20 rounded-2xl p-6 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">&check;</div>
+              <h4 class="text-base font-bold text-emerald-200">PropLedger Mathematical Exclusion Constraint (Vishal's Design)</h4>
+            </div>
+            <div class="p-4 rounded-xl bg-black/30 font-mono text-xs text-emerald-300 space-y-2 border border-emerald-500/10">
+              <p class="text-blue-300">ALTER TABLE leases ADD CONSTRAINT no_overlap_lease</p>
+              <p class="text-emerald-400 font-bold">EXCLUDE USING gist (unit_id WITH =, daterange(start_date, end_date) WITH &amp;&amp;);</p>
+              <p class="text-slate-300">// Hardware-level constraint enforced directly in PostgreSQL storage engine</p>
+              <p class="text-emerald-300 font-bold">&bull; GUARANTEE: Overlapping date ranges physically fail with 23P01 exclusion error</p>
+              <p class="text-slate-400">Result: 0.00% double-booking collision rate. Enforced mathematically with zero human error.</p>
+            </div>
+            <p class="text-xs text-slate-300">
+              By enforcing constraints directly in PostgreSQL, PropLedger guarantees hardware-level immunity against race conditions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFOGRAPHIC MATERIAL 3: TRANSACTION FLOW LIFECYCLE -->
+      <div class="space-y-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <span class="text-xs font-bold text-[#00A896] uppercase tracking-wider font-mono">Infographic Material #3</span>
+          <h3 class="text-2xl sm:text-3xl font-black text-white">End-to-End Real-Time Transaction Flow</h3>
+          <p class="text-xs sm:text-sm text-slate-400">How rent settlement flows from client browser to reconciled ledger in milliseconds.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-left">
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <span class="text-xs font-mono font-bold text-[#38BDF8]">01. Trigger</span>
+            <h5 class="text-xs font-bold text-white">Tenant ACH / Card Settlement</h5>
+            <p class="text-[11px] text-slate-400 font-mono">Tenant clicks Pay Balance via 1-click modal.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <span class="text-xs font-mono font-bold text-[#38BDF8]">02. Edge Ingress</span>
+            <h5 class="text-xs font-bold text-white">Cloudflare Edge Worker</h5>
+            <p class="text-[11px] text-slate-400 font-mono">TLS 1.3 termination in &lt;20ms worldwide.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <span class="text-xs font-mono font-bold text-[#38BDF8]">03. Auth &amp; RBAC</span>
+            <h5 class="text-xs font-bold text-white">Spring Security JWT</h5>
+            <p class="text-[11px] text-slate-400 font-mono">Validates tenant claim and cryptographic token.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <span class="text-xs font-mono font-bold text-[#38BDF8]">04. Subledger Parity</span>
+            <h5 class="text-xs font-bold text-white">Double-Entry Journal</h5>
+            <p class="text-[11px] text-slate-400 font-mono">Debit Cash Escrow, Credit Tenant Receivable.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <span class="text-xs font-mono font-bold text-[#38BDF8]">05. ACID Commit</span>
+            <h5 class="text-xs font-bold text-white">PostgreSQL 16 Lock</h5>
+            <p class="text-[11px] text-slate-400 font-mono">Atomic write with serializable isolation.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <span class="text-xs font-mono font-bold text-[#00A896]">06. Receipt Sync</span>
+            <h5 class="text-xs font-bold text-white">Audit Statement &amp; Resend</h5>
+            <p class="text-[11px] text-slate-400 font-mono">Instant digital receipt &amp; admin reconciliation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFOGRAPHIC MATERIAL 4: LIVE ENGINEERING METRICS & TELEMETRY -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-1.5 shadow-lg">
+          <div class="text-3xl sm:text-4xl font-black text-white font-mono">100%</div>
+          <div class="text-xs text-[#00A896] font-bold uppercase tracking-wider">ACID Compliant</div>
+          <p class="text-[11px] text-slate-400">Double-entry ledger balance</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-1.5 shadow-lg">
+          <div class="text-3xl sm:text-4xl font-black text-[#38BDF8] font-mono">&lt;20ms</div>
+          <div class="text-xs text-[#38BDF8] font-bold uppercase tracking-wider">Edge Cold Start</div>
+          <p class="text-[11px] text-slate-400">Cloudflare Workers Anycast</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-1.5 shadow-lg">
+          <div class="text-3xl sm:text-4xl font-black text-emerald-400 font-mono">0.00%</div>
+          <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Collision Rate</div>
+          <p class="text-[11px] text-slate-400">GiST calendar range locking</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-1.5 shadow-lg">
+          <div class="text-3xl sm:text-4xl font-black text-[#F59E0B] font-mono">V12</div>
+          <div class="text-xs text-[#F59E0B] font-bold uppercase tracking-wider">Flyway Version</div>
+          <p class="text-[11px] text-slate-400">Automated SQL migrations</p>
+        </div>
+      </div>
+
+      <!-- Quick Developer Action Buttons & Whitepaper Link -->
+      <div class="p-8 rounded-3xl bg-gradient-to-r from-[#15337C] to-[#1D45A3] border border-white/20 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div class="space-y-1 text-center sm:text-left">
+          <h4 class="text-xl font-black text-white">Review the Engineering Whitepaper for Yardi Systems</h4>
+          <p class="text-xs text-blue-100">Comprehensive enterprise architecture, database schema, and migration roadmap prepared by Vishal Bhutekar.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="https://github.com/vishal-bhutekar21/PropLedger/blob/main/docs/YARDI_ENTERPRISE_PROPOSAL.md" target="_blank" class="pill-btn px-6 py-3 bg-white text-[#15337C] hover:bg-slate-100 font-black text-xs shadow-lg transition flex items-center gap-1.5">
+            <span>Read Enterprise Proposal</span>
+            <span>&rarr;</span>
+          </a>
+          <a href="https://github.com/vishal-bhutekar21" target="_blank" class="pill-btn px-5 py-3 border border-white/40 hover:border-white text-white font-bold text-xs transition">
+            Developer GitHub
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 10: RESIDENT SUPPORT & CONCIERGE DESK -->
   <section id="concierge" class="py-16 px-6 max-w-4xl mx-auto">
     <div class="koshpal-card p-8 sm:p-10 space-y-6 bg-white border border-slate-200">
       <div class="flex items-center gap-3.5 pb-4 border-b border-slate-100">
@@ -1389,18 +1697,19 @@ function renderHomePage(hostname) {
 
       <!-- Links Column 2 -->
       <div class="space-y-2.5 text-xs">
-        <p class="font-bold text-white uppercase tracking-wider text-[11px] mb-3">Platforms</p>
+        <p class="font-bold text-white uppercase tracking-wider text-[11px] mb-3">Developer &amp; Architecture</p>
+        <p><a href="#developer" class="text-blue-200 hover:text-white transition flex items-center gap-1"><span class="text-[#00A896]">&bull;</span><span>Vishal Bhutekar (Lead Architect)</span></a></p>
+        <p><a href="https://vishalbhutekar.me" class="text-blue-200 hover:text-white transition font-mono">vishalbhutekar.me</a></p>
         <p><a href="https://admin.vishalbhutekar.me" class="text-blue-200 hover:text-white transition">Master Admin Console</a></p>
         <p><a href="https://github.com/vishal-bhutekar21/PropLedger" target="_blank" class="text-blue-200 hover:text-white transition">GitHub Repository</a></p>
         <p><a href="https://github.com/vishal-bhutekar21/PropLedger/blob/main/docs/YARDI_ENTERPRISE_PROPOSAL.md" target="_blank" class="text-blue-200 hover:text-white transition">Yardi Proposal Whitepaper</a></p>
-        <p><a href="#concierge" class="text-blue-200 hover:text-white transition">Resident Support Desk</a></p>
       </div>
 
     </div>
 
     <div class="max-w-6xl mx-auto pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-blue-300/60 font-mono">
-      <p>&copy; 2026 PropLedger Technologies. Cloudflare Edge TLS 1.3 Protected.</p>
-      <p>Host: ${hostname}</p>
+      <p>&copy; 2026 PropLedger Technologies &bull; Architected by Vishal Bhutekar (vishalbhutekar.me)</p>
+      <p>Host: ${hostname} &bull; TLS 1.3 Protected</p>
     </div>
   </footer>
 
@@ -1411,6 +1720,10 @@ function renderHomePage(hostname) {
         <span>💳</span>
         <span>Pay Rent</span>
       </button>
+      <a href="#developer" class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-[#2546A6] bg-blue-50 hover:bg-blue-100 px-3.5 py-2 rounded-full transition">
+        <span>👨‍💻</span>
+        <span>Developer</span>
+      </a>
       <button onclick="openTourModal('The Grand Horizon Luxury Suites', '$1,650 - $3,100 / mo', 'Full Suite Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-full transition">
         <span>📅</span>
         <span class="hidden sm:inline">Schedule Tour</span>
