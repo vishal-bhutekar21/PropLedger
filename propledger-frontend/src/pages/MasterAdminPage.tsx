@@ -32,8 +32,8 @@ export const MasterAdminPage = () => {
         body: JSON.stringify({
           recipientEmail,
           invoiceNumber: 'INV-202609-00001',
-          amount: '$3,250.00',
-          property: 'The Grand Horizon Luxury Suites - Unit 402',
+          amount: '₹65,000.00',
+          property: 'Oberoi Sky City Residences - Unit 402, Mumbai',
           tenant: 'Vishal Bhutekar'
         })
       });
@@ -183,7 +183,7 @@ export const MasterAdminPage = () => {
               </div>
               <div className="flex items-center gap-2">
                 <FileText className="w-3.5 h-3.5 text-brand-500" />
-                <span>Invoice Statement: INV-202609-00001 ($3,250.00 Base Rent)</span>
+                <span>Invoice Statement: INV-202609-00001 (₹65,000.00 Base Rent)</span>
               </div>
               <div className="flex items-center gap-2">
                 <FileText className="w-3.5 h-3.5 text-brand-500" />

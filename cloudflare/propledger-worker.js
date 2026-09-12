@@ -27,44 +27,62 @@ const DEFAULT_ADMIN_STORE = {
   properties: [
     {
       id: "PROP-001",
-      name: "The Grand Horizon Residences",
-      address: "1204 Grand Avenue",
-      city: "Austin",
-      state: "TX",
-      zip: "78701",
-      type: "Multifamily Luxury",
+      name: "Oberoi Sky City Residences",
+      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+      address: "Western Express Highway, Borivali East",
+      city: "Mumbai",
+      state: "Maharashtra",
+      zip: "400066",
+      type: "Luxury Residential",
       unitsCount: 24,
       occupiedCount: 23,
-      grossRent: 68400,
-      amenities: ["Rooftop Infinity Pool", "EV Fast Charging", "24/7 Concierge", "Fitness Hub"],
+      grossRent: 1450000,
+      amenities: ["Swimming Pool", "EV Fast Charging", "24/7 Security", "Clubhouse & Gym"],
       status: "Operational"
     },
     {
       id: "PROP-002",
-      name: "Skyline Bay Lofts",
-      address: "88 Harbor View Boulevard",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94105",
-      type: "Luxury Residential",
+      name: "Prestige Tech Vista Suites",
+      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+      address: "Outer Ring Road, Kadubeesanahalli",
+      city: "Bengaluru",
+      state: "Karnataka",
+      zip: "560103",
+      type: "Premium Residential",
       unitsCount: 16,
-      occupiedCount: 16,
-      grossRent: 52000,
-      amenities: ["Private Marina", "Wine Cellar", "Valet Parking", "Smart Thermostats"],
+      occupiedCount: 15,
+      grossRent: 980000,
+      amenities: ["High-Speed Fiber", "100% Power Backup", "Covered Car Parking", "Children Play Area"],
       status: "Operational"
     },
     {
       id: "PROP-003",
-      name: "Austin Tech Nexus Tower",
-      address: "400 Silicon Way",
-      city: "Austin",
-      state: "TX",
-      zip: "78759",
-      type: "Commercial Office",
+      name: "Panchshil Towers",
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+      address: "Kharadi Riverside Boulevard",
+      city: "Pune",
+      state: "Maharashtra",
+      zip: "411014",
+      type: "Luxury Residential",
+      unitsCount: 12,
+      occupiedCount: 11,
+      grossRent: 670000,
+      amenities: ["Smart Home Automation", "Landscaped Podium Gardens", "Rooftop Lounge", "Jogging Track"],
+      status: "Operational"
+    },
+    {
+      id: "PROP-004",
+      name: "DLF Cyber Enclave",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+      address: "Golf Course Road, DLF Phase 5",
+      city: "Gurugram",
+      state: "Haryana",
+      zip: "122002",
+      type: "Commercial & Executive Suites",
       unitsCount: 8,
       occupiedCount: 7,
-      grossRent: 27850,
-      amenities: ["Fiber Backbone 10Gbps", "Conference Amphitheater", "Bicycle Lockers"],
+      grossRent: 540000,
+      amenities: ["Central HVAC", "Conference Suites", "Valet Parking", "Cafeteria"],
       status: "Operational"
     }
   ],
@@ -73,7 +91,7 @@ const DEFAULT_ADMIN_STORE = {
       id: "USR-001",
       name: "Vishal Bhutekar",
       email: "vishal.bhutekar1@gmail.com",
-      phone: "+1 (512) 800-4921",
+      phone: "+91 98200 11223",
       role: "SUPER_ADMIN",
       property: "All Portfolios",
       unit: "Executive Suite",
@@ -83,33 +101,33 @@ const DEFAULT_ADMIN_STORE = {
     },
     {
       id: "USR-002",
-      name: "Elena Rostova",
-      email: "elena.rostova@horizon.com",
-      phone: "+1 (512) 441-9022",
+      name: "Priya Nair",
+      email: "priya.nair@propledger.in",
+      phone: "+91 98450 33445",
       role: "PROPERTY_MANAGER",
-      property: "The Grand Horizon",
-      unit: "Leasing Office",
+      property: "Prestige Tech Vista Suites",
+      unit: "Manager Desk",
       rent: 0,
       status: "Active",
       joinedDate: "Feb 01, 2026"
     },
     {
       id: "USR-003",
-      name: "Sarah Connor",
-      email: "sarah.connor@skyline.io",
-      phone: "+1 (415) 620-1184",
+      name: "Ananya Iyer",
+      email: "ananya.iyer@gmail.com",
+      phone: "+91 99201 44556",
       role: "TENANT",
-      property: "Skyline Bay Lofts",
+      property: "Oberoi Sky City Residences",
       unit: "Unit 402",
-      rent: 3250,
+      rent: 65000,
       status: "Active",
       joinedDate: "Apr 10, 2026"
     },
     {
       id: "USR-004",
-      name: "Marcus Brody",
-      email: "m.brody@apexbuild.com",
-      phone: "+1 (512) 773-8890",
+      name: "Suresh Kumar",
+      email: "suresh.kumar@propledger.in",
+      phone: "+91 97310 77889",
       role: "MAINTENANCE_TECH",
       property: "Regional Operations",
       unit: "Field Specialist",
@@ -119,11 +137,11 @@ const DEFAULT_ADMIN_STORE = {
     },
     {
       id: "USR-005",
-      name: "Jonathan Vance",
-      email: "vance.invest@capital.com",
-      phone: "+1 (212) 993-4011",
+      name: "Rajiv Oberoi",
+      email: "rajiv.oberoi@capital.in",
+      phone: "+91 98200 44556",
       role: "LANDLORD",
-      property: "The Grand Horizon",
+      property: "Oberoi Sky City Residences",
       unit: "Owner Equity",
       rent: 0,
       status: "Active",
@@ -131,111 +149,112 @@ const DEFAULT_ADMIN_STORE = {
     },
     {
       id: "USR-006",
-      name: "Chloe Bennet",
-      email: "chloe.b@nexusoffice.com",
-      phone: "+1 (512) 550-9942",
+      name: "Rohan Deshmukh",
+      email: "rohan.deshmukh@outlook.com",
+      phone: "+91 98920 88776",
       role: "TENANT",
-      property: "Austin Tech Nexus Tower",
-      unit: "Suite 300",
-      rent: 4500,
+      property: "Prestige Tech Vista Suites",
+      unit: "Unit 204",
+      rent: 52000,
       status: "Active",
       joinedDate: "Jun 01, 2026"
     },
     {
       id: "USR-007",
-      name: "David Miller",
-      email: "david.miller@email.com",
-      phone: "+1 (512) 349-8812",
+      name: "Sneha Kulkarni",
+      email: "sneha.kulkarni@gmail.com",
+      phone: "+91 98223 44112",
       role: "TENANT",
-      property: "The Grand Horizon",
+      property: "Panchshil Towers",
       unit: "Unit 108",
-      rent: 2850,
+      rent: 42000,
       status: "Pending",
       joinedDate: "Sep 05, 2026"
     }
   ],
   financials: {
-    grossRevenue: 148250,
-    operatingExpenses: 38620,
-    netProfit: 109630,
-    profitMargin: 73.9,
-    collectionRate: 96.8,
-    overdueAmount: 4800,
+    grossRevenue: 3640000,
+    operatingExpenses: 820000,
+    netProfit: 2820000,
+    profitMargin: 77.5,
+    collectionRate: 97.4,
+    overdueAmount: 52000,
     months: [
-      { month: "Jan", revenue: 132000, expenses: 34000, profit: 98000 },
-      { month: "Feb", revenue: 135000, expenses: 35000, profit: 100000 },
-      { month: "Mar", revenue: 138000, expenses: 36000, profit: 102000 },
-      { month: "Apr", revenue: 140000, expenses: 35000, profit: 105000 },
-      { month: "May", revenue: 142000, expenses: 37000, profit: 105000 },
-      { month: "Jun", revenue: 144000, expenses: 36000, profit: 108000 },
-      { month: "Jul", revenue: 146000, expenses: 38000, profit: 108000 },
-      { month: "Aug", revenue: 147000, expenses: 37000, profit: 110000 },
-      { month: "Sep", revenue: 148250, expenses: 38620, profit: 109630 }
+      { month: "Jan", revenue: 3200000, expenses: 740000, profit: 2460000 },
+      { month: "Feb", revenue: 3250000, expenses: 760000, profit: 2490000 },
+      { month: "Mar", revenue: 3300000, expenses: 750000, profit: 2550000 },
+      { month: "Apr", revenue: 3380000, expenses: 780000, profit: 2600000 },
+      { month: "May", revenue: 3420000, expenses: 790000, profit: 2630000 },
+      { month: "Jun", revenue: 3480000, expenses: 800000, profit: 2680000 },
+      { month: "Jul", revenue: 3520000, expenses: 810000, profit: 2710000 },
+      { month: "Aug", revenue: 3580000, expenses: 815000, profit: 2765000 },
+      { month: "Sep", revenue: 3640000, expenses: 820000, profit: 2820000 }
     ],
     propertyBreakdown: [
-      { name: "The Grand Horizon", amount: 68400, percentage: 46.1, color: "#1d4ed8" },
-      { name: "Skyline Bay Lofts", amount: 52000, percentage: 35.1, color: "#0d9488" },
-      { name: "Tech Nexus Tower", amount: 27850, percentage: 18.8, color: "#7c3aed" }
+      { name: "Oberoi Sky City Residences", amount: 1450000, percentage: 39.8, color: "#1d4ed8" },
+      { name: "Prestige Tech Vista Suites", amount: 980000, percentage: 26.9, color: "#0d9488" },
+      { name: "Panchshil Towers", amount: 670000, percentage: 18.4, color: "#7c3aed" },
+      { name: "DLF Cyber Enclave", amount: 540000, percentage: 14.9, color: "#ea580c" }
     ]
   },
   tasks: [
     {
       id: "TSK-101",
-      title: "HVAC Filter Replacement & Air Quality Check",
+      title: "AC Servicing & Air Filter Check",
       category: "Electrical & HVAC",
       priority: "MEDIUM",
       status: "in_progress",
-      property: "The Grand Horizon",
+      property: "Oberoi Sky City Residences",
       unit: "Floor 4 Central",
-      assignee: "Marcus Brody",
+      assignee: "Suresh Kumar",
       dueDate: "Today, 4:00 PM",
       createdDate: "Sep 12, 2026"
     },
     {
       id: "TSK-102",
-      title: "Emergency Water Leak Under Bathroom Vanity",
+      title: "Bathroom Vanity Water Tap Inspection",
       category: "Plumbing & Water",
       priority: "URGENT",
       status: "in_progress",
-      property: "Skyline Bay Lofts",
+      property: "Prestige Tech Vista Suites",
       unit: "Unit 402",
-      assignee: "Marcus Brody",
+      assignee: "Suresh Kumar",
       dueDate: "Today, 1:00 PM",
       createdDate: "Sep 12, 2026"
     },
     {
       id: "TSK-103",
-      title: "Lease Renewal Agreement Execution & Deposit Update",
+      title: "11-Month Lease Renewal & Security Deposit Verification",
       category: "Lease Renewal",
       priority: "HIGH",
       status: "backlog",
-      property: "The Grand Horizon",
+      property: "Oberoi Sky City Residences",
       unit: "Unit 204",
-      assignee: "Elena Rostova",
+      assignee: "Priya Nair",
       dueDate: "Sep 15, 2026",
       createdDate: "Sep 11, 2026"
     },
     {
       id: "TSK-104",
-      title: "Annual Fire Sprinkler & Pressure Certification",
+      title: "Society Fire Safety & Sprinkler Compliance Audit",
       category: "Safety & Compliance",
       priority: "HIGH",
       status: "review",
-      property: "Austin Tech Nexus Tower",
-      unit: "Building-Wide",
-      assignee: "City Fire Marshal",
+      property: "DLF Cyber Enclave",
+      unit: "Tower A",
+      assignee: "Municipal Safety Officer",
       dueDate: "Sep 14, 2026",
       createdDate: "Sep 10, 2026"
     },
     {
       id: "TSK-105",
-      title: "Turnover Paint, Deep Clean & Key FOB Coding",
+      title: "Flat Turnover Painting, Deep Cleaning & RFID Pass Update",
       category: "Unit Turn",
       priority: "MEDIUM",
       status: "completed",
-      property: "The Grand Horizon",
+      property: "Panchshil Towers",
       unit: "Unit 102",
-      assignee: "Elena Rostova",
+      assignee: "Suresh Kumar",
       dueDate: "Completed Today",
       createdDate: "Sep 09, 2026"
     }
@@ -245,44 +264,44 @@ const DEFAULT_ADMIN_STORE = {
       id: "ACT-01",
       timestamp: "Today, 09:55 AM",
       action: "SSL Activated",
-      description: "Cloudflare Dedicated TLS Certificate successfully validated and activated for admin portal.",
+      description: "Cloudflare Dedicated TLS Certificate active and secure for prop portals.",
       category: "security"
     },
     {
       id: "ACT-02",
       timestamp: "Today, 09:42 AM",
       action: "AutoPay Received",
-      description: "Unit 402 rent payment ($3,250.00) processed via ACH AutoPay for Sarah Connor.",
+      description: "Unit 402 rent payment (₹65,000.00) processed via UPI AutoPay for Ananya Iyer.",
       category: "financial"
     },
     {
       id: "ACT-03",
       timestamp: "Today, 09:15 AM",
       action: "Work Order Advanced",
-      description: "Emergency leak ticket #TSK-102 moved to 'In Progress' by Marcus Brody.",
+      description: "Plumbing ticket #TSK-102 moved to 'In Progress' by Suresh Kumar.",
       category: "task"
     },
     {
       id: "ACT-04",
       timestamp: "Today, 08:30 AM",
       action: "Daily Audit Compiled",
-      description: "47/49 units occupied (96.8% collection rate) logged to immutable audit ledger.",
+      description: "56/60 units occupied (97.4% collection rate) verified across Mumbai, Bengaluru, and Pune.",
       category: "property"
     }
   ],
   announcements: [
     {
       id: "ANN-001",
-      title: "Welcome to PropLedger Resident Portal",
-      body: "Our new online resident portal is live! You can now submit maintenance requests, request rent statements, and stay updated on property news directly from this page.",
+      title: "Welcome to PropLedger Resident Hub",
+      body: "Your new resident hub is live! You can now pay rent online via UPI, submit maintenance tickets, and download rent receipts directly from this portal.",
       priority: "info",
       postedAt: "Sep 12, 2026",
       expiresAt: null
     },
     {
       id: "ANN-002",
-      title: "Scheduled Water Maintenance — Sep 15",
-      body: "Hot water service will be temporarily interrupted on September 15 from 9 AM to 12 PM for annual pipe inspection. We apologize for any inconvenience.",
+      title: "Scheduled Society Tank Cleaning — Sep 15",
+      body: "Overhead water tank cleaning will take place on September 15 from 9:00 AM to 12:00 PM. Water supply will resume normally afterward.",
       priority: "warning",
       postedAt: "Sep 11, 2026",
       expiresAt: "Sep 15, 2026"
@@ -310,15 +329,16 @@ function handleAdminApi(url, request) {
       const newProp = {
         id: "PROP-" + String(globalAdminStore.properties.length + 1).padStart(3, '0'),
         name: body.name || "Untitled Property Asset",
+        image: body.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
         address: body.address || "Street Address Pending",
-        city: body.city || "Austin",
-        state: body.state || "TX",
-        zip: body.zip || "78701",
-        type: body.type || "Multifamily Luxury",
+        city: body.city || "Mumbai",
+        state: body.state || "Maharashtra",
+        zip: body.zip || "400001",
+        type: body.type || "Luxury Residential",
         unitsCount: parseInt(body.unitsCount) || 12,
         occupiedCount: parseInt(body.occupiedCount) || Math.max(1, (parseInt(body.unitsCount) || 12) - 1),
-        grossRent: parseFloat(body.grossRent) || 32000,
-        amenities: Array.isArray(body.amenities) ? body.amenities : (body.amenities ? String(body.amenities).split(',').map(s => s.trim()) : ["Security Access", "Parking"]),
+        grossRent: parseFloat(body.grossRent) || 450000,
+        amenities: Array.isArray(body.amenities) ? body.amenities : (body.amenities ? String(body.amenities).split(',').map(s => s.trim()) : ["24/7 Security", "Covered Parking", "Elevator"]),
         status: "Operational"
       };
       globalAdminStore.properties.unshift(newProp);
@@ -344,7 +364,7 @@ function handleAdminApi(url, request) {
         email: body.email || "user@example.com",
         phone: body.phone || "+1 (512) 555-0199",
         role: body.role || "TENANT",
-        property: body.property || "The Grand Horizon",
+        property: body.property || "Oberoi Sky City Residences",
         unit: body.unit || "Unit 101",
         rent: parseFloat(body.rent) || 0,
         status: body.status || "Active",
@@ -394,7 +414,7 @@ function handleAdminApi(url, request) {
         category: body.category || "General Maintenance",
         priority: body.priority || "MEDIUM",
         status: body.status || "backlog",
-        property: body.property || "The Grand Horizon",
+        property: body.property || "Oberoi Sky City Residences",
         unit: body.unit || "Common Area",
         assignee: body.assignee || "Marcus Brody",
         dueDate: body.dueDate || "Today, 5:00 PM",
@@ -534,6 +554,7 @@ async function handleRequest(request) {
     const publicProps = (globalAdminStore.properties || []).map(p => ({
       id: p.id,
       name: p.name,
+      image: p.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
       address: p.address,
       city: p.city,
       state: p.state,
@@ -758,7 +779,7 @@ async function handleRequest(request) {
     try {
       const data = await request.json();
       const senderName = data.senderName || 'Resident Inquirer';
-      const senderEmail = data.senderEmail || 'resident@propledger.com';
+      const senderEmail = data.senderEmail || 'support@propledger.vishalbhutekar.me';
       const subject = data.subject || 'General Property Inquiry';
       const message = data.message || 'No inquiry text provided.';
       const colo = request.cf?.colo || 'GLOBAL';
@@ -923,8 +944,8 @@ ${message}
       const data = await request.json();
       const recipient = data.recipientEmail || 'vishal.bhutekar1@gmail.com';
       const invoiceNumber = data.invoiceNumber || 'INV-202609-00001';
-      const amount = data.amount || '$3,250.00';
-      const property = data.property || 'The Grand Horizon Luxury Suites - Unit 402';
+      const amount = data.amount || '₹65,000.00';
+      const property = data.property || 'Oberoi Sky City Residences Luxury Suites - Unit 402';
       const tenant = data.tenant || 'Vishal Bhutekar';
 
       const emailHtml = `
@@ -1258,7 +1279,7 @@ function renderHomePage(hostname) {
         <a href="#unit-gallery" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Apartments</a>
         <a href="#security" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Security</a>
         <a href="#faq" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">FAQs</a>
-        <a href="#resident-hub" class="text-xs font-semibold text-white bg-emerald-500 hover:bg-emerald-600 px-3 py-1 rounded-full transition">Resident Hub</a>
+        <a href="#resident-hub" onclick="navigateToResidentHub(event)" class="text-xs font-semibold text-white bg-emerald-500 hover:bg-emerald-600 px-3.5 py-1.5 rounded-full transition shadow-sm">Resident Hub</a>
       </nav>
 
       <!-- Right Actions (Pay Rent + Tour / Mobile Toggle) -->
@@ -1291,7 +1312,7 @@ function renderHomePage(hostname) {
       <a href="#security" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">Security</a>
       <a href="#roi-calculator" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">ROI Calculator</a>
       <a href="#faq" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">FAQs</a>
-      <a href="#resident-hub" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-100 transition">Resident Hub</a>
+      <a href="#resident-hub" onclick="toggleMobileNav(); navigateToResidentHub(event);" class="p-3 rounded-2xl bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-100 transition">Resident Hub</a>
     </div>
     <div class="pt-3 border-t border-slate-100 flex flex-col gap-2.5">
       <button onclick="toggleMobileNav(); openPaymentModal();" class="w-full py-3 rounded-2xl bg-[#2546A6] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md">
@@ -1325,21 +1346,21 @@ function renderHomePage(hostname) {
         </div>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
-          Financial wellbeing,<br>
-          <span class="text-white">built for your properties</span>
+          Simple, modern<br>
+          <span class="text-white">property management</span>
         </h1>
 
         <p class="text-blue-100/90 text-base sm:text-lg leading-relaxed max-w-xl font-normal">
-          PropLedger delivers privacy-first, automated lease tracking and subledger reconciliation, designed to boost portfolio NOI and financial clarity for real estate operators.
+          PropLedger makes managing rentals effortless. Pay rent online in seconds via UPI, track leases, and manage apartments with zero paperwork or spreadsheets.
         </p>
 
         <div class="flex flex-wrap items-center gap-3.5 pt-2">
-          <button onclick="openTourModal('The Grand Horizon Luxury Suites', '$1,650 - $3,100 / mo', 'Full Portfolio Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-8 py-4 bg-white hover:bg-slate-50 text-[#15337C] font-extrabold text-sm shadow-xl shadow-blue-950/30 flex items-center gap-2 transition">
-            <span>Request a Demo</span>
+          <button onclick="openTourModal('Oberoi Sky City Luxury Suites', '₹32,000 - ₹1,45,000 / mo', 'Full Portfolio Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-8 py-4 bg-white hover:bg-slate-50 text-[#15337C] font-extrabold text-sm shadow-xl shadow-blue-950/30 flex items-center gap-2 transition">
+            <span>Explore Apartments</span>
             <span>&rarr;</span>
           </button>
           <a href="#dual-experience" class="pill-btn px-7 py-4 border-2 border-white/30 hover:border-white text-white font-bold text-sm backdrop-blur-sm transition flex items-center gap-2">
-            <span>Explore Dual Portal &darr;</span>
+            <span>Try Live Portals &darr;</span>
           </a>
         </div>
 
@@ -1393,9 +1414,9 @@ function renderHomePage(hostname) {
         <div class="rounded-[28px] p-6 bg-[#0B1D47]/95 backdrop-blur-md border border-white/15 text-white flex items-center justify-between shadow-2xl relative overflow-hidden">
           <div class="space-y-1.5 max-w-[280px] z-10">
             <div class="w-8 h-0.5 bg-blue-400 mb-2"></div>
-            <p class="text-[10px] uppercase font-bold tracking-wider text-blue-200">Designed for properties, not spreadsheets</p>
+            <p class="text-[10px] uppercase font-bold tracking-wider text-blue-200">Built for everyday landlords & residents</p>
             <h4 class="text-base font-bold text-white leading-snug">
-              Reduce vacancy stress. Improve portfolio performance.
+              Zero paperwork stress. 100% digital clarity across India.
             </h4>
           </div>
           <!-- Person cutout preview / architectural emblem -->
@@ -1413,10 +1434,10 @@ function renderHomePage(hostname) {
   <section id="why-it-matters" class="koshpal-bg-light py-20 px-6 text-white text-center relative">
     <div class="max-w-4xl mx-auto space-y-4 mb-12">
       <h2 class="text-3xl sm:text-5xl font-black tracking-tight">
-        Why prioritizing property financial health matters
+        Why simple property management matters
       </h2>
       <p class="text-blue-100 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-        We turn chaotic leases into reliable cashflow with collision-free dates, automated digital statements, and instant online rent payments.
+        We turn messy rent collections into smooth, automated payments with instant UPI receipts and calendar-protected bookings.
       </p>
     </div>
 
@@ -1537,7 +1558,7 @@ function renderHomePage(hostname) {
           <div class="text-xs font-black uppercase text-[#2546A6] tracking-wider font-bold">Step 1</div>
           <h3 class="text-2xl font-black text-[#15337C]">Set Up Instantly</h3>
           <p class="text-xs text-slate-600 leading-relaxed">
-            Go live in just one minute. Add your building name (e.g. "The Grand Horizon"), list apartment units, and set monthly base rents.
+            Go live in one minute. Add your property (e.g. "Oberoi Sky City, Mumbai"), list your flats, and set monthly rents in Rupees.
           </p>
         </div>
 
@@ -1545,7 +1566,7 @@ function renderHomePage(hostname) {
           <div class="text-xs font-black uppercase text-[#00A896] tracking-wider font-bold">Step 2</div>
           <h3 class="text-2xl font-black text-[#15337C]">Engage Every Tenant</h3>
           <p class="text-xs text-slate-600 leading-relaxed">
-            Tenants receive clean, itemized statements via email on the 1st of every month with a 1-click button to pay with ACH or Card.
+            Tenants receive clean, itemized rent bills via WhatsApp or Email on the 1st of every month with an instant button to pay via UPI or Card.
           </p>
         </div>
 
@@ -1562,6 +1583,8 @@ function renderHomePage(hostname) {
   </section>
 
   <!-- SECTION 5: INTERACTIVE DUAL EXPERIENCE SWITCHER (LANDLORD VS RESIDENT) -->
+  <!-- RESIDENT HUB ANCHOR -->
+  <div id="resident-hub" class="scroll-mt-24"></div>
   <section id="dual-experience" class="py-24 px-6 max-w-6xl mx-auto space-y-8">
     <div class="koshpal-card p-8 sm:p-12 space-y-8 bg-gradient-to-b from-white to-slate-50/70 border border-slate-200">
       
@@ -1592,19 +1615,19 @@ function renderHomePage(hostname) {
           <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
             <span class="text-xs text-slate-500 font-medium block">Total Monthly Rent Collected</span>
             <div class="flex items-baseline gap-2 mt-1">
-              <span class="text-2xl font-black text-slate-900 tabular-nums">$128,450.00</span>
+              <span class="text-2xl font-black text-slate-900 tabular-nums">₹36,40,000.00</span>
               <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">+8.4%</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Settled via Automated ACH</p>
+            <p class="text-[11px] text-slate-400 mt-1">Settled via UPI & Direct NetBanking</p>
           </div>
 
           <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
             <span class="text-xs text-slate-500 font-medium block">Occupancy Rate</span>
             <div class="flex items-baseline gap-2 mt-1">
               <span class="text-2xl font-black text-slate-900 tabular-nums">99.2%</span>
-              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">402 / 405 Units</span>
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">56 / 60 Flats</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Only 3 units available</p>
+            <p class="text-[11px] text-slate-400 mt-1">Only 4 flats available</p>
           </div>
 
           <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
@@ -1665,7 +1688,7 @@ function renderHomePage(hostname) {
                 <tr>
                   <td class="py-3 font-bold text-slate-900">Unit 204</td>
                   <td class="py-3 text-slate-600">2-Bed Suite</td>
-                  <td class="py-3 text-slate-800 font-medium">Alex Mercer</td>
+                  <td class="py-3 text-slate-800 font-medium">Rajesh Patel</td>
                   <td class="py-3 font-bold text-slate-900 tabular-nums">$2,400.00</td>
                   <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">Active Lease</span></td>
                   <td class="py-3 text-right"><span class="text-emerald-600 font-bold">Paid (Sep 01)</span></td>
@@ -1701,8 +1724,8 @@ function renderHomePage(hostname) {
             <div class="flex items-center gap-3">
               <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=120&q=80" alt="Apartment" class="w-12 h-12 rounded-2xl object-cover">
               <div>
-                <h4 class="font-bold text-sm text-slate-900">The Grand Horizon</h4>
-                <p class="text-xs text-slate-500">Unit 402 &bull; Resident Portal</p>
+                <h4 class="font-bold text-sm text-slate-900">Oberoi Sky City Residences</h4>
+                <p class="text-xs text-slate-500">Unit 402 &bull; Mumbai Resident Hub</p>
               </div>
             </div>
             
@@ -1717,7 +1740,7 @@ function renderHomePage(hostname) {
               </div>
               <div class="flex justify-between text-slate-600">
                 <span>Parking Bay:</span>
-                <span class="font-medium text-slate-900">Subterranean #14</span>
+                <span class="font-medium text-slate-900">Covered Bay #14</span>
               </div>
             </div>
 
@@ -1729,7 +1752,7 @@ function renderHomePage(hostname) {
                 </div>
                 <div>
                   <p class="text-[11px] font-bold text-slate-900">AutoPay (1st of month)</p>
-                  <p id="autopayStatusText" class="text-[10px] text-emerald-600 font-medium">Active &bull; Chase &bull;&bull;&bull;&bull;8421</p>
+                  <p id="autopayStatusText" class="text-[10px] text-emerald-600 font-medium">Active &bull; HDFC UPI AutoPay (ananya@okhdfcbank)</p>
                 </div>
               </div>
               <button id="autopayToggleBtn" onclick="toggleAutoPay()" role="switch" aria-checked="true" class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-emerald-600 transition-colors duration-200 ease-in-out focus:outline-none">
@@ -1739,7 +1762,7 @@ function renderHomePage(hostname) {
 
             <button onclick="openPaymentModal()" class="w-full py-3 rounded-2xl bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs shadow-md shadow-blue-900/20 flex items-center justify-center gap-2 transition">
               <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-              <span>Pay October Rent ($3,250.00)</span>
+              <span>Pay October Rent (₹65,000.00)</span>
             </button>
           </div>
 
@@ -1758,30 +1781,30 @@ function renderHomePage(hostname) {
               <div class="flex justify-between py-1.5 border-b border-slate-100">
                 <div>
                   <span class="font-bold text-slate-800 block">Residential Apartment Base Rent</span>
-                  <span class="text-slate-500 text-[11px]">Monthly contractual rent for Penthouse Unit 402</span>
+                  <span class="text-slate-500 text-[11px]">Monthly base rent for 3 BHK Unit 402</span>
                 </div>
-                <span class="font-bold text-slate-900 tabular-nums self-center">$2,850.00</span>
+                <span class="font-bold text-slate-900 tabular-nums self-center">₹55,000.00</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-slate-100">
                 <div>
-                  <span class="font-bold text-slate-800 block">Reserved Underground Parking Bay #14</span>
+                  <span class="font-bold text-slate-800 block">Reserved Covered Car Parking Bay #14</span>
                   <span class="text-slate-500 text-[11px]">Dedicated stall with remote fob access</span>
                 </div>
-                <span class="font-bold text-slate-900 tabular-nums self-center">$250.00</span>
+                <span class="font-bold text-slate-900 tabular-nums self-center">₹3,500.00</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-slate-100">
                 <div>
-                  <span class="font-bold text-slate-800 block">Building Services & Common Maintenance</span>
-                  <span class="text-slate-500 text-[11px]">Elevator upkeep, concierge desk, security</span>
+                  <span class="font-bold text-slate-800 block">Society Maintenance & Clubhouse Amenities</span>
+                  <span class="text-slate-500 text-[11px]">24/7 Security, power backup, lifts & gym maintenance</span>
                 </div>
-                <span class="font-bold text-slate-900 tabular-nums self-center">$150.00</span>
+                <span class="font-bold text-slate-900 tabular-nums self-center">₹6,500.00</span>
               </div>
             </div>
 
             <div class="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <span class="text-xs text-slate-500 block">Total Statement Balance</span>
-                <span class="text-2xl font-black text-emerald-600 tabular-nums">$3,250.00</span>
+                <span class="text-2xl font-black text-emerald-600 tabular-nums">₹65,000.00</span>
               </div>
               <div class="flex flex-wrap gap-2">
                 <button onclick="openMaintenanceModal()" class="pill-btn px-4 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition flex items-center gap-1.5">
@@ -1814,10 +1837,10 @@ function renderHomePage(hostname) {
       <div>
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#2546A6] text-xs font-bold mb-2">
           <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path></svg>
-          <span>The Grand Horizon Residences</span>
+          <span>Prime Indian Metropolitan Residencies</span>
         </div>
-        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Featured Apartment Inventory</h2>
-        <p class="text-xs sm:text-sm text-slate-500">Live inventory of premium luxury living spaces with real-time lease status.</p>
+        <h2 class="text-3xl font-black text-slate-900 tracking-tight">Featured Rental Apartments</h2>
+        <p class="text-xs sm:text-sm text-slate-500">Explore verified luxury homes available in Mumbai, Bengaluru, Pune, and Gurugram.</p>
       </div>
 
       <!-- Search and Filter Bar -->
@@ -1853,16 +1876,16 @@ function renderHomePage(hostname) {
         </div>
         <div class="p-5 space-y-3">
           <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 101 &bull; 1st Floor</span>
-            <h3 class="text-base font-bold text-slate-900">Executive Urban Studio</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">540 sq ft &bull; 1 Bed &bull; 1 Bath</p>
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Borivali East &bull; Mumbai</span>
+            <h3 class="text-base font-bold text-slate-900">1 BHK Executive Modern Studio</h3>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">540 sq ft &bull; 1 Bed &bull; 1 Bath &bull; Unit 101</p>
           </div>
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
             <div>
               <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">$1,650</span>
+              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹32,000</span>
             </div>
-            <button onclick="openTourModal('Unit 101 &bull; Executive Urban Studio', '$1,650 / mo', '540 sq ft &bull; 1 Bed &bull; 1 Bath', 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+            <button onclick="openTourModal('Unit 101 &bull; 1 BHK Studio &bull; Mumbai', '₹32,000 / mo', '540 sq ft &bull; 1 Bed &bull; 1 Bath', 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
               Schedule Tour &rarr;
             </button>
           </div>
@@ -1879,16 +1902,16 @@ function renderHomePage(hostname) {
         </div>
         <div class="p-5 space-y-3">
           <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 204 &bull; 2nd Floor</span>
-            <h3 class="text-base font-bold text-slate-900">Modern 2-Bedroom Suite</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">1,150 sq ft &bull; 2 Bed &bull; 2 Bath</p>
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Kadubeesanahalli &bull; Bengaluru</span>
+            <h3 class="text-base font-bold text-slate-900">2 BHK Modern Tech Park Suite</h3>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">1,150 sq ft &bull; 2 Bed &bull; 2 Bath &bull; Unit 204</p>
           </div>
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
             <div>
               <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">$2,400</span>
+              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹52,000</span>
             </div>
-            <button onclick="openTourModal('Unit 204 &bull; Modern 2-Bedroom Suite', '$2,400 / mo', '1,150 sq ft &bull; 2 Bed &bull; 2 Bath', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+            <button onclick="openTourModal('Unit 204 &bull; 2 BHK Suite &bull; Bengaluru', '₹52,000 / mo', '1,150 sq ft &bull; 2 Bed &bull; 2 Bath', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
               Schedule Tour &rarr;
             </button>
           </div>
@@ -1905,16 +1928,16 @@ function renderHomePage(hostname) {
         </div>
         <div class="p-5 space-y-3">
           <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 402 &bull; 4th Floor</span>
-            <h3 class="text-base font-bold text-slate-900">Horizon Luxury Penthouse</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">2,400 sq ft &bull; 3 Bed &bull; 3 Bath</p>
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Kharadi &bull; Pune</span>
+            <h3 class="text-base font-bold text-slate-900">3 BHK Luxury Sky Penthouse</h3>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">2,400 sq ft &bull; 3 Bed &bull; 3 Bath &bull; Unit 402</p>
           </div>
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
             <div>
               <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">$2,850</span>
+              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹1,25,000</span>
             </div>
-            <button onclick="openTourModal('Unit 402 &bull; Horizon Luxury Penthouse', '$2,850 / mo', '2,400 sq ft &bull; 3 Bed &bull; 3 Bath', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-[#2546A6] text-xs font-bold transition">
+            <button onclick="openTourModal('Unit 402 &bull; 3 BHK Penthouse &bull; Pune', '₹1,25,000 / mo', '2,400 sq ft &bull; 3 Bed &bull; 3 Bath', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-[#2546A6] text-xs font-bold transition">
               Schedule Tour &rarr;
             </button>
           </div>
@@ -1931,16 +1954,16 @@ function renderHomePage(hostname) {
         </div>
         <div class="p-5 space-y-3">
           <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 503 &bull; 5th Floor</span>
-            <h3 class="text-base font-bold text-slate-900">Panoramic Skyline Loft</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">1,850 sq ft &bull; 2 Bed &bull; 2.5 Bath</p>
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Golf Course Road &bull; Gurugram</span>
+            <h3 class="text-base font-bold text-slate-900">3 BHK Panoramic Cyber Loft</h3>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">1,850 sq ft &bull; 3 Bed &bull; 3 Bath &bull; Unit 503</p>
           </div>
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
             <div>
               <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">$3,100</span>
+              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹1,45,000</span>
             </div>
-            <button onclick="openTourModal('Unit 503 &bull; Panoramic Skyline Loft', '$3,100 / mo', '1,850 sq ft &bull; 2 Bed &bull; 2.5 Bath', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
+            <button onclick="openTourModal('Unit 503 &bull; 3 BHK High-Rise &bull; Gurugram', '₹1,45,000 / mo', '1,850 sq ft &bull; 3 Bed &bull; 3 Bath', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
               Apply / Tour &rarr;
             </button>
           </div>
@@ -1987,13 +2010,13 @@ function renderHomePage(hostname) {
           <div class="space-y-2">
             <div class="flex justify-between text-xs font-bold text-slate-800">
               <span>Average Rent per Unit:</span>
-              <span id="sliderRentVal" class="text-[#2546A6] font-bold text-sm tabular-nums">$2,200 / mo</span>
+              <span id="sliderRentVal" class="text-[#2546A6] font-bold text-sm tabular-nums">₹45,000 / mo</span>
             </div>
-            <input type="range" id="sliderRent" min="800" max="5000" step="50" value="2200" oninput="calculateRoi()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#2546A6]">
+            <input type="range" id="sliderRent" min="15000" max="250000" step="2500" value="45000" oninput="calculateRoi()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#2546A6]">
             <div class="flex justify-between text-[11px] text-slate-400">
-              <span>$800</span>
-              <span>$2,500</span>
-              <span>$5,000</span>
+              <span>₹15,000</span>
+              <span>₹1,00,000</span>
+              <span>₹2,50,000</span>
             </div>
           </div>
         </div>
@@ -2005,7 +2028,7 @@ function renderHomePage(hostname) {
           <div class="space-y-3">
             <div>
               <span class="text-xs text-slate-400 block">Monthly Rental Revenue Managed:</span>
-              <p id="outRevenue" class="text-2xl sm:text-3xl font-black text-white tabular-nums">$26,400 / mo</p>
+              <p id="outRevenue" class="text-2xl sm:text-3xl font-black text-white tabular-nums">₹5,40,000 / mo</p>
             </div>
             <div class="pt-3 border-t border-slate-800 grid grid-cols-2 gap-4">
               <div>
@@ -2014,7 +2037,7 @@ function renderHomePage(hostname) {
               </div>
               <div>
                 <span class="text-xs text-slate-400 block">Annual Savings:</span>
-                <p id="outSavings" class="text-xl font-bold text-[#38BDF8] tabular-nums">$5,400 / yr</p>
+                <p id="outSavings" class="text-xl font-bold text-[#38BDF8] tabular-nums">₹1,44,000 / yr</p>
               </div>
             </div>
           </div>
@@ -2283,7 +2306,7 @@ function renderHomePage(hostname) {
           <p class="text-xs text-blue-100">See how easy it is to manage your properties, collect rent online, and maintain crystal-clear financial records.</p>
         </div>
         <div class="flex flex-wrap items-center gap-3">
-          <button onclick="openTourModal('The Grand Horizon Luxury Suites', '$1,650 - $3,100 / mo', 'Full Portfolio Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-6 py-3 bg-white text-[#15337C] hover:bg-slate-100 font-black text-xs shadow-lg transition flex items-center gap-1.5">
+          <button onclick="openTourModal('Oberoi Sky City Luxury Suites', '₹32,000 - ₹1,45,000 / mo', 'Full Portfolio Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-6 py-3 bg-white text-[#15337C] hover:bg-slate-100 font-black text-xs shadow-lg transition flex items-center gap-1.5">
             <span>Request a Free Demo</span>
             <span>&rarr;</span>
           </button>
@@ -2384,7 +2407,7 @@ function renderHomePage(hostname) {
           Where property operations and financial clarity make sense. Smart booking protection, automated monthly billing, and effortless rent collection.
         </p>
         <p class="text-xs text-slate-400 font-medium">
-          Inquiries: concierge@propledger.com
+          Inquiries: support@propledger.vishalbhutekar.me
         </p>
       </div>
 
@@ -2423,7 +2446,7 @@ function renderHomePage(hostname) {
         <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
         <span>Pay Rent</span>
       </button>
-      <button onclick="openTourModal('The Grand Horizon Luxury Suites', '$1,650 - $3,100 / mo', 'Full Suite Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-full transition">
+      <button onclick="openTourModal('Oberoi Sky City Luxury Suites', '₹32,000 - ₹1,45,000 / mo', 'Full Suite Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-full transition">
         <svg class="w-3.5 h-3.5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         <span class="hidden sm:inline">Schedule Tour</span>
         <span class="sm:hidden">Tour</span>
@@ -2455,7 +2478,7 @@ function renderHomePage(hostname) {
           </div>
           <div>
             <h3 class="font-bold text-slate-900 text-base">Secure Rent Settlement</h3>
-            <p class="text-xs text-slate-500 font-medium">The Grand Horizon &bull; Unit 402</p>
+            <p class="text-xs text-slate-500 font-medium">Oberoi Sky City Residences &bull; Unit 402</p>
           </div>
         </div>
         <button onclick="closePaymentModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold text-sm">
@@ -2469,52 +2492,58 @@ function renderHomePage(hostname) {
         <div class="space-y-2">
           <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Select Payment Method</label>
           <div class="grid grid-cols-3 gap-2 text-xs">
-            <button onclick="setPayMethod('ach')" id="pmAch" class="p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition">
-              Bank ACH (0% Fee)
+            <button onclick="setPayMethod('upi')" id="pmUpi" class="p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition">
+              UPI / QR (0% Fee)
+            </button>
+            <button onclick="setPayMethod('netbanking')" id="pmNetbanking" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition">
+              NetBanking
             </button>
             <button onclick="setPayMethod('card')" id="pmCard" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition">
-              Card (0% Fee)
-            </button>
-            <button onclick="setPayMethod('apple')" id="pmApple" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition">
-              Apple Pay / GPay
+              Debit / Card
             </button>
           </div>
         </div>
 
         <!-- Dynamic Payment Method Details -->
-        <div id="payDetailsAch" class="p-4 rounded-2xl space-y-3 bg-slate-50 border border-slate-200/80">
+        <div id="payDetailsUpi" class="p-4 rounded-2xl space-y-3 bg-slate-50 border border-slate-200/80">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Connected Checking Account</span>
-            <span class="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 font-semibold px-2 py-0.5 rounded-full font-mono">&check; Verified ACH</span>
+            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Instant UPI Transfer</span>
+            <span class="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 font-semibold px-2 py-0.5 rounded-full font-mono">&check; Instant Settlement</span>
           </div>
-          <div class="grid grid-cols-3 gap-2">
-            <button type="button" class="p-2 rounded-xl border-2 border-[#2546A6] bg-white text-xs font-bold text-slate-800 text-left">
-              <span class="text-[10px] text-[#2546A6] block">Primary</span>
-              Chase &bull; 8421
-            </button>
-            <button type="button" class="p-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 text-left hover:border-slate-300">
-              <span class="text-[10px] text-slate-400 block">Secondary</span>
-              BofA &bull; 1904
-            </button>
-            <button type="button" class="p-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 text-left hover:border-slate-300">
-              <span class="text-[10px] text-slate-400 block">Savings</span>
-              Wells &bull; 5532
-            </button>
+          <div class="space-y-2">
+            <label class="block text-[11px] font-bold text-slate-700 uppercase">Enter Virtual Payment Address (VPA / UPI ID)</label>
+            <div class="flex items-center gap-2">
+              <input type="text" id="upiInputId" value="ananya@okhdfcbank" class="flex-1 bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 font-mono font-medium focus:outline-none focus:border-[#2546A6]">
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-100">&check; Verified</span>
+            </div>
           </div>
-          <div class="text-[11px] text-slate-500 font-medium flex items-center justify-between pt-1">
-            <span>Routing: <strong>021000021</strong></span>
-            <span>Clearing Speed: <strong>Instant Settlement</strong></span>
+          <div class="flex items-center justify-between pt-1 text-[11px] text-slate-500">
+            <span>Supported: <strong>GPay, PhonePe, Paytm, BHIM</strong></span>
+            <span>Zero Processing Fees</span>
+          </div>
+        </div>
+
+        <div id="payDetailsNetbanking" class="hidden p-4 rounded-2xl space-y-3 bg-slate-50 border border-slate-200/80">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Select Your Bank</span>
+            <span class="text-[10px] text-blue-700 bg-blue-50 border border-blue-200 font-semibold px-2 py-0.5 rounded-full font-mono">NEFT / RTGS</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button type="button" class="p-2 rounded-xl border-2 border-[#2546A6] bg-white text-xs font-bold text-slate-800 text-center">HDFC Bank</button>
+            <button type="button" class="p-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 text-center hover:border-slate-300">ICICI Bank</button>
+            <button type="button" class="p-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 text-center hover:border-slate-300">SBI</button>
+            <button type="button" class="p-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 text-center hover:border-slate-300">Axis Bank</button>
           </div>
         </div>
 
         <div id="payDetailsCard" class="hidden p-4 rounded-2xl space-y-3 bg-slate-50 border border-slate-200/80">
           <div class="space-y-1">
             <label class="block text-[11px] font-bold text-slate-700 uppercase">Cardholder Name</label>
-            <input type="text" value="Alex Morgan" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 font-medium">
+            <input type="text" value="Ananya Iyer" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 font-medium">
           </div>
           <div class="space-y-1">
-            <label class="block text-[11px] font-bold text-slate-700 uppercase">Card Number</label>
-            <input type="text" value="4242 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4242" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
+            <label class="block text-[11px] font-bold text-slate-700 uppercase">RuPay / Visa / MasterCard Number</label>
+            <input type="text" value="4524 •••• •••• 9821" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div class="space-y-1">
@@ -2522,45 +2551,36 @@ function renderHomePage(hostname) {
               <input type="text" value="08 / 29" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
             </div>
             <div class="space-y-1">
-              <label class="block text-[11px] font-bold text-slate-700 uppercase">CVC</label>
-              <input type="text" value="842" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
+              <label class="block text-[11px] font-bold text-slate-700 uppercase">CVV</label>
+              <input type="text" value="•••" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
             </div>
           </div>
-        </div>
-
-        <div id="payDetailsApple" class="hidden p-5 rounded-2xl space-y-3 bg-slate-50 border border-slate-200/80 text-center">
-          <p class="text-xs text-slate-600">Biometric 1-click authorization via Apple Wallet or Google Pay.</p>
-          <div class="p-3 rounded-2xl bg-black text-white font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md hover:bg-slate-900 transition">
-            <span> Pay</span>
-            <span class="font-bold text-slate-900 tabular-nums">$3,250.00</span>
-          </div>
-          <p class="text-[10px] text-slate-400 font-medium">Touch ID / Face ID encrypted cryptographic key exchange</p>
         </div>
 
         <!-- Itemized Balance Display -->
         <div class="p-4 rounded-2xl space-y-2 text-xs bg-slate-50 border border-slate-200/80">
           <div class="flex justify-between text-slate-600">
             <span>Base Apartment Rent (Unit 402):</span>
-            <span class="font-bold text-slate-800 tabular-nums">$2,850.00</span>
+            <span class="font-bold text-slate-800 tabular-nums">₹55,000.00</span>
           </div>
           <div class="flex justify-between text-slate-600">
-            <span>Assigned Parking Bay #14:</span>
-            <span class="font-bold text-slate-800 tabular-nums">$250.00</span>
+            <span>Reserved Covered Parking Bay #14:</span>
+            <span class="font-bold text-slate-800 tabular-nums">₹3,500.00</span>
           </div>
           <div class="flex justify-between text-slate-600">
-            <span>Building Services & CAM:</span>
-            <span class="font-bold text-slate-800 tabular-nums">$150.00</span>
+            <span>Society Maintenance & Clubhouse Amenities:</span>
+            <span class="font-bold text-slate-800 tabular-nums">₹6,500.00</span>
           </div>
           <div class="pt-2 border-t border-slate-200 flex justify-between font-bold text-sm">
             <span class="text-slate-900">Total Cleared Balance:</span>
-            <span class="text-emerald-600 tabular-nums text-base font-black">$3,250.00</span>
+            <span class="text-emerald-600 tabular-nums text-base font-black">₹65,000.00</span>
           </div>
         </div>
 
         <!-- Action Button -->
         <div class="space-y-3">
           <button id="paySubmitBtn" onclick="processTestPayment()" class="w-full py-3.5 rounded-2xl bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-sm shadow-md shadow-blue-900/25 flex items-center justify-center gap-2 transition">
-            <span>Confirm & Settle $3,250.00</span>
+            <span>Confirm & Pay ₹65,000.00</span>
             <span>&rarr;</span>
           </button>
           <p class="text-[11px] text-center text-slate-400 font-medium flex items-center justify-center gap-1.5">
@@ -2583,15 +2603,15 @@ function renderHomePage(hostname) {
         <div class="p-5 rounded-2xl space-y-3.5 bg-slate-50 border border-slate-200 text-xs font-mono">
           <div class="flex justify-between border-b border-slate-200/80 pb-2">
             <span class="text-slate-500">Transaction ID:</span>
-            <span class="font-bold text-slate-900">TXN-2026-ACH-98214</span>
+            <span class="font-bold text-slate-900">TXN-2026-UPI-98214</span>
           </div>
           <div class="flex justify-between border-b border-slate-200/80 pb-2">
             <span class="text-slate-500">Cleared Amount:</span>
-            <span class="font-bold text-emerald-600 text-sm">$3,250.00 USD</span>
+            <span class="font-bold text-emerald-600 text-sm">₹65,000.00 INR</span>
           </div>
           <div class="flex justify-between border-b border-slate-200/80 pb-2">
             <span class="text-slate-500">Resident / Unit:</span>
-            <span class="font-bold text-slate-900">Alex Morgan &bull; Unit 402</span>
+            <span class="font-bold text-slate-900">Ananya Iyer &bull; Unit 402, Oberoi Sky City</span>
           </div>
           <div class="flex justify-between border-b border-slate-200/80 pb-2">
             <span class="text-slate-500">Settlement Method:</span>
@@ -2631,7 +2651,7 @@ function renderHomePage(hostname) {
           </div>
           <div>
             <h3 class="font-bold text-slate-900 text-base">Schedule Private Tour & Apply</h3>
-            <p class="text-xs text-slate-500 font-medium" id="tourModalSubtitle">The Grand Horizon Luxury Suites</p>
+            <p class="text-xs text-slate-500 font-medium" id="tourModalSubtitle">Oberoi Sky City Residences Luxury Suites</p>
           </div>
         </div>
         <button onclick="closeTourModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold text-sm">
@@ -2645,7 +2665,7 @@ function renderHomePage(hostname) {
         <div>
           <h4 id="tourUnitTitle" class="font-bold text-sm text-slate-900">Unit 503 &bull; Panoramic Skyline Loft</h4>
           <p id="tourUnitSpecs" class="text-xs text-slate-500 font-medium">1,850 sq ft &bull; 2 Bed &bull; 2.5 Bath</p>
-          <p id="tourUnitRent" class="text-xs font-black text-[#2546A6] tabular-nums mt-0.5">$3,100 / mo</p>
+          <p id="tourUnitRent" class="text-xs font-black text-[#2546A6] tabular-nums mt-0.5">₹75,000 / mo</p>
         </div>
       </div>
 
@@ -2687,7 +2707,7 @@ function renderHomePage(hostname) {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <div>
             <label class="block font-bold text-slate-700 uppercase mb-1">Your Full Name</label>
-            <input id="tourName" type="text" placeholder="Alex Mercer" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
+            <input id="tourName" type="text" placeholder="Rajesh Patel" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
           </div>
           <div>
             <label class="block font-bold text-slate-700 uppercase mb-1">Phone Number</label>
@@ -2730,7 +2750,7 @@ function renderHomePage(hostname) {
           </div>
           <div>
             <h3 class="font-bold text-slate-900 text-base">Resident Maintenance Desk</h3>
-            <p class="text-xs text-slate-500 font-medium">Unit 402 &bull; Alex Morgan</p>
+            <p class="text-xs text-slate-500 font-medium">Unit 402 &bull; Ananya Iyer</p>
           </div>
         </div>
         <button onclick="closeMaintenanceModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold text-sm">
@@ -2739,6 +2759,21 @@ function renderHomePage(hostname) {
       </div>
 
       <div id="maintFormContainer" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Your Full Name</label>
+            <input id="maintResidentName" type="text" value="Ananya Iyer" placeholder="Enter your full name" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Your Email (for updates)</label>
+            <input id="maintResidentEmail" type="email" value="ananya.iyer@gmail.com" placeholder="email@example.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Flat / Unit Number</label>
+          <input id="maintResidentUnit" type="text" value="Unit 402, Oberoi Sky City" placeholder="e.g. Unit 402" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
+        </div>
+
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Issue Category</label>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -2805,8 +2840,8 @@ function renderHomePage(hostname) {
         </div>
         <h4 class="text-base font-bold text-slate-900">Work Order Created: TKT-2026-402-918</h4>
         <p class="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
-          Assigned to: <strong>Metro Facilities Team Lead Dave M.</strong><br>
-          A technician has been dispatched to Unit 402. Updates will be sent via SMS and email.
+          Assigned to: <strong>Maintenance Specialist Suresh Kumar</strong><br>
+          A technician has been assigned to Unit 402. Email updates will be delivered via Resend notifications.
         </p>
         <button onclick="closeMaintenanceModal()" class="pill-btn px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold font-sans">
           Close Window
@@ -2848,8 +2883,8 @@ function renderHomePage(hostname) {
             </select>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 uppercase mb-1">Monthly Rent ($)</label>
-            <input type="number" id="newUnitRent" placeholder="2200" value="2200" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
+            <label class="block font-bold text-slate-700 uppercase mb-1">Monthly Rent (₹)</label>
+            <input type="number" id="newUnitRent" placeholder="45000" value="45000" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
           </div>
         </div>
         <div>
@@ -2890,11 +2925,11 @@ function renderHomePage(hostname) {
         <div class="grid grid-cols-2 gap-3 pb-3 border-b border-slate-200/60">
           <div>
             <span class="text-slate-500 block">Property &amp; Unit:</span>
-            <span class="font-bold text-slate-900">The Grand Horizon &bull; Penthouse #402</span>
+            <span class="font-bold text-slate-900">Oberoi Sky City &bull; Unit 402, Mumbai</span>
           </div>
           <div>
             <span class="text-slate-500 block">Primary Resident:</span>
-            <span class="font-bold text-slate-900">Alex Morgan</span>
+            <span class="font-bold text-slate-900">Ananya Iyer</span>
           </div>
         </div>
 
@@ -2905,14 +2940,14 @@ function renderHomePage(hostname) {
           </div>
           <div>
             <span class="text-slate-500 block">Monthly Rent:</span>
-            <span class="font-bold text-emerald-600">$2,850.00 / month</span>
+            <span class="font-bold text-emerald-600">₹65,000.00 / month</span>
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 pb-2">
           <div>
             <span class="text-slate-500 block">Security Deposit:</span>
-            <span class="font-bold text-slate-900">$2,850.00 (Escrow Protected)</span>
+            <span class="font-bold text-slate-900">₹1,50,000.00 (Security Deposit in Escrow)</span>
           </div>
           <div>
             <span class="text-slate-500 block">Parking Stall:</span>
@@ -2997,7 +3032,7 @@ function renderHomePage(hostname) {
       const rows = [
         ['Unit', 'Floor Plan Type', 'Resident Name', 'Monthly Rent (USD)', 'Lease Status', 'Payment Status'],
         ['Unit 101', '1-Bed Studio', 'Sarah Connor', '1650.00', 'Active Lease', 'Paid (Sep 01)'],
-        ['Unit 204', '2-Bed Suite', 'Alex Mercer', '2400.00', 'Active Lease', 'Paid (Sep 01)'],
+        ['Unit 204', '2-Bed Suite', 'Rajesh Patel', '2400.00', 'Active Lease', 'Paid (Sep 01)'],
         ['Unit 402', 'Horizon Penthouse', 'Alex Morgan', '2850.00', 'Active Lease', 'Paid (Sep 01)'],
         ['Unit 503', 'Skyline Loft', 'Vacant', '3100.00', 'Available Now', 'Unoccupied']
       ];
@@ -3042,7 +3077,7 @@ function renderHomePage(hostname) {
       if (tbody) {
         const tr = document.createElement('tr');
         tr.className = 'border-t border-slate-100 bg-emerald-50/30 transition';
-        const formattedRent = '$' + parseFloat(rent).toLocaleString('en-US', { minimumFractionDigits: 2 });
+        const formattedRent = '₹' + parseFloat(rent).toLocaleString('en-IN', { minimumFractionDigits: 2 });
         tr.innerHTML = '<td class="py-3 font-bold text-slate-900">' + unitId + '</td>' +
           '<td class="py-3 text-slate-600">' + unitType + '</td>' +
           '<td class="py-3 ' + (isVacant ? 'text-slate-400 italic' : 'text-slate-800 font-medium') + '">' + tenant + '</td>' +
@@ -3053,7 +3088,7 @@ function renderHomePage(hostname) {
       }
 
       closeAddUnitModal();
-      showToast('Unit Added to Roster', unitId + ' (' + unitType + ') registered at $' + parseFloat(rent).toLocaleString() + '/mo.');
+      showToast('Unit Added to Roster', unitId + ' (' + unitType + ') registered at ₹' + parseFloat(rent).toLocaleString('en-IN') + '/mo.');
     }
 
     // ── Filter Landlord Roster in Real Time ────────────────────────
@@ -3077,7 +3112,7 @@ function renderHomePage(hostname) {
         if (btn) btn.className = 'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-emerald-600 transition-colors duration-200 ease-in-out focus:outline-none';
         if (knob) knob.className = 'translate-x-4 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out';
         if (statusText) {
-          statusText.innerText = 'Active • Chase ••••8421';
+          statusText.innerText = 'Active • HDFC UPI AutoPay (ananya@okhdfcbank)';
           statusText.className = 'text-[10px] text-emerald-600 font-medium';
         }
         showToast('AutoPay Activated', 'Monthly rent ($3,250.00) will be automatically cleared on the 1st of every month.');
@@ -3223,20 +3258,19 @@ function renderHomePage(hostname) {
       const rent = parseInt(document.getElementById('sliderRent').value);
 
       document.getElementById('sliderUnitsVal').innerText = units + (units === 1 ? ' Unit' : ' Units');
-      document.getElementById('sliderRentVal').innerText = '$' + rent.toLocaleString() + ' / mo';
+      document.getElementById('sliderRentVal').innerText = '₹' + rent.toLocaleString('en-IN') + ' / mo';
 
       const monthlyRev = units * rent;
       const hoursSaved = Math.round(units * 3.2);
-      const annualSavings = Math.round(units * 450);
+      const annualSavings = Math.round(units * 12000);
 
-      document.getElementById('outRevenue').innerText = '$' + monthlyRev.toLocaleString() + ' / mo';
+      document.getElementById('outRevenue').innerText = '₹' + monthlyRev.toLocaleString('en-IN') + ' / mo';
       document.getElementById('outHours').innerText = hoursSaved + ' Hours';
-      document.getElementById('outSavings').innerText = '$' + annualSavings.toLocaleString() + ' / yr';
+      document.getElementById('outSavings').innerText = '₹' + annualSavings.toLocaleString('en-IN') + ' / yr';
     }
 
     // 4. Payment Modal Logic
-    let activePayMethod = 'ach';
-
+    
     function openPaymentModal() {
       const modal = document.getElementById('paymentModal');
       document.getElementById('paymentFlowContainer').classList.remove('hidden');
@@ -3251,15 +3285,16 @@ function renderHomePage(hostname) {
       modal.classList.remove('flex');
     }
 
+    let activePayMethod = 'upi';
     function setPayMethod(m) {
       activePayMethod = m;
-      document.getElementById('pmAch').className = m === 'ach' ? 'p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
-      document.getElementById('pmCard').className = m === 'card' ? 'p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
-      document.getElementById('pmApple').className = m === 'apple' ? 'p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
+      if (document.getElementById('pmUpi')) document.getElementById('pmUpi').className = m === 'upi' ? 'p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
+      if (document.getElementById('pmNetbanking')) document.getElementById('pmNetbanking').className = m === 'netbanking' ? 'p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
+      if (document.getElementById('pmCard')) document.getElementById('pmCard').className = m === 'card' ? 'p-2.5 rounded-xl border-2 border-[#2546A6] bg-blue-50/50 font-bold text-[#2546A6] text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
 
-      document.getElementById('payDetailsAch').classList.toggle('hidden', m !== 'ach');
-      document.getElementById('payDetailsCard').classList.toggle('hidden', m !== 'card');
-      document.getElementById('payDetailsApple').classList.toggle('hidden', m !== 'apple');
+      if (document.getElementById('payDetailsUpi')) document.getElementById('payDetailsUpi').classList.toggle('hidden', m !== 'upi');
+      if (document.getElementById('payDetailsNetbanking')) document.getElementById('payDetailsNetbanking').classList.toggle('hidden', m !== 'netbanking');
+      if (document.getElementById('payDetailsCard')) document.getElementById('payDetailsCard').classList.toggle('hidden', m !== 'card');
     }
 
     function processTestPayment() {
@@ -3289,7 +3324,7 @@ function renderHomePage(hostname) {
         document.getElementById('receiptTimestamp').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' • ' + new Date().toLocaleTimeString('en-US');
         playLottie('lottiePaymentSuccess', '/animations/payment-success.json', '<div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-black shadow-inner">&check;</div>');
         btn.disabled = false;
-        btn.innerHTML = '<span>Confirm & Settle $3,250.00</span><span>&rarr;</span>';
+        btn.innerHTML = '<span>Confirm & Pay ₹65,000.00</span><span>&rarr;</span>';
       }, 1400);
     }
 
@@ -3498,6 +3533,36 @@ function renderHomePage(hostname) {
     window.filterUnitsCombined = filterUnitsCombined;
     window.filterFaqQuestions = filterFaqQuestions;
     window.switchExperience = switchExperience;
+
+    // ── Dedicated Resident Hub Routing ─────────────────────────────
+    function navigateToResidentHub(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      switchExperience('tenant');
+      if (history.pushState) {
+        history.pushState(null, null, '#resident-hub');
+      } else {
+        location.hash = '#resident-hub';
+      }
+      setTimeout(() => {
+        const el = document.getElementById('resident-hub');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+    window.navigateToResidentHub = navigateToResidentHub;
+
+    function handleHashRouting() {
+      if (window.location.hash === '#resident-hub') {
+        switchExperience('tenant');
+        setTimeout(() => {
+          const el = document.getElementById('resident-hub');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+    window.addEventListener('hashchange', handleHashRouting);
+    window.addEventListener('DOMContentLoaded', handleHashRouting);
+    handleHashRouting();
+
     window.dispatchBatchBills = dispatchBatchBills;
     window.filterUnits = filterUnits;
     window.calculateRoi = calculateRoi;
@@ -3752,7 +3817,7 @@ function renderAdminPage(hostname) {
             <span id="stat-totalProperties" class="text-2xl sm:text-3xl font-black text-slate-900">3</span>
             <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">100% Active</span>
           </div>
-          <p class="text-xs text-slate-500 mt-2">Austin & San Francisco</p>
+          <p class="text-xs text-slate-500 mt-2">Mumbai, Bengaluru, Pune & Gurugram</p>
         </div>
 
         <div class="soft-card p-6">
@@ -3776,10 +3841,10 @@ function renderAdminPage(hostname) {
         <div class="soft-card p-6">
           <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Gross Monthly Roll</p>
           <div class="flex items-baseline justify-between mt-2">
-            <span id="stat-grossRentRoll" class="text-2xl sm:text-3xl font-black text-slate-900">$148,250</span>
+            <span id="stat-grossRentRoll" class="text-2xl sm:text-3xl font-black text-slate-900">₹36,40,000</span>
             <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">Sep 2026</span>
           </div>
-          <p class="text-xs text-slate-500 mt-2">Annualized: $1.78M</p>
+          <p class="text-xs text-slate-500 mt-2">Annualized: ₹4.36 Cr</p>
         </div>
       </div>
 
@@ -3904,19 +3969,19 @@ function renderAdminPage(hostname) {
       <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <div class="soft-card p-5">
           <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Gross Monthly Income</p>
-          <p class="text-xl sm:text-2xl font-black text-slate-900 mt-1.5">$148,250</p>
+          <p class="text-xl sm:text-2xl font-black text-slate-900 mt-1.5">₹36,40,000</p>
           <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full mt-2 inline-block border border-emerald-100">+8.4% MoM</span>
         </div>
 
         <div class="soft-card p-5">
           <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Operating Expenses</p>
-          <p class="text-xl sm:text-2xl font-black text-rose-600 mt-1.5">$38,620</p>
+          <p class="text-xl sm:text-2xl font-black text-rose-600 mt-1.5">₹8,20,000</p>
           <span class="text-[11px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full mt-2 inline-block">26.1% Expense Ratio</span>
         </div>
 
         <div class="soft-card p-5 bg-gradient-to-br from-emerald-50/70 to-teal-50/70 border-emerald-200">
           <p class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Net Operating Profit</p>
-          <p class="text-xl sm:text-2xl font-black text-emerald-900 mt-1.5">$109,630</p>
+          <p class="text-xl sm:text-2xl font-black text-emerald-900 mt-1.5">₹28,20,000</p>
           <span class="text-[11px] font-extrabold text-emerald-800 bg-emerald-200/80 px-2.5 py-0.5 rounded-full mt-2 inline-block">73.9% Profit Margin</span>
         </div>
 
@@ -3928,7 +3993,7 @@ function renderAdminPage(hostname) {
 
         <div class="soft-card p-5">
           <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Outstanding Overdue</p>
-          <p class="text-xl sm:text-2xl font-black text-amber-600 mt-1.5">$4,800</p>
+          <p class="text-xl sm:text-2xl font-black text-amber-600 mt-1.5">₹52,000</p>
           <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full mt-2 inline-block border border-amber-100">2 Accounts Grace</span>
         </div>
       </div>
@@ -3972,19 +4037,19 @@ function renderAdminPage(hostname) {
 
             <!-- Y-Axis Grid Lines & Labels -->
             <line x1="50" y1="40" x2="880" y2="40" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4"/>
-            <text x="40" y="44" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">$150k</text>
+            <text x="40" y="44" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">₹40L</text>
 
             <line x1="50" y1="100" x2="880" y2="100" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4"/>
             <text x="40" y="104" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">$120k</text>
 
             <line x1="50" y1="160" x2="880" y2="160" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4"/>
-            <text x="40" y="164" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">$90k</text>
+            <text x="40" y="164" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">₹25L</text>
 
             <line x1="50" y1="220" x2="880" y2="220" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4"/>
-            <text x="40" y="224" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">$50k</text>
+            <text x="40" y="224" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">₹15L</text>
 
             <line x1="50" y1="270" x2="880" y2="270" stroke="#cbd5e1" stroke-width="1.5"/>
-            <text x="40" y="274" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">$0</text>
+            <text x="40" y="274" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">₹0</text>
 
             <!-- Area Fills -->
             <polygon points="70,270 70,72 170,68 270,62 370,58 470,54 570,50 670,47 770,45 860,42 860,270" fill="url(#incomeGrad)" />
@@ -4064,7 +4129,7 @@ function renderAdminPage(hostname) {
         <div class="soft-card p-6 sm:p-8 space-y-5">
           <div>
             <h3 class="text-lg font-bold text-slate-900">Revenue Contribution by Property Asset</h3>
-            <p class="text-xs text-slate-500">Gross Monthly Distribution of $148,250.00</p>
+            <p class="text-xs text-slate-500">Gross Monthly Distribution of ₹36,40,000.00</p>
           </div>
 
           <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pt-2">
@@ -4080,7 +4145,7 @@ function renderAdminPage(hostname) {
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                 <span class="text-xs text-slate-400 font-bold uppercase">Total Gross</span>
-                <span class="text-lg font-black text-slate-900 font-mono">$148.2K</span>
+                <span class="text-lg font-black text-slate-900 font-mono">₹36.4L</span>
               </div>
             </div>
 
@@ -4089,10 +4154,10 @@ function renderAdminPage(hostname) {
               <div class="p-3 rounded-xl bg-blue-50/60 border border-blue-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="w-3 h-3 rounded-full bg-blue-700"></span>
-                  <span class="font-bold text-slate-900">The Grand Horizon</span>
+                  <span class="font-bold text-slate-900">Oberoi Sky City Residences</span>
                 </div>
                 <div class="text-right font-mono">
-                  <span class="font-bold text-slate-900">$68,400</span>
+                  <span class="font-bold text-slate-900">₹14,50,000</span>
                   <span class="text-slate-500 text-[11px] block">(46.1%)</span>
                 </div>
               </div>
@@ -4100,10 +4165,10 @@ function renderAdminPage(hostname) {
               <div class="p-3 rounded-xl bg-teal-50/60 border border-teal-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="w-3 h-3 rounded-full bg-teal-600"></span>
-                  <span class="font-bold text-slate-900">Skyline Bay Lofts</span>
+                  <span class="font-bold text-slate-900">Panchshil Towers</span>
                 </div>
                 <div class="text-right font-mono">
-                  <span class="font-bold text-slate-900">$52,000</span>
+                  <span class="font-bold text-slate-900">₹9,80,000</span>
                   <span class="text-slate-500 text-[11px] block">(35.1%)</span>
                 </div>
               </div>
@@ -4111,10 +4176,10 @@ function renderAdminPage(hostname) {
               <div class="p-3 rounded-xl bg-purple-50/60 border border-purple-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="w-3 h-3 rounded-full bg-purple-600"></span>
-                  <span class="font-bold text-slate-900">Austin Tech Nexus</span>
+                  <span class="font-bold text-slate-900">DLF Cyber Enclave</span>
                 </div>
                 <div class="text-right font-mono">
-                  <span class="font-bold text-slate-900">$27,850</span>
+                  <span class="font-bold text-slate-900">₹5,40,000</span>
                   <span class="text-slate-500 text-[11px] block">(18.8%)</span>
                 </div>
               </div>
@@ -4133,7 +4198,7 @@ function renderAdminPage(hostname) {
             <div>
               <div class="flex justify-between font-bold mb-1">
                 <span class="text-slate-700">Residential Rents</span>
-                <span class="font-mono text-emerald-700">+$118,000</span>
+                <span class="font-mono text-emerald-700">+₹14,50,000</span>
               </div>
               <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div class="bg-emerald-600 h-full rounded-full" style="width: 79.6%;"></div>
@@ -4143,7 +4208,7 @@ function renderAdminPage(hostname) {
             <div>
               <div class="flex justify-between font-bold mb-1">
                 <span class="text-slate-700">Commercial Office Leases</span>
-                <span class="font-mono text-emerald-700">+$27,850</span>
+                <span class="font-mono text-emerald-700">+₹9,80,000</span>
               </div>
               <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div class="bg-teal-600 h-full rounded-full" style="width: 18.8%;"></div>
@@ -4153,7 +4218,7 @@ function renderAdminPage(hostname) {
             <div>
               <div class="flex justify-between font-bold mb-1">
                 <span class="text-slate-700">Parking & Amenities Fees</span>
-                <span class="font-mono text-emerald-700">+$2,400</span>
+                <span class="font-mono text-emerald-700">+₹6,70,000</span>
               </div>
               <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div class="bg-blue-500 h-full rounded-full" style="width: 1.6%;"></div>
@@ -4163,7 +4228,7 @@ function renderAdminPage(hostname) {
             <div class="pt-2 border-t border-slate-100">
               <div class="flex justify-between font-bold mb-1">
                 <span class="text-slate-700">Maintenance & Repair Outflows</span>
-                <span class="font-mono text-rose-600">-$14,200</span>
+                <span class="font-mono text-rose-600">-₹3,20,000</span>
               </div>
               <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div class="bg-rose-500 h-full rounded-full" style="width: 36.7%;"></div>
@@ -4173,7 +4238,7 @@ function renderAdminPage(hostname) {
             <div>
               <div class="flex justify-between font-bold mb-1">
                 <span class="text-slate-700">Management & Leasing Fees</span>
-                <span class="font-mono text-rose-600">-$11,500</span>
+                <span class="font-mono text-rose-600">-₹2,50,000</span>
               </div>
               <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div class="bg-amber-500 h-full rounded-full" style="width: 29.7%;"></div>
@@ -4183,7 +4248,7 @@ function renderAdminPage(hostname) {
             <div>
               <div class="flex justify-between font-bold mb-1">
                 <span class="text-slate-700">Municipal Utilities & Insurance</span>
-                <span class="font-mono text-rose-600">-$12,920</span>
+                <span class="font-mono text-rose-600">-₹2,50,000</span>
               </div>
               <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div class="bg-slate-400 h-full rounded-full" style="width: 33.6%;"></div>
@@ -4397,13 +4462,13 @@ function renderAdminPage(hostname) {
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Amount</label>
-                <input id="adminInvAmount" type="text" value="$3,250.00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm font-mono focus:bg-white focus:border-indigo-500 focus:outline-none transition">
+                <input id="adminInvAmount" type="text" value="₹65,000.00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm font-mono focus:bg-white focus:border-indigo-500 focus:outline-none transition">
               </div>
             </div>
 
             <div>
               <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Property Asset</label>
-              <input id="adminInvProperty" type="text" value="The Grand Horizon Luxury Suites - Unit 402" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:outline-none transition">
+              <input id="adminInvProperty" type="text" value="Oberoi Sky City Residences Luxury Suites - Unit 402" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm focus:bg-white focus:border-indigo-500 focus:outline-none transition">
             </div>
 
             <button id="adminSendBtn" onclick="adminDispatchEmail()" class="w-full py-3.5 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition shadow-sm flex items-center justify-center gap-2">
@@ -4470,42 +4535,54 @@ function renderAdminPage(hostname) {
       <form onsubmit="submitNewProperty(event)" class="space-y-4 text-xs">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Property Name</label>
-          <input id="propName" type="text" required placeholder="e.g. The Paramount Heights" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+          <input id="propName" type="text" required placeholder="e.g. Lodha Belmondo Heights" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Property Image URL</label>
+          <input id="propImage" type="url" required value="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+          <div class="flex flex-wrap gap-1.5 mt-2 text-[11px]">
+            <span class="text-slate-500 font-medium self-center">Presets:</span>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Luxury High-Rise</button>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Garden Suites</button>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Modern Villa</button>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Tech Park</button>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Property Type</label>
             <select id="propType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
-              <option value="Multifamily Luxury">Multifamily Luxury</option>
               <option value="Luxury Residential">Luxury Residential</option>
+              <option value="Premium Residential">Premium Residential</option>
               <option value="Commercial Office">Commercial Office</option>
-              <option value="Mixed-Use Retail">Mixed-Use Retail</option>
+              <option value="Executive Suites">Executive Suites</option>
             </select>
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Total Units</label>
-            <input id="propUnits" type="number" min="1" max="500" value="12" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+            <input id="propUnits" type="number" min="1" max="500" value="16" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
         </div>
 
         <div>
           <label class="block font-bold text-slate-700 mb-1">Street Address</label>
-          <input id="propAddress" type="text" required placeholder="e.g. 500 Congress Avenue" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+          <input id="propAddress" type="text" required placeholder="e.g. Senapati Bapat Marg, Lower Parel" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
         </div>
 
         <div class="grid grid-cols-3 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">City</label>
-            <input id="propCity" type="text" value="Austin" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+            <input id="propCity" type="text" value="Mumbai" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">State</label>
-            <input id="propState" type="text" value="TX" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+            <input id="propState" type="text" value="Maharashtra" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Gross Target ($/mo)</label>
-            <input id="propRent" type="number" value="38500" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+            <label class="block font-bold text-slate-700 mb-1">Target Rent (₹/mo)</label>
+            <input id="propRent" type="number" value="550000" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
         </div>
 
@@ -4542,7 +4619,7 @@ function renderAdminPage(hostname) {
             <input id="unitNumber" type="text" required placeholder="e.g. Unit 504" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Monthly Rent ($)</label>
+            <label class="block font-bold text-slate-700 mb-1">Monthly Rent (₹)</label>
             <input id="unitRent" type="number" value="3150" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
         </div>
@@ -4628,7 +4705,7 @@ function renderAdminPage(hostname) {
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Assigned Property</label>
-            <input id="userProperty" type="text" value="The Grand Horizon" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+            <input id="userProperty" type="text" value="Oberoi Sky City Residences" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Assigned Unit</label>
@@ -4683,7 +4760,7 @@ function renderAdminPage(hostname) {
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Property</label>
-            <input id="taskProperty" type="text" value="The Grand Horizon" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+            <input id="taskProperty" type="text" value="Oberoi Sky City Residences" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Unit / Location</label>
@@ -4842,7 +4919,7 @@ function renderAdminPage(hostname) {
       
       document.getElementById('stat-totalUnits').textContent = totalUnits;
       document.getElementById('stat-occupancyRate').textContent = totalUnits ? ((occupiedUnits / totalUnits) * 100).toFixed(1) + '%' : '100%';
-      document.getElementById('stat-grossRentRoll').textContent = '$' + grossRoll.toLocaleString();
+      document.getElementById('stat-grossRentRoll').textContent = '₹' + grossRoll.toLocaleString('en-IN');
     }
 
     // Properties Render
@@ -4936,6 +5013,7 @@ function renderAdminPage(hostname) {
     async function submitNewProperty(e) {
       e.preventDefault();
       const name = document.getElementById('propName').value;
+      const image = document.getElementById('propImage') ? document.getElementById('propImage').value : 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
       const type = document.getElementById('propType').value;
       const unitsCount = parseInt(document.getElementById('propUnits').value);
       const address = document.getElementById('propAddress').value;
@@ -4944,14 +5022,14 @@ function renderAdminPage(hostname) {
       const grossRent = parseFloat(document.getElementById('propRent').value);
       const amenities = document.getElementById('propAmenities').value.split(',').map(s => s.trim());
 
-      const payload = { name, type, unitsCount, address, city, state, grossRent, amenities };
+      const payload = { name, image, type, unitsCount, address, city, state, grossRent, amenities };
 
       // Local optimistic update
       const newProp = {
         id: "PROP-" + String(appData.properties.length + 1).padStart(3, '0'),
         ...payload,
         occupiedCount: Math.max(1, unitsCount - 1),
-        zip: "78701",
+        zip: "400001",
         status: "Operational"
       };
       appData.properties.unshift(newProp);
@@ -5410,7 +5488,7 @@ function renderAdminPage(hostname) {
         const resp = await fetch('/api/support-query', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ senderName: 'Admin Portal Ping', senderEmail: 'diagnostics@propledger.com', subject: 'Diagnostic verification of edge forward pipeline', message: 'Testing forward routing to vishal.bhutekar1@gmail.com' })
+          body: JSON.stringify({ senderName: 'Admin Portal Ping', senderEmail: 'support@propledger.vishalbhutekar.me', subject: 'Diagnostic verification of edge forward pipeline', message: 'Testing forward routing to vishal.bhutekar1@gmail.com' })
         });
         const data = await resp.json();
         if (data.success) {
