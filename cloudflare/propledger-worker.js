@@ -1362,7 +1362,7 @@ ${message}
     <tr>
       <td style="padding: 24px 32px; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: center;">
         <p style="margin: 0; font-size: 12px; color: #64748b; font-weight: 500;">
-          PropLedger Technologies &bull; Automated Enterprise Operations
+          PropLedger &bull; Simple Property Management & Rent Payments for India
         </p>
       </td>
     </tr>
@@ -1620,7 +1620,7 @@ function renderHomePage(hostname) {
       <div class="lg:col-span-7 space-y-6 text-left">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-blue-100 text-xs font-semibold">
           <span class="w-2 h-2 rounded-full bg-[#00A896] animate-pulse"></span>
-          <span>Enterprise Cloud Platform &bull; <strong class="text-[#38BDF8]">99.9% Uptime SLA</strong></span>
+          <span>Safe, Fast &bull; <strong class="text-[#38BDF8]">100% Online Always</strong></span>
         </div>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08]">
@@ -1931,10 +1931,10 @@ function renderHomePage(hostname) {
                 <svg class="w-3.5 h-3.5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span>Export CSV</span>
               </button>
-              <button onclick="openAddUnitModal()" class="pill-btn px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition">
-                <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke-width="2.5" stroke-linecap="round"/></svg>
-                <span>Add Unit</span>
-              </button>
+              <a href="/admin" target="_blank" class="pill-btn px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs shadow-sm flex items-center gap-1.5 transition" title="Open Master Admin Operations Portal">
+                <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
+                <span>Admin Operations &rarr;</span>
+              </a>
               <button onclick="dispatchBatchBills()" id="batchDispatchBtn" class="pill-btn px-4 py-2 bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition">
                 <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                 <span>Send Invoices</span>
@@ -2376,7 +2376,7 @@ function renderHomePage(hostname) {
       <div class="text-center max-w-3xl mx-auto space-y-4">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-blue-200 text-xs font-semibold">
           <span class="w-2 h-2 rounded-full bg-[#00A896] animate-pulse"></span>
-          <span>Enterprise-Grade Security &amp; 99.9% Reliability</span>
+          <span>Bank-Grade 256-bit Security &amp; 100% Reliable Data</span>
         </div>
         <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
           Protected by <span class="text-[#38BDF8]">Bank-Grade Security</span>
@@ -3070,58 +3070,6 @@ function renderHomePage(hostname) {
     </div>
   </div>
 
-  <!-- 3. ADD APARTMENT UNIT MODAL (Landlord Tool) -->
-  <div id="addUnitModal" onclick="if(event.target === this) closeAddUnitModal()" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 modal-backdrop-animate">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200 modal-card-animate overflow-hidden">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke-width="2.5" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <h4 class="font-bold text-base text-slate-900">Add New Apartment</h4>
-            <p class="text-xs text-slate-500">Register a unit into your property roster</p>
-          </div>
-        </div>
-        <button onclick="closeAddUnitModal()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
-      </div>
-
-      <div class="space-y-3.5 text-xs">
-        <div>
-          <label class="block font-bold text-slate-700 uppercase mb-1">Unit Identifier</label>
-          <input type="text" id="newUnitId" placeholder="e.g. Unit 305" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-slate-700 uppercase mb-1">Floor Plan</label>
-            <select id="newUnitType" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
-              <option value="1-Bed Studio">1-Bed Studio</option>
-              <option value="1-Bed Luxury">1-Bed Luxury</option>
-              <option value="2-Bed Suite" selected>2-Bed Suite</option>
-              <option value="3-Bed Townhome">3-Bed Townhome</option>
-              <option value="Penthouse">Penthouse</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 uppercase mb-1">Monthly Rent (₹)</label>
-            <input type="number" id="newUnitRent" placeholder="45000" value="45000" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
-          </div>
-        </div>
-        <div>
-          <label class="block font-bold text-slate-700 uppercase mb-1">Assigned Resident Name (Optional)</label>
-          <input type="text" id="newUnitTenant" placeholder="Leave blank if currently vacant" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
-        </div>
-      </div>
-
-      <div class="pt-2 flex items-center justify-end gap-2.5">
-        <button onclick="closeAddUnitModal()" class="pill-btn px-4 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold transition">Cancel</button>
-        <button onclick="submitNewUnit()" class="pill-btn px-5 py-2.5 bg-[#2546A6] hover:bg-[#1D367E] text-white text-xs font-bold shadow-md transition flex items-center gap-1.5">
-          <span>Save to Property Roster</span>
-          <span>&rarr;</span>
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- 4. VIEW LEASE AGREEMENT MODAL (Resident & Landlord Tool) -->
   <div id="leaseModal" onclick="if(event.target === this) closeLeaseModal()" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 modal-backdrop-animate">
@@ -3268,44 +3216,6 @@ function renderHomePage(hostname) {
 
       showToast('Rent Roll Exported', 'Downloaded PropLedger_RentRoll_September2026.csv successfully.');
     }
-
-    // ── Add Unit Modal Logic ───────────────────────────────────────
-    function openAddUnitModal() {
-      const m = document.getElementById('addUnitModal');
-      if (m) {
-        m.classList.remove('hidden');
-        m.classList.add('flex');
-      }
-    }
-
-    function closeAddUnitModal() {
-      const m = document.getElementById('addUnitModal');
-      if (m) {
-        m.classList.add('hidden');
-        m.classList.remove('flex');
-      }
-    }
-
-    function submitNewUnit() {
-      const unitId = (document.getElementById('newUnitId') ? document.getElementById('newUnitId').value : '') || 'Unit 305';
-      const unitType = (document.getElementById('newUnitType') ? document.getElementById('newUnitType').value : '2-Bed Suite');
-      const rent = (document.getElementById('newUnitRent') ? document.getElementById('newUnitRent').value : '') || '2200';
-      const tenant = (document.getElementById('newUnitTenant') ? document.getElementById('newUnitTenant').value.trim() : '') || 'None (Vacant)';
-      const isVacant = tenant === 'None (Vacant)';
-
-      const tbody = document.querySelector('#viewLandlord table tbody');
-      if (tbody) {
-        const tr = document.createElement('tr');
-        tr.className = 'border-t border-slate-100 bg-emerald-50/30 transition';
-        const formattedRent = '₹' + parseFloat(rent).toLocaleString('en-IN', { minimumFractionDigits: 2 });
-        tr.innerHTML = '<td class="py-3 font-bold text-slate-900">' + unitId + '</td>' +
-          '<td class="py-3 text-slate-600">' + unitType + '</td>' +
-          '<td class="py-3 ' + (isVacant ? 'text-slate-400 italic' : 'text-slate-800 font-medium') + '">' + tenant + '</td>' +
-          '<td class="py-3 font-bold text-slate-900">' + formattedRent + '</td>' +
-          '<td class="py-3"><span class="px-2.5 py-1 rounded-full ' + (isVacant ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700') + ' font-semibold text-[11px]">' + (isVacant ? 'Available Now' : 'Active Lease') + '</span></td>' +
-          '<td class="py-3 text-right"><span class="' + (isVacant ? 'text-amber-600' : 'text-emerald-600') + ' font-bold text-[11px]">' + (isVacant ? 'Vacant' : 'Active (Oct 01)') + '</span></td>';
-        tbody.appendChild(tr);
-      }
 
       closeAddUnitModal();
       showToast('Unit Added to Roster', unitId + ' (' + unitType + ') registered at ₹' + parseFloat(rent).toLocaleString('en-IN') + '/mo.');
@@ -3859,10 +3769,7 @@ function renderHomePage(hostname) {
     window.showToast = showToast;
     window.toggleMobileNav = toggleMobileNav;
     window.exportRentRollCsv = exportRentRollCsv;
-    window.openAddUnitModal = openAddUnitModal;
-    window.closeAddUnitModal = closeAddUnitModal;
-    window.submitNewUnit = submitNewUnit;
-    window.filterRosterTable = filterRosterTable;
+                window.filterRosterTable = filterRosterTable;
     window.toggleAutoPay = toggleAutoPay;
     window.openLeaseModal = openLeaseModal;
     window.filterByCityTab = filterByCityTab;
