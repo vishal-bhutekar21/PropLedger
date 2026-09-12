@@ -1553,7 +1553,7 @@ function renderHomePage(hostname) {
         <a href="#overview" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Overview</a>
         <a href="#what-we-do" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Features</a>
         <a href="#how-it-works" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">How It Works</a>
-        <a href="#dual-experience" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Live Portals</a>
+        <a href="#resident-hub" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Resident Hub</a>
         <a href="#unit-gallery" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Apartments</a>
         <a href="#security" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">Security</a>
         <a href="#faq" class="text-xs font-semibold text-slate-700 hover:text-[#2546A6] transition">FAQs</a>
@@ -1585,7 +1585,7 @@ function renderHomePage(hostname) {
       <a href="#overview" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">Overview</a>
       <a href="#what-we-do" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">Features</a>
       <a href="#how-it-works" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">How It Works</a>
-      <a href="#dual-experience" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">Live Portals</a>
+      <a href="#resident-hub" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">Resident Hub</a>
       <a href="#unit-gallery" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">Apartments</a>
       <a href="#security" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">Security</a>
       <a href="#roi-calculator" onclick="toggleMobileNav()" class="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50 hover:text-[#2546A6] text-slate-800 transition">ROI Calculator</a>
@@ -1637,8 +1637,8 @@ function renderHomePage(hostname) {
             <span>Explore Apartments</span>
             <span>&rarr;</span>
           </button>
-          <a href="#dual-experience" class="pill-btn px-7 py-4 border-2 border-white/30 hover:border-white text-white font-bold text-sm backdrop-blur-sm transition flex items-center gap-2">
-            <span>Try Live Portals &darr;</span>
+          <a href="#resident-hub" class="pill-btn px-7 py-4 border-2 border-white/30 hover:border-white text-white font-bold text-sm backdrop-blur-sm transition flex items-center gap-2">
+            <span>Resident Hub &darr;</span>
           </a>
         </div>
 
@@ -1860,143 +1860,21 @@ function renderHomePage(hostname) {
     </div>
   </section>
 
-  <!-- SECTION 5: INTERACTIVE DUAL EXPERIENCE SWITCHER (LANDLORD VS RESIDENT) -->
-  <!-- RESIDENT HUB ANCHOR -->
-  <div id="resident-hub" class="scroll-mt-24"></div>
-  <section id="dual-experience" class="py-24 px-6 max-w-6xl mx-auto space-y-8">
+  <!-- SECTION 5: RESIDENT & TENANT SELF-SERVICE PORTAL -->
+  <section id="resident-hub" class="py-20 px-6 max-w-6xl mx-auto space-y-8 scroll-mt-24">
     <div class="koshpal-card p-8 sm:p-12 space-y-8 bg-gradient-to-b from-white to-slate-50/70 border border-slate-200">
       
       <div class="text-center max-w-2xl mx-auto space-y-3">
         <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 text-[#2546A6] text-xs font-bold">
-          <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          <span>Interactive App Experience</span>
+          <svg class="w-3.5 h-3.5 text-[#2546A6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Resident &amp; Tenant Self-Service Portal</span>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Experience Both Sides of PropLedger</h2>
-        <p class="text-xs sm:text-sm text-slate-500">Toggle between the Landlord Management Console and the Resident Portal below.</p>
-        
-        <!-- Toggle Switcher -->
-        <div class="inline-flex p-1.5 rounded-full bg-slate-100 border border-slate-200 gap-2 mt-4">
-          <button onclick="switchExperience('landlord')" id="tabBtnLandlord" class="pill-btn px-6 py-2.5 text-xs font-bold active-tab flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-current" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path></svg>
-            <span>Landlord Experience</span>
-          </button>
-          <button onclick="switchExperience('tenant')" id="tabBtnTenant" class="pill-btn px-6 py-2.5 text-xs font-bold inactive-tab flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-current" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            <span>Resident & Tenant Portal</span>
-          </button>
-        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Resident Hub &amp; Rent Payment</h2>
+        <p class="text-xs sm:text-sm text-slate-500">Pay monthly rent instantly via UPI or NetBanking, submit maintenance tickets, and view registered lease agreements in one place.</p>
       </div>
 
-      <!-- VIEW A: LANDLORD CONSOLE PREVIEW -->
-      <div id="viewLandlord" class="space-y-6">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
-            <span class="text-xs text-slate-500 font-medium block">Total Monthly Rent Collected</span>
-            <div class="flex items-baseline gap-2 mt-1">
-              <span class="text-2xl font-black text-slate-900 tabular-nums">₹36,40,000.00</span>
-              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">+8.4%</span>
-            </div>
-            <p class="text-[11px] text-slate-400 mt-1">Settled via UPI & Direct NetBanking</p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
-            <span class="text-xs text-slate-500 font-medium block">Occupancy Rate</span>
-            <div class="flex items-baseline gap-2 mt-1">
-              <span class="text-2xl font-black text-slate-900 tabular-nums">99.2%</span>
-              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">56 / 60 Flats</span>
-            </div>
-            <p class="text-[11px] text-slate-400 mt-1">Only 4 flats available</p>
-          </div>
-
-          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
-            <span class="text-xs text-slate-500 font-medium block">Double-Booking Collision Rate</span>
-            <div class="flex items-baseline gap-2 mt-1">
-              <span class="text-2xl font-black text-[#2546A6] tabular-nums">0.00%</span>
-              <span class="text-xs font-bold text-[#2546A6] bg-blue-50 px-2 py-0.5 rounded-full">Protected</span>
-            </div>
-            <p class="text-[11px] text-slate-400 mt-1">Calendar locking active</p>
-          </div>
-        </div>
-
-        <!-- Landlord Live Units List -->
-        <div class="p-6 rounded-3xl bg-white border border-slate-200 space-y-4 shadow-sm">
-          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-            <div>
-              <h4 class="font-bold text-sm text-slate-900">Current Unit Roster & Lease Tracking</h4>
-              <p class="text-xs text-slate-500">Real-time status of all apartments under management</p>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <input type="text" id="rosterSearchInput" oninput="filterRosterTable()" placeholder="Search unit, tenant, or rent..." class="px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#2546A6] transition">
-              <button onclick="exportRentRollCsv()" class="pill-btn px-3.5 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition" title="Download Excel/CSV Spreadsheet">
-                <svg class="w-3.5 h-3.5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                <span>Export CSV</span>
-              </button>
-              <a href="/admin" target="_blank" class="pill-btn px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs shadow-sm flex items-center gap-1.5 transition" title="Open Master Admin Operations Portal">
-                <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg>
-                <span>Admin Operations &rarr;</span>
-              </a>
-              <button onclick="dispatchBatchBills()" id="batchDispatchBtn" class="pill-btn px-4 py-2 bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition">
-                <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                <span>Send Invoices</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead>
-                <tr class="border-b border-slate-100 text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
-                  <th class="py-2.5">Unit</th>
-                  <th class="py-2.5">Type</th>
-                  <th class="py-2.5">Tenant</th>
-                  <th class="py-2.5">Rent / Month</th>
-                  <th class="py-2.5">Lease Status</th>
-                  <th class="py-2.5 text-right">Payment</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100">
-                <tr>
-                  <td class="py-3 font-bold text-slate-900">Unit 101</td>
-                  <td class="py-3 text-slate-600">1-Bed Studio</td>
-                  <td class="py-3 text-slate-800 font-medium">Sarah Connor</td>
-                  <td class="py-3 font-bold text-slate-900 tabular-nums">$1,650.00</td>
-                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">Active Lease</span></td>
-                  <td class="py-3 text-right"><span class="text-emerald-600 font-bold">Paid (Sep 01)</span></td>
-                </tr>
-                <tr>
-                  <td class="py-3 font-bold text-slate-900">Unit 204</td>
-                  <td class="py-3 text-slate-600">2-Bed Suite</td>
-                  <td class="py-3 text-slate-800 font-medium">Rajesh Patel</td>
-                  <td class="py-3 font-bold text-slate-900 tabular-nums">$2,400.00</td>
-                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">Active Lease</span></td>
-                  <td class="py-3 text-right"><span class="text-emerald-600 font-bold">Paid (Sep 01)</span></td>
-                </tr>
-                <tr>
-                  <td class="py-3 font-bold text-slate-900">Unit 402</td>
-                  <td class="py-3 text-slate-600">Horizon Penthouse</td>
-                  <td class="py-3 text-slate-800 font-medium">Alex Morgan</td>
-                  <td class="py-3 font-bold text-slate-900 tabular-nums">$2,850.00</td>
-                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">Active Lease</span></td>
-                  <td class="py-3 text-right"><span class="text-emerald-600 font-bold">Paid (Sep 01)</span></td>
-                </tr>
-                <tr>
-                  <td class="py-3 font-bold text-slate-900">Unit 503</td>
-                  <td class="py-3 text-slate-600">Skyline Loft</td>
-                  <td class="py-3 text-slate-400 italic">None (Vacant)</td>
-                  <td class="py-3 font-bold text-slate-900 tabular-nums">$3,100.00</td>
-                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 font-semibold text-[11px]">Available Now</span></td>
-                  <td class="py-3 text-right"><button onclick="openTourModal('Unit 503 &bull; Skyline Loft', '$3,100 / mo', '1,850 sq ft &bull; 2 Bed', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80')" class="text-[#2546A6] hover:underline font-bold">+ Schedule Tour</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div id="batchDispatchNotice" class="hidden p-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 text-xs font-mono"></div>
-        </div>
-      </div>
-
-      <!-- VIEW B: TENANT CONSOLE PREVIEW -->
-      <div id="viewTenant" class="hidden space-y-6">
+      <!-- RESIDENT CONSOLE DIRECT VIEW (PERMANENTLY VISIBLE) -->
+      <div id="viewTenant" class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="p-6 rounded-3xl bg-white border border-slate-200 space-y-4 shadow-sm">
             <div class="flex items-center gap-3">
@@ -2051,7 +1929,7 @@ function renderHomePage(hostname) {
                 <h4 class="font-bold text-base text-slate-900">Statement #STM-202609-0402</h4>
               </div>
               <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold text-xs">
-                &bull; Reconciled & Clear
+                &bull; Reconciled &amp; Clear
               </span>
             </div>
 
@@ -2072,8 +1950,8 @@ function renderHomePage(hostname) {
               </div>
               <div class="flex justify-between py-1.5 border-b border-slate-100">
                 <div>
-                  <span class="font-bold text-slate-800 block">Society Maintenance & Clubhouse Amenities</span>
-                  <span class="text-slate-500 text-[11px]">24/7 Security, power backup, lifts & gym maintenance</span>
+                  <span class="font-bold text-slate-800 block">Society Maintenance &amp; Clubhouse Amenities</span>
+                  <span class="text-slate-500 text-[11px]">24/7 Security, power backup, lifts &amp; gym maintenance</span>
                 </div>
                 <span class="font-bold text-slate-900 tabular-nums self-center">₹6,500.00</span>
               </div>
@@ -2103,6 +1981,18 @@ function renderHomePage(hostname) {
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Landlord Private Console Callout Strip -->
+        <div class="p-4 rounded-2xl bg-slate-100/70 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-[#2546A6] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Are you a property manager or landlord? Manage your private unit rosters, leases, and automated accounting securely.</span>
+          </div>
+          <a href="/admin" target="_blank" class="font-bold text-[#2546A6] hover:underline flex items-center gap-1 whitespace-nowrap">
+            <span>Open Landlord Admin Console</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
         </div>
       </div>
 
@@ -2637,7 +2527,7 @@ function renderHomePage(hostname) {
         <p><a href="#overview" class="text-blue-200 hover:text-white transition">Overview</a></p>
         <p><a href="#why-it-matters" class="text-blue-200 hover:text-white transition">Why It Matters</a></p>
         <p><a href="#what-we-do" class="text-blue-200 hover:text-white transition">What We Do</a></p>
-        <p><a href="#dual-experience" class="text-blue-200 hover:text-white transition">Dual Experience</a></p>
+        <p><a href="#resident-hub" class="text-blue-200 hover:text-white transition">Resident & Tenant Hub</a></p>
         <p><a href="#roi-calculator" class="text-blue-200 hover:text-white transition">ROI Calculator</a></p>
       </div>
 
@@ -2931,13 +2821,13 @@ function renderHomePage(hostname) {
           </div>
           <div>
             <label class="block font-bold text-slate-700 uppercase mb-1">Phone Number</label>
-            <input id="tourPhone" type="tel" placeholder="+1 (555) 019-2834" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-mono text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
+            <input id="tourPhone" type="tel" placeholder="+91 98201 23456" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-mono text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
           </div>
         </div>
 
         <div class="text-xs">
           <label class="block font-bold text-slate-700 uppercase mb-1">Email Address for Tour Invitation</label>
-          <input id="tourEmail" type="email" placeholder="alex@example.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-mono text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
+          <input id="tourEmail" type="email" placeholder="rajesh@example.in" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-mono text-slate-900 focus:bg-white focus:border-[#2546A6] focus:outline-none">
         </div>
 
         <button id="tourSubmitBtn" onclick="submitTourRequest()" class="w-full py-3.5 rounded-2xl bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-xs shadow-md shadow-blue-900/20 flex items-center justify-center gap-2 transition">
@@ -3195,41 +3085,6 @@ function renderHomePage(hostname) {
       }
     }
 
-    // ── Export Rent Roll as CSV Spreadsheet ────────────────────────
-    function exportRentRollCsv() {
-      const rows = [
-        ['Unit', 'Floor Plan Type', 'Resident Name', 'Monthly Rent (USD)', 'Lease Status', 'Payment Status'],
-        ['Unit 101', '1-Bed Studio', 'Sarah Connor', '1650.00', 'Active Lease', 'Paid (Sep 01)'],
-        ['Unit 204', '2-Bed Suite', 'Rajesh Patel', '2400.00', 'Active Lease', 'Paid (Sep 01)'],
-        ['Unit 402', 'Horizon Penthouse', 'Alex Morgan', '2850.00', 'Active Lease', 'Paid (Sep 01)'],
-        ['Unit 503', 'Skyline Loft', 'Vacant', '3100.00', 'Available Now', 'Unoccupied']
-      ];
-      
-      const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.join(',')).join(String.fromCharCode(10));
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', 'PropLedger_RentRoll_September2026.csv');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      showToast('Rent Roll Exported', 'Downloaded PropLedger_RentRoll_September2026.csv successfully.');
-    }
-
-      closeAddUnitModal();
-      showToast('Unit Added to Roster', unitId + ' (' + unitType + ') registered at ₹' + parseFloat(rent).toLocaleString('en-IN') + '/mo.');
-    }
-
-    // ── Filter Landlord Roster in Real Time ────────────────────────
-    function filterRosterTable() {
-      const q = (document.getElementById('rosterSearchInput') ? document.getElementById('rosterSearchInput').value.toLowerCase() : '');
-      document.querySelectorAll('#viewLandlord table tbody tr').forEach(tr => {
-        const text = tr.innerText.toLowerCase();
-        tr.style.display = text.includes(q) ? '' : 'none';
-      });
-    }
-
     // ── AutoPay Enrollment Switch ──────────────────────────────────
     let autoPayEnabled = true;
     function toggleAutoPay() {
@@ -3245,7 +3100,7 @@ function renderHomePage(hostname) {
           statusText.innerText = 'Active • HDFC UPI AutoPay (ananya@okhdfcbank)';
           statusText.className = 'text-[10px] text-emerald-600 font-medium';
         }
-        showToast('AutoPay Activated', 'Monthly rent ($3,250.00) will be automatically cleared on the 1st of every month.');
+        showToast('AutoPay Activated', 'Monthly rent (₹65,000.00) will be automatically cleared on the 1st of every month.');
       } else {
         if (btn) btn.className = 'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-slate-300 transition-colors duration-200 ease-in-out focus:outline-none';
         if (knob) knob.className = 'translate-x-0 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out';
@@ -3332,38 +3187,14 @@ function renderHomePage(hostname) {
       });
     }
 
-    // 1. Dual Experience Switcher
+    // 1. Resident Portal Navigator
     function switchExperience(type) {
-      const landlordView = document.getElementById('viewLandlord');
-      const tenantView = document.getElementById('viewTenant');
-      const btnL = document.getElementById('tabBtnLandlord');
-      const btnT = document.getElementById('tabBtnTenant');
-
-      if (type === 'landlord') {
-        landlordView.classList.remove('hidden');
-        tenantView.classList.add('hidden');
-        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab flex items-center gap-1.5';
-        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab flex items-center gap-1.5';
-      } else {
-        landlordView.classList.add('hidden');
-        tenantView.classList.remove('hidden');
-        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab flex items-center gap-1.5';
-        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab flex items-center gap-1.5';
-      }
+      const el = document.getElementById('resident-hub');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
 
     function dispatchBatchBills() {
-      const btn = document.getElementById('batchDispatchBtn');
-      const notice = document.getElementById('batchDispatchNotice');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="animate-spin mr-1">&#9696;</span> Dispatching across 402 units...';
-
-      setTimeout(() => {
-        notice.classList.remove('hidden');
-        notice.innerHTML = '<strong>Batch Invoicing Complete!</strong><br>Successfully generated and emailed itemized statements across all 402 occupied units via Resend API.';
-        btn.disabled = false;
-        btn.innerHTML = '<span class="flex items-center justify-center gap-1.5"><svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>Invoices Dispatched (402 Sent)</span></span>';
-      }, 800);
+      showToast('Admin Operations', 'Batch billing is managed securely in the Executive Admin Portal.');
     }
 
     // 2. Unit Gallery Filtering
@@ -3774,6 +3605,15 @@ function renderHomePage(hostname) {
     window.openLeaseModal = openLeaseModal;
     window.filterByCityTab = filterByCityTab;
     window.filterResidencesLive = filterResidencesLive;
+        try {
+      const bc = new BroadcastChannel('propledger_channel');
+      bc.onmessage = function(e) {
+        if (e.data && (e.data.type === 'PROPERTY_ADDED' || e.data.type === 'PROPERTY_DELETED')) {
+          loadDynamicProperties();
+        }
+      };
+    } catch (e) {}
+
     window.loadDynamicProperties = loadDynamicProperties;
     window.closeLeaseModal = closeLeaseModal;
     window.setBedroomFilter = setBedroomFilter;
@@ -4287,7 +4127,7 @@ function renderAdminPage(hostname) {
             <text x="40" y="44" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">₹40L</text>
 
             <line x1="50" y1="100" x2="880" y2="100" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4"/>
-            <text x="40" y="104" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">$120k</text>
+            <text x="40" y="104" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">₹32L</text>
 
             <line x1="50" y1="160" x2="880" y2="160" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4"/>
             <text x="40" y="164" text-anchor="end" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">₹25L</text>
@@ -4314,48 +4154,48 @@ function renderAdminPage(hostname) {
 
             <!-- Interactive Month Markers & Hover Targets -->
             <!-- Jan -->
-            <circle cx="70" cy="72" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jan 2026', '$132,000', '$34,000', '$98,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="70" cy="128" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jan 2026', '$132,000', '$34,000', '$98,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="70" cy="72" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jan 2026', '₹36,40,000', '₹9,20,000', '₹27,20,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="70" cy="128" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jan 2026', '₹36,40,000', '₹9,20,000', '₹27,20,000')" onmouseleave="hideChartTip()"/>
             <text x="70" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">Jan</text>
 
             <!-- Feb -->
-            <circle cx="170" cy="68" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Feb 2026', '$135,000', '$35,000', '$100,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="170" cy="124" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Feb 2026', '$135,000', '$35,000', '$100,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="170" cy="68" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Feb 2026', '₹37,10,000', '₹9,40,000', '₹27,70,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="170" cy="124" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Feb 2026', '₹37,10,000', '₹9,40,000', '₹27,70,000')" onmouseleave="hideChartTip()"/>
             <text x="170" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">Feb</text>
 
             <!-- Mar -->
-            <circle cx="270" cy="62" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Mar 2026', '$138,000', '$36,000', '$102,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="270" cy="120" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Mar 2026', '$138,000', '$36,000', '$102,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="270" cy="62" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Mar 2026', '₹38,20,000', '₹9,60,000', '₹28,60,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="270" cy="120" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Mar 2026', '₹38,20,000', '₹9,60,000', '₹28,60,000')" onmouseleave="hideChartTip()"/>
             <text x="270" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">Mar</text>
 
             <!-- Apr -->
-            <circle cx="370" cy="58" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Apr 2026', '$140,000', '$35,000', '$105,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="370" cy="115" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Apr 2026', '$140,000', '$35,000', '$105,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="370" cy="58" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Apr 2026', '₹38,80,000', '₹9,50,000', '₹29,30,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="370" cy="115" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Apr 2026', '₹38,80,000', '₹9,50,000', '₹29,30,000')" onmouseleave="hideChartTip()"/>
             <text x="370" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">Apr</text>
 
             <!-- May -->
-            <circle cx="470" cy="54" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'May 2026', '$142,000', '$37,000', '$105,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="470" cy="115" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'May 2026', '$142,000', '$37,000', '$105,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="470" cy="54" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'May 2026', '₹39,20,000', '₹9,80,000', '₹29,40,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="470" cy="115" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'May 2026', '₹39,20,000', '₹9,80,000', '₹29,40,000')" onmouseleave="hideChartTip()"/>
             <text x="470" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">May</text>
 
             <!-- Jun -->
-            <circle cx="570" cy="50" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jun 2026', '$144,000', '$36,000', '$108,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="570" cy="110" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jun 2026', '$144,000', '$36,000', '$108,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="570" cy="50" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jun 2026', '₹39,80,000', '₹9,70,000', '₹30,10,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="570" cy="110" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jun 2026', '₹39,80,000', '₹9,70,000', '₹30,10,000')" onmouseleave="hideChartTip()"/>
             <text x="570" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">Jun</text>
 
             <!-- Jul -->
-            <circle cx="670" cy="47" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jul 2026', '$146,000', '$38,000', '$108,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="670" cy="110" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jul 2026', '$146,000', '$38,000', '$108,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="670" cy="47" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jul 2026', '₹40,40,000', '₹10,10,000', '₹30,30,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="670" cy="110" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Jul 2026', '₹40,40,000', '₹10,10,000', '₹30,30,000')" onmouseleave="hideChartTip()"/>
             <text x="670" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">Jul</text>
 
             <!-- Aug -->
-            <circle cx="770" cy="45" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Aug 2026', '$147,000', '$37,000', '$110,000')" onmouseleave="hideChartTip()"/>
-            <circle cx="770" cy="106" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Aug 2026', '$147,000', '$37,000', '$110,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="770" cy="45" r="5" fill="#2563eb" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Aug 2026', '₹40,80,000', '₹10,00,000', '₹30,80,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="770" cy="106" r="5" fill="#059669" class="transition-all hover:r-7 cursor-pointer" onmouseenter="showChartTip(event, 'Aug 2026', '₹40,80,000', '₹10,00,000', '₹30,80,000')" onmouseleave="hideChartTip()"/>
             <text x="770" y="295" text-anchor="middle" fill="#64748b" font-size="11" font-weight="600">Aug</text>
 
             <!-- Sep (Current) -->
-            <circle cx="860" cy="42" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2.5" class="transition-all hover:r-9 cursor-pointer" onmouseenter="showChartTip(event, 'Current (Sep 2026)', '$148,250', '$38,620', '$109,630')" onmouseleave="hideChartTip()"/>
-            <circle cx="860" cy="107" r="7" fill="#059669" stroke="#ffffff" stroke-width="2.5" class="transition-all hover:r-9 cursor-pointer" onmouseenter="showChartTip(event, 'Current (Sep 2026)', '$148,250', '$38,620', '$109,630')" onmouseleave="hideChartTip()"/>
+            <circle cx="860" cy="42" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2.5" class="transition-all hover:r-9 cursor-pointer" onmouseenter="showChartTip(event, 'Current (Sep 2026)', '₹41,20,000', '₹10,25,000', '₹30,95,000')" onmouseleave="hideChartTip()"/>
+            <circle cx="860" cy="107" r="7" fill="#059669" stroke="#ffffff" stroke-width="2.5" class="transition-all hover:r-9 cursor-pointer" onmouseenter="showChartTip(event, 'Current (Sep 2026)', '₹41,20,000', '₹10,25,000', '₹30,95,000')" onmouseleave="hideChartTip()"/>
             <text x="860" y="295" text-anchor="middle" fill="#0f172a" font-weight="800" font-size="11">Sep (Now)</text>
           </svg>
 
@@ -4772,14 +4612,14 @@ function renderAdminPage(hostname) {
   <!-- ──────────────────────────────────────────────────────────────────── -->
 
   <!-- 1. Add Property Modal -->
-  <div id="addPropertyModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+  <div id="addPropertyModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col my-auto overflow-hidden">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
         <h3 class="text-lg font-black text-slate-900">Register New Property Asset</h3>
         <button onclick="closeModal('addPropertyModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
-      <form onsubmit="submitNewProperty(event)" class="space-y-4 text-xs">
+      <form onsubmit="submitNewProperty(event)" class="space-y-4 text-xs overflow-y-auto pr-1 sm:pr-2 flex-1 pt-3">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Property Name</label>
           <input id="propName" type="text" required placeholder="e.g. Lodha Belmondo Heights" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
@@ -4859,23 +4699,23 @@ function renderAdminPage(hostname) {
           <input id="propAmenities" type="text" value="Heated Pool, EV Chargers, Concierge, Rooftop Terrace" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
         </div>
 
-        <div class="flex items-center justify-end gap-3 pt-3">
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 sticky bottom-0 bg-white/95 backdrop-blur-md z-20 flex-shrink-0">
           <button type="button" onclick="closeModal('addPropertyModal')" class="pill-btn px-4 py-2 text-slate-600 hover:text-slate-900 font-bold">Cancel</button>
-          <button type="submit" class="pill-btn px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md">Register Property</button>
+          <button type="submit" id="btnRegisterProperty" class="pill-btn px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md">Register Property</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- 2. Add Unit Modal -->
-  <div id="addUnitModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+  <div id="addUnitModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col my-auto overflow-hidden">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
         <h3 class="text-lg font-black text-slate-900">Add Unit to Property</h3>
         <button onclick="closeModal('addUnitModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
-      <form onsubmit="submitNewUnit(event)" class="space-y-4 text-xs">
+      <form onsubmit="submitNewUnit(event)" class="space-y-4 text-xs overflow-y-auto pr-1 sm:pr-2 flex-1 pt-3">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Target Property</label>
           <select id="unitTargetProperty" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none"></select>
@@ -4916,7 +4756,7 @@ function renderAdminPage(hostname) {
           <input id="unitTenant" type="text" value="Vacant / Open" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
         </div>
 
-        <div class="flex items-center justify-end gap-3 pt-3">
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 sticky bottom-0 bg-white/95 backdrop-blur-md z-20 flex-shrink-0">
           <button type="button" onclick="closeModal('addUnitModal')" class="pill-btn px-4 py-2 text-slate-600 hover:text-slate-900 font-bold">Cancel</button>
           <button type="submit" class="pill-btn px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md">Add Unit</button>
         </div>
@@ -4925,14 +4765,14 @@ function renderAdminPage(hostname) {
   </div>
 
   <!-- 3. Add User Modal -->
-  <div id="addUserModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+  <div id="addUserModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col my-auto overflow-hidden">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
         <h3 class="text-lg font-black text-slate-900">Add User / Member</h3>
         <button onclick="closeModal('addUserModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
-      <form onsubmit="submitNewUser(event)" class="space-y-4 text-xs">
+      <form onsubmit="submitNewUser(event)" class="space-y-4 text-xs overflow-y-auto pr-1 sm:pr-2 flex-1 pt-3">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Full Legal Name</label>
           <input id="userName" type="text" required placeholder="e.g. Jessica Sterling" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
@@ -4981,7 +4821,7 @@ function renderAdminPage(hostname) {
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-3 pt-3">
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 sticky bottom-0 bg-white/95 backdrop-blur-md z-20 flex-shrink-0">
           <button type="button" onclick="closeModal('addUserModal')" class="pill-btn px-4 py-2 text-slate-600 hover:text-slate-900 font-bold">Cancel</button>
           <button type="submit" class="pill-btn px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md">Create User Account</button>
         </div>
@@ -4990,14 +4830,14 @@ function renderAdminPage(hostname) {
   </div>
 
   <!-- 4. Add Task Modal -->
-  <div id="addTaskModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+  <div id="addTaskModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col my-auto overflow-hidden">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
         <h3 class="text-lg font-black text-slate-900">Create Operational Task</h3>
         <button onclick="closeModal('addTaskModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
-      <form onsubmit="submitNewTask(event)" class="space-y-4 text-xs">
+      <form onsubmit="submitNewTask(event)" class="space-y-4 text-xs overflow-y-auto pr-1 sm:pr-2 flex-1 pt-3">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Task Title</label>
           <input id="taskTitle" type="text" required placeholder="e.g. Repair Balcony Railing Sensor" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
@@ -5047,7 +4887,7 @@ function renderAdminPage(hostname) {
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-3 pt-3">
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 sticky bottom-0 bg-white/95 backdrop-blur-md z-20 flex-shrink-0">
           <button type="button" onclick="closeModal('addTaskModal')" class="pill-btn px-4 py-2 text-slate-600 hover:text-slate-900 font-bold">Cancel</button>
           <button type="submit" class="pill-btn px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md">Create Task</button>
         </div>
@@ -5341,6 +5181,10 @@ function renderAdminPage(hostname) {
       }).then(r => r.json()).then(data => {
         if (data.success) {
           console.log('Successfully saved to Cloudflare KV:', data);
+          try {
+            const bc = new BroadcastChannel('propledger_channel');
+            bc.postMessage({ type: 'PROPERTY_ADDED', property: newProp });
+          } catch(e) {}
         }
       }).catch(err => console.error('Edge sync error:', err));
     }
