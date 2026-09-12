@@ -30,15 +30,23 @@ with open(script_path, "r", encoding="utf-8") as f:
 resend_key = os.environ.get("RESEND_API_KEY", "")
 
 boundary = "----WebKitFormBoundaryPropLedger2026"
+bindings = [
+    {
+        "name": "PROPS_KV",
+        "type": "kv_namespace",
+        "namespace_id": "4867ceafbde044eeb7ccf58438cffb1a"
+    }
+]
+if resend_key:
+    bindings.append({
+        "name": "RESEND_API_KEY",
+        "type": "secret_text",
+        "text": resend_key
+    })
+
 metadata = {
     "body_part": "script",
-    "bindings": [
-        {
-            "name": "RESEND_API_KEY",
-            "type": "secret_text",
-            "text": resend_key
-        }
-    ] if resend_key else [],
+    "bindings": bindings,
     "compatibility_date": "2025-01-01"
 }
 

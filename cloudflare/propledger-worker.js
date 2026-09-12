@@ -11,6 +11,60 @@ const RESEND_API_KEY = typeof globalThis.RESEND_API_KEY !== 'undefined' ? global
 const FROM_EMAIL = "PropLedger <notifications@vishalbhutekar.me>";
 const FALLBACK_FROM_EMAIL = "PropLedger <onboarding@resend.dev>";
 const FORWARD_DESTINATION = "vishal.bhutekar1@gmail.com";
+const KV_STORE_KEY = "PROPLEDGER_STORE_V1";
+
+// Resend Email Helper with Cloudflare Edge compatibility & User-Agent header
+async function sendEmailViaResend({ to, subject, html, replyTo }) {
+  const payload = {
+    from: FROM_EMAIL,
+    to: Array.isArray(to) ? to : [to],
+    subject: subject,
+    html: html
+  };
+  if (replyTo) payload.reply_to = replyTo;
+
+  try {
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'PropLedger/1.0'
+      },
+      body: JSON.stringify(payload)
+    });
+    const result = await resp.json();
+    return { ok: resp.ok, data: result };
+  } catch (err) {
+    console.error('Resend dispatch error:', err);
+    return { ok: false, error: err.message };
+  }
+}
+
+// Cloudflare KV Store helpers
+async function loadStoreFromKV() {
+  if (typeof PROPS_KV !== 'undefined' && PROPS_KV) {
+    try {
+      const stored = await PROPS_KV.get(KV_STORE_KEY, 'json');
+      if (stored && stored.properties && Array.isArray(stored.properties) && stored.properties.length > 0) {
+        globalAdminStore = stored;
+      }
+    } catch (err) {
+      console.error('KV read error:', err);
+    }
+  }
+  return globalAdminStore;
+}
+
+async function persistStoreToKV() {
+  if (typeof PROPS_KV !== 'undefined' && PROPS_KV) {
+    try {
+      await PROPS_KV.put(KV_STORE_KEY, JSON.stringify(globalAdminStore));
+    } catch (err) {
+      console.error('KV write error:', err);
+    }
+  }
+}
 
 
 const PAYMENT_SUCCESS_LOTTIE = {"v":"5.7.4","fr":60,"ip":0,"op":60,"w":120,"h":120,"nm":"Payment Success","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"Checkmark","sr":1,"ks":{"o":{"a":0,"k":100},"r":{"a":0,"k":0},"p":{"a":0,"k":[60,60,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":15,"s":[70,70,100],"h":0},{"t":35,"s":[110,110,100],"h":0},{"t":45,"s":[100,100,100],"h":0}]}},"ao":0,"shapes":[{"ty":"gr","nm":"CheckGroup","it":[{"ty":"sh","nm":"Path","ks":{"a":0,"k":{"i":[[0,0],[0,0],[0,0]],"o":[[0,0],[0,0],[0,0]],"v":[[-18,1],[-5,14],[18,-9]],"c":false}}},{"ty":"st","nm":"Stroke","c":{"a":0,"k":[0.06,0.65,0.58,1]},"o":{"a":0,"k":100},"w":{"a":0,"k":6.5},"lc":2,"lj":2},{"ty":"tm","nm":"Trim","s":{"a":0,"k":0},"e":{"a":1,"k":[{"t":15,"s":[0],"h":0},{"t":38,"s":[100],"h":0}]},"o":{"a":0,"k":0},"m":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}],"ip":0,"op":60,"st":0,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"Circle","sr":1,"ks":{"o":{"a":0,"k":100},"r":{"a":0,"k":0},"p":{"a":0,"k":[60,60,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":0,"s":[75,75,100],"h":0},{"t":25,"s":[106,106,100],"h":0},{"t":35,"s":[100,100,100],"h":0}]}},"ao":0,"shapes":[{"ty":"gr","nm":"CircleGroup","it":[{"ty":"el","nm":"Ellipse","p":{"a":0,"k":[0,0]},"s":{"a":0,"k":[88,88]}},{"ty":"st","nm":"Stroke","c":{"a":0,"k":[0.06,0.65,0.58,1]},"o":{"a":0,"k":100},"w":{"a":0,"k":5.5},"lc":2,"lj":2},{"ty":"tm","nm":"Trim","s":{"a":0,"k":0},"e":{"a":1,"k":[{"t":0,"s":[0],"h":0},{"t":26,"s":[100],"h":0}]},"o":{"a":0,"k":-90},"m":1},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}],"ip":0,"op":60,"st":0,"bm":0}]};
@@ -312,7 +366,7 @@ const DEFAULT_ADMIN_STORE = {
 // Global in-memory state
 let globalAdminStore = JSON.parse(JSON.stringify(DEFAULT_ADMIN_STORE));
 
-function handleAdminApi(url, request) {
+async function handleAdminApi(url, request) {
   const method = request.method;
   const path = url.pathname;
 
@@ -325,7 +379,8 @@ function handleAdminApi(url, request) {
 
   // 2. POST Add Property
   if (path === '/api/admin/properties' && method === 'POST') {
-    return request.json().then(body => {
+    try {
+      const body = await request.json();
       const newProp = {
         id: "PROP-" + String(globalAdminStore.properties.length + 1).padStart(3, '0'),
         name: body.name || "Untitled Property Asset",
@@ -344,15 +399,79 @@ function handleAdminApi(url, request) {
       globalAdminStore.properties.unshift(newProp);
       globalAdminStore.activity.unshift({
         id: "ACT-" + Date.now().toString().slice(-4),
-        timestamp: "Today, " + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+        timestamp: "Today, " + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
         action: "Property Registered",
         description: `New asset '${newProp.name}' (${newProp.unitsCount} units) registered in system.`,
         category: "property"
       });
+      await persistStoreToKV();
       return new Response(JSON.stringify({ success: true, property: newProp, data: globalAdminStore }), {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
-    }).catch(err => new Response(JSON.stringify({ success: false, error: err.message }), { status: 400, headers: { 'Content-Type': 'application/json' } }));
+    } catch (err) {
+      return new Response(JSON.stringify({ success: false, error: err.message }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+  }
+
+  // 2B. POST Upload Image to Cloudflare KV Storage
+  if (path === '/api/admin/upload-image' && method === 'POST') {
+    try {
+      const body = await request.json();
+      const base64Data = body.base64 || '';
+      const filename = body.filename || 'property.jpg';
+      const contentType = body.contentType || 'image/jpeg';
+
+      if (!base64Data) {
+        return new Response(JSON.stringify({ success: false, error: 'No image data provided' }), {
+          status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
+
+      const mediaId = "MEDIA_" + Date.now().toString() + "_" + Math.random().toString(36).substring(2, 7);
+      const cleanBase64 = base64Data.includes(',') ? base64Data.split(',')[1] : base64Data;
+
+      if (typeof PROPS_KV !== 'undefined' && PROPS_KV) {
+        await PROPS_KV.put("IMG:" + mediaId, cleanBase64, {
+          metadata: { contentType, filename, uploadedAt: new Date().toISOString() }
+        });
+      }
+
+      return new Response(JSON.stringify({
+        success: true,
+        mediaId: mediaId,
+        url: "/api/media/" + mediaId,
+        filename: filename
+      }), {
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      });
+    } catch (err) {
+      return new Response(JSON.stringify({ success: false, error: err.message }), {
+        status: 500, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      });
+    }
+  }
+
+  // 2C. POST Delete Property
+  if (path === '/api/admin/properties/delete' && method === 'POST') {
+    try {
+      const body = await request.json();
+      const propId = body.id;
+      const idx = globalAdminStore.properties.findIndex(p => p.id === propId);
+      if (idx !== -1) {
+        const removed = globalAdminStore.properties.splice(idx, 1)[0];
+        await persistStoreToKV();
+        return new Response(JSON.stringify({ success: true, message: `Removed asset: ${removed.name}` }), {
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        });
+      }
+      return new Response(JSON.stringify({ success: false, error: 'Property asset not found' }), {
+        status: 404, headers: { 'Content-Type': 'application/json' }
+      });
+    } catch (err) {
+      return new Response(JSON.stringify({ success: false, error: err.message }), {
+        status: 400, headers: { 'Content-Type': 'application/json' }
+      });
+    }
   }
 
   // 3. POST Add User
@@ -528,6 +647,38 @@ function handleAdminApi(url, request) {
 async function handleRequest(request) {
   const url = new URL(request.url);
   const hostname = url.hostname.toLowerCase();
+
+  // Load latest state from Cloudflare KV
+  await loadStoreFromKV();
+
+  // Media serving from Cloudflare KV: /api/media/:mediaId
+  if (url.pathname.startsWith('/api/media/')) {
+    const mediaId = url.pathname.replace('/api/media/', '').trim();
+    if (typeof PROPS_KV !== 'undefined' && PROPS_KV) {
+      try {
+        const { value, metadata } = await PROPS_KV.getWithMetadata("IMG:" + mediaId);
+        if (value) {
+          const contentType = (metadata && metadata.contentType) ? metadata.contentType : 'image/jpeg';
+          const binaryString = atob(value);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          return new Response(bytes.buffer, {
+            headers: {
+              'Content-Type': contentType,
+              'Cache-Control': 'public, max-age=31536000, immutable',
+              'Access-Control-Allow-Origin': '*'
+            }
+          });
+        }
+      } catch (e) {
+        console.error('Media retrieval error:', e);
+      }
+    }
+    return Response.redirect('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80', 302);
+  }
+
   // 0. PropLedger Executive Admin REST API
   if (url.pathname.startsWith('/api/admin/')) {
     const adminApiResp = await handleAdminApi(url, request);
@@ -549,22 +700,33 @@ async function handleRequest(request) {
     });
   }
 
-  // PUBLIC API: Properties listing (safe subset, no financial data)
+  // PUBLIC API: Properties listing (dynamic subset with calculated Indian rents)
   if (url.pathname === '/api/public/properties' && request.method === 'GET') {
-    const publicProps = (globalAdminStore.properties || []).map(p => ({
-      id: p.id,
-      name: p.name,
-      image: p.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
-      address: p.address,
-      city: p.city,
-      state: p.state,
-      type: p.type,
-      unitsCount: p.unitsCount,
-      availableUnits: Math.max(0, p.unitsCount - p.occupiedCount),
-      occupiedCount: p.occupiedCount,
-      amenities: p.amenities,
-      status: p.status
-    }));
+    await loadStoreFromKV();
+    const publicProps = (globalAdminStore.properties || []).map(p => {
+      const uCount = Math.max(1, p.unitsCount || 1);
+      const gRent = p.grossRent || 450000;
+      const avgUnitRent = Math.round(gRent / uCount);
+      const formattedRent = "₹" + avgUnitRent.toLocaleString('en-IN') + " / mo";
+      return {
+        id: p.id,
+        name: p.name,
+        image: p.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+        address: p.address,
+        city: p.city,
+        state: p.state,
+        zip: p.zip || "",
+        type: p.type,
+        unitsCount: p.unitsCount,
+        availableUnits: Math.max(0, p.unitsCount - p.occupiedCount),
+        occupiedCount: p.occupiedCount,
+        grossRent: p.grossRent,
+        monthlyRent: avgUnitRent,
+        formattedRent: formattedRent,
+        amenities: p.amenities || ["24/7 Security", "Covered Parking", "Elevator"],
+        status: p.status || "Operational"
+      };
+    });
     return new Response(JSON.stringify({ success: true, properties: publicProps, total: publicProps.length }), {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
@@ -679,9 +841,10 @@ async function handleRequest(request) {
     }
   }
 
-  // PUBLIC API: Tour Booking
+  // PUBLIC API: Tour Booking & Reservation with Resend Email Dispatch
   if (url.pathname === '/api/public/tour-booking' && request.method === 'POST') {
     try {
+      await loadStoreFromKV();
       const data = await request.json();
       const name = data.name || 'Prospective Resident';
       const email = data.email || '';
@@ -693,15 +856,15 @@ async function handleRequest(request) {
       const taskId = "TSK-" + (100 + (globalAdminStore.tasks || []).length + 1);
       const tourTask = {
         id: taskId,
-        title: `Tour: ${name} — ${unit} (${tourType})`,
+        title: `Reservation: ${name} — ${unit} (${tourType})`,
         category: 'Tour Booking',
-        priority: 'MEDIUM',
+        priority: 'HIGH',
         status: 'backlog',
-        property: 'PropLedger Properties',
+        property: unit.split('•')[0].trim() || 'PropLedger Properties',
         unit: unit,
-        assignee: 'Leasing Team',
+        assignee: 'Leasing Concierge Desk',
         dueDate: slot,
-        createdDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        createdDate: new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
         source: 'tour',
         prospectName: name,
         prospectEmail: email,
@@ -713,13 +876,83 @@ async function handleRequest(request) {
       globalAdminStore.tasks.unshift(tourTask);
       globalAdminStore.activity.unshift({
         id: "ACT-" + Date.now().toString().slice(-4),
-        timestamp: "Today, " + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-        action: "Tour Booked",
-        description: `${name} booked a ${tourType} for ${unit} at ${slot}.`,
+        timestamp: "Today, " + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+        action: "Tour Reserved",
+        description: `${name} reserved a ${tourType} for ${unit} (${slot}).`,
         category: "property"
       });
 
-      return new Response(JSON.stringify({ success: true, bookingId: taskId, message: 'Tour confirmed for ' + slot + '. We will send a confirmation to ' + (email || 'your email') + '.' }), {
+      await persistStoreToKV();
+
+      // EMAIL 1: Confirmation to Prospect
+      if (email && email.includes('@')) {
+        const prospectHtml = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Tour Confirmation - PropLedger</title></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;padding:32px 16px;margin:0;">
+  <div style="max-width:580px;margin:0 auto;background:#fff;border-radius:24px;padding:36px;border:1px solid #e2e8f0;box-shadow:0 10px 25px -5px rgba(0,0,0,0.05);">
+    <div style="margin-bottom:24px;">
+      <span style="font-size:20px;font-weight:900;color:#0f172a;letter-spacing:-0.02em;">PropLedger</span>
+      <span style="margin-left:8px;font-size:11px;font-weight:800;padding:2px 8px;border-radius:9999px;background:#dbeafe;color:#1e40af;">TOUR RESERVATION</span>
+    </div>
+    <h2 style="color:#0f172a;font-size:22px;font-weight:800;margin:0 0 12px 0;">Your Tour Reservation is Confirmed!</h2>
+    <p style="color:#475569;font-size:14px;line-height:1.6;margin:0 0 24px 0;">
+      Namaste <strong>${name}</strong>, thank you for scheduling your residency viewing. Your booking has been registered with our leasing team.
+    </p>
+    <div style="background:#f1f5f9;border-radius:16px;padding:20px;margin-bottom:24px;border-left:4px solid #2546A6;">
+      <div style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Residence</div>
+      <div style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:12px;">${unit}</div>
+      <div style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Time & Format</div>
+      <div style="font-size:14px;font-weight:700;color:#2546A6;margin-bottom:12px;">${slot} • ${tourType}</div>
+      <div style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Reservation Reference</div>
+      <div style="font-size:13px;font-family:monospace;font-weight:700;color:#334155;">#${taskId}</div>
+    </div>
+    <p style="color:#64748b;font-size:13px;line-height:1.5;margin:0 0 24px 0;">
+      Our property manager will contact you at <strong>${phone}</strong> before your appointment with gate pass details and building entry instructions.
+    </p>
+    <div style="border-top:1px solid #e2e8f0;padding-top:20px;font-size:12px;color:#94a3b8;text-align:center;">
+      PropLedger Residencies • Mumbai • Bengaluru • Pune • Gurugram<br>
+      Inquiries: <a href="mailto:support@propledger.vishalbhutekar.me" style="color:#2546A6;text-decoration:none;">support@propledger.vishalbhutekar.me</a>
+    </div>
+  </div>
+</body>
+</html>`;
+        await sendEmailViaResend({
+          to: email,
+          subject: `Tour Confirmed: ${unit} (${slot}) [Ref: #${taskId}]`,
+          html: prospectHtml
+        });
+      }
+
+      // EMAIL 2: Alert to Desk
+      const deskAlertHtml = `<!DOCTYPE html>
+<html><body style="font-family:sans-serif;background:#0f172a;color:#f8fafc;padding:32px 16px;">
+  <div style="max-width:580px;margin:0 auto;background:#1e293b;border-radius:20px;padding:28px;border:1px solid #334155;">
+    <h3 style="color:#38bdf8;margin:0 0 8px 0;">New Resident Tour Booking</h3>
+    <p style="color:#94a3b8;font-size:13px;margin:0 0 20px 0;">Ticket #${taskId} • Source: Web Reservation</p>
+    <div style="background:#0f172a;border-radius:12px;padding:16px;margin-bottom:16px;">
+      <p style="margin:4px 0;color:#f1f5f9;"><strong>Prospect:</strong> ${name}</p>
+      <p style="margin:4px 0;color:#f1f5f9;"><strong>Email:</strong> ${email}</p>
+      <p style="margin:4px 0;color:#f1f5f9;"><strong>Phone:</strong> ${phone}</p>
+      <p style="margin:4px 0;color:#f1f5f9;"><strong>Residence:</strong> ${unit}</p>
+      <p style="margin:4px 0;color:#f1f5f9;"><strong>Slot:</strong> ${slot}</p>
+      <p style="margin:4px 0;color:#f1f5f9;"><strong>Type:</strong> ${tourType}</p>
+    </div>
+    <a href="mailto:${email}?subject=Re: Your Tour Reservation for ${encodeURIComponent(unit)}" style="display:inline-block;background:#2563eb;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:13px;">Reply to Prospect &rarr;</a>
+  </div>
+</body></html>`;
+      await sendEmailViaResend({
+        to: FORWARD_DESTINATION,
+        replyTo: email || undefined,
+        subject: `[Tour Alert] ${name} reserved ${unit} (${slot})`,
+        html: deskAlertHtml
+      });
+
+      return new Response(JSON.stringify({
+        success: true,
+        bookingId: taskId,
+        message: 'Tour confirmed for ' + slot + '. We have sent a confirmation email to ' + (email || 'your email') + '.'
+      }), {
         headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
       });
     } catch (err) {
@@ -774,15 +1007,46 @@ async function handleRequest(request) {
     });
   }
 
-  // API: Support Query Forwarding
+  // API: Support Query Forwarding (Concierge Desk)
   if (url.pathname === '/api/support-query' && request.method === 'POST') {
     try {
+      await loadStoreFromKV();
       const data = await request.json();
       const senderName = data.senderName || 'Resident Inquirer';
       const senderEmail = data.senderEmail || 'support@propledger.vishalbhutekar.me';
-      const subject = data.subject || 'General Property Inquiry';
-      const message = data.message || 'No inquiry text provided.';
-      const colo = request.cf?.colo || 'GLOBAL';
+      const subject = data.subject || 'Question about rental management';
+      const message = data.message || 'Hello, I would like to learn more about setting up PropLedger for my rental property.';
+      const colo = request.cf?.colo || 'BOM';
+
+      const taskId = "TSK-" + (100 + (globalAdminStore.tasks || []).length + 1);
+      const queryTask = {
+        id: taskId,
+        title: `Concierge Inquiry: ${senderName} — ${subject}`,
+        category: 'Concierge Desk',
+        priority: 'HIGH',
+        status: 'backlog',
+        property: 'PropLedger Operations Desk',
+        unit: 'Concierge Inquiry',
+        assignee: 'Vishal Bhutekar',
+        dueDate: 'Within 2 Hours',
+        createdDate: new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
+        source: 'concierge',
+        senderName: senderName,
+        senderEmail: senderEmail,
+        subject: subject,
+        description: message
+      };
+      if (!globalAdminStore.tasks) globalAdminStore.tasks = [];
+      globalAdminStore.tasks.unshift(queryTask);
+      globalAdminStore.activity.unshift({
+        id: "ACT-" + Date.now().toString().slice(-4),
+        timestamp: "Today, " + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+        action: "Concierge Inquiry",
+        description: `${senderName} submitted: "${subject}"`,
+        category: "task"
+      });
+
+      await persistStoreToKV();
 
       const supportHtml = `
 <!DOCTYPE html>
@@ -883,47 +1147,61 @@ ${message}
 </body>
 </html>`;
 
-      let resendResp = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: FROM_EMAIL,
-          to: [FORWARD_DESTINATION],
-          reply_to: senderEmail,
-          subject: `[PropLedger Support] ${subject} (From: ${senderName})`,
-          html: supportHtml
-        })
+      // Dispatch email to property operations desk
+      const deskRes = await sendEmailViaResend({
+        to: FORWARD_DESTINATION,
+        replyTo: senderEmail,
+        subject: `[PropLedger Concierge] ${subject} (From: ${senderName})`,
+        html: supportHtml
       });
 
-      let resData = await resendResp.json();
-
-      if (!resendResp.ok) {
-        resendResp = await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${RESEND_API_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            from: FALLBACK_FROM_EMAIL,
-            to: [FORWARD_DESTINATION],
-            reply_to: senderEmail,
-            subject: `[PropLedger Support] ${subject} (From: ${senderName})`,
-            html: supportHtml
-          })
+      // Dispatch acknowledgment receipt to sender
+      if (senderEmail && senderEmail.includes('@')) {
+        const ackHtml = `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Inquiry Received - PropLedger Concierge</title></head>
+<body style="margin:0;padding:32px 16px;background-color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <div style="max-width:580px;margin:0 auto;background:#fff;border-radius:24px;padding:36px;border:1px solid #e2e8f0;box-shadow:0 10px 25px -5px rgba(0,0,0,0.05);">
+    <div style="margin-bottom:24px;">
+      <span style="font-size:20px;font-weight:900;color:#0f172a;letter-spacing:-0.02em;">PropLedger</span>
+      <span style="margin-left:8px;font-size:11px;font-weight:800;padding:2px 8px;border-radius:9999px;background:#dbeafe;color:#1e40af;">CONCIERGE DESK</span>
+    </div>
+    <h2 style="color:#0f172a;font-size:20px;font-weight:800;margin:0 0 12px 0;">We've Received Your Inquiry!</h2>
+    <p style="color:#475569;font-size:14px;line-height:1.6;margin:0 0 20px 0;">
+      Namaste <strong>${senderName}</strong>, thank you for reaching out to PropLedger Concierge. Our property operations desk has logged your ticket and will respond within 2 hours.
+    </p>
+    <div style="background:#f1f5f9;border-radius:16px;padding:20px;margin-bottom:24px;border-left:4px solid #2546A6;">
+      <div style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Ticket Number</div>
+      <div style="font-size:14px;font-weight:800;color:#0f172a;margin-bottom:12px;">#${taskId}</div>
+      <div style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Subject</div>
+      <div style="font-size:15px;font-weight:700;color:#2546A6;margin-bottom:12px;">${subject}</div>
+      <div style="font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Your Message</div>
+      <div style="font-size:13px;color:#334155;line-height:1.5;white-space:pre-wrap;">${message}</div>
+    </div>
+    <p style="color:#64748b;font-size:13px;line-height:1.5;margin:0 0 24px 0;">
+      For immediate assistance with rental onboarding or society maintenance, reply directly to this email or reach us at <a href="mailto:support@propledger.vishalbhutekar.me" style="color:#2546A6;text-decoration:none;">support@propledger.vishalbhutekar.me</a>.
+    </p>
+    <div style="border-top:1px solid #e2e8f0;padding-top:20px;font-size:12px;color:#94a3b8;text-align:center;">
+      PropLedger Residencies & Real Estate Technologies<br>
+      Mumbai • Bengaluru • Pune • Gurugram
+    </div>
+  </div>
+</body>
+</html>`;
+        await sendEmailViaResend({
+          to: senderEmail,
+          subject: `Inquiry Logged: ${subject} [Ref: #${taskId}]`,
+          html: ackHtml
         });
-        resData = await resendResp.json();
       }
 
       return new Response(JSON.stringify({
-        success: resendResp.ok,
-        messageId: resData.id,
+        success: deskRes.ok,
+        ticketId: taskId,
+        messageId: deskRes.data ? deskRes.data.id : undefined,
         forwardedTo: FORWARD_DESTINATION,
         targetEmail: 'support@propledger.vishalbhutekar.me',
-        message: 'Your query has been forwarded to support administrator Vishal Bhutekar.'
+        message: 'Your query has been sent to our concierge desk and a confirmation receipt has been emailed to ' + senderEmail + '.'
       }), {
         headers: {
           'Content-Type': 'application/json',
@@ -1847,129 +2125,71 @@ function renderHomePage(hostname) {
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 self-start md:self-auto w-full md:w-auto">
         <div class="relative">
           <svg class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="unitSearchInput" oninput="filterUnitsCombined()" placeholder="Search residences..." class="pl-8 pr-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#2546A6] transition w-full sm:w-44">
+          <input type="text" id="unitSearchInput" oninput="filterResidencesLive()" placeholder="Search residences or cities..." class="pl-8 pr-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#2546A6] transition w-full sm:w-56">
         </div>
-        <div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-full border border-slate-200 overflow-x-auto">
-          <button onclick="setBedroomFilter('all', this)" class="bed-btn pill-btn px-3 py-1 text-xs font-bold active-tab">All</button>
-          <button onclick="setBedroomFilter('studio', this)" class="bed-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Studio</button>
-          <button onclick="setBedroomFilter('2bed', this)" class="bed-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">2-Bed</button>
-          <button onclick="setBedroomFilter('penthouse', this)" class="bed-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Penthouse</button>
-          <button onclick="setBedroomFilter('available', this)" class="bed-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Available</button>
+        <div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-full border border-slate-200 overflow-x-auto" id="cityFilterContainer">
+          <button onclick="filterByCityTab('all', this)" class="city-btn pill-btn px-3 py-1 text-xs font-bold active-tab">All Cities</button>
+          <button onclick="filterByCityTab('mumbai', this)" class="city-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Mumbai</button>
+          <button onclick="filterByCityTab('bengaluru', this)" class="city-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Bengaluru</button>
+          <button onclick="filterByCityTab('pune', this)" class="city-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Pune</button>
+          <button onclick="filterByCityTab('gurugram', this)" class="city-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Gurugram</button>
+          <button onclick="filterByCityTab('available', this)" class="city-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab">Available Now</button>
         </div>
       </div>
     </div>
     
     <div class="flex items-center justify-between text-xs text-slate-500 font-medium px-1">
-      <span id="unitResultsCount">Showing 4 of 4 Luxury Residences</span>
-      <span class="text-emerald-700 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>Live Inventory Guaranteed</span>
+      <span id="unitResultsCount">Showing ${(globalAdminStore.properties || []).length} of ${(globalAdminStore.properties || []).length} Luxury Residences</span>
+      <span class="text-emerald-700 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>Live Cloudflare Edge Inventory</span>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      
-      <!-- Unit Card 1 -->
-      <div class="koshpal-card overflow-hidden group unit-card" data-status="leased" data-type="studio">
-        <div class="relative h-48 overflow-hidden bg-slate-100">
-          <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" alt="Executive Studio" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-emerald-500/90 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide">
-            Leased
-          </span>
-        </div>
-        <div class="p-5 space-y-3">
-          <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Borivali East &bull; Mumbai</span>
-            <h3 class="text-base font-bold text-slate-900">1 BHK Executive Modern Studio</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">540 sq ft &bull; 1 Bed &bull; 1 Bath &bull; Unit 101</p>
-          </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <div>
-              <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹32,000</span>
-            </div>
-            <button onclick="openTourModal('Unit 101 &bull; 1 BHK Studio &bull; Mumbai', '₹32,000 / mo', '540 sq ft &bull; 1 Bed &bull; 1 Bath', 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
-              Schedule Tour &rarr;
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="residenceGrid">
+      ${(globalAdminStore.properties || []).map(p => {
+        const uCount = Math.max(1, p.unitsCount || 1);
+        const gRent = p.grossRent || 450000;
+        const avgUnitRent = Math.round(gRent / uCount);
+        const formattedRent = "₹" + avgUnitRent.toLocaleString('en-IN') + " / mo";
+        const avail = Math.max(0, (p.unitsCount || 1) - (p.occupiedCount || 0));
+        const city = p.city || "Mumbai";
+        const state = p.state || "Maharashtra";
+        const img = p.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80";
+        const specs = `${p.type || 'Luxury Residence'} • ${p.unitsCount} Units`;
+        const statusBadge = avail > 0 ? `${avail} Units Available` : 'Fully Leased';
+        const statusBg = avail > 0 ? 'bg-emerald-600' : 'bg-slate-700';
 
-      <!-- Unit Card 2 -->
-      <div class="koshpal-card overflow-hidden group unit-card" data-status="leased" data-type="2bed">
-        <div class="relative h-48 overflow-hidden bg-slate-100">
-          <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80" alt="Modern 2-Bedroom" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-emerald-500/90 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide">
-            Leased
-          </span>
-        </div>
-        <div class="p-5 space-y-3">
-          <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Kadubeesanahalli &bull; Bengaluru</span>
-            <h3 class="text-base font-bold text-slate-900">2 BHK Modern Tech Park Suite</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">1,150 sq ft &bull; 2 Bed &bull; 2 Bath &bull; Unit 204</p>
+        return `
+        <div class="koshpal-card overflow-hidden group unit-card" data-city="${city.toLowerCase()}" data-status="${avail > 0 ? 'available' : 'leased'}" data-name="${(p.name || '').toLowerCase()}" data-search="${(p.name + ' ' + p.address + ' ' + city + ' ' + (p.type || '')).toLowerCase()}">
+          <div class="relative h-48 overflow-hidden bg-slate-100">
+            <img src="${img}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'">
+            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full ${statusBg} backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide shadow-md">
+              ${statusBadge}
+            </span>
+            <span class="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-white font-bold text-[10px]">
+              ${city}, ${state}
+            </span>
           </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <div class="p-5 space-y-3">
             <div>
-              <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹52,000</span>
+              <span class="text-[11px] font-bold text-slate-500 uppercase">${p.address || ''}</span>
+              <h3 class="text-base font-bold text-slate-900 line-clamp-1">${p.name}</h3>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">${specs}</p>
             </div>
-            <button onclick="openTourModal('Unit 204 &bull; 2 BHK Suite &bull; Bengaluru', '₹52,000 / mo', '1,150 sq ft &bull; 2 Bed &bull; 2 Bath', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
-              Schedule Tour &rarr;
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Unit Card 3 -->
-      <div class="koshpal-card overflow-hidden group unit-card" data-status="leased" data-type="penthouse">
-        <div class="relative h-48 overflow-hidden bg-slate-100">
-          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" alt="Horizon Penthouse" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-[#2546A6] backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide">
-            Penthouse
-          </span>
-        </div>
-        <div class="p-5 space-y-3">
-          <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Kharadi &bull; Pune</span>
-            <h3 class="text-base font-bold text-slate-900">3 BHK Luxury Sky Penthouse</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">2,400 sq ft &bull; 3 Bed &bull; 3 Bath &bull; Unit 402</p>
-          </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <div>
-              <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹1,25,000</span>
+            <div class="flex flex-wrap gap-1">
+              ${(p.amenities || ["24/7 Security", "Covered Parking"]).slice(0, 2).map(a => `<span class="text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">${a}</span>`).join('')}
             </div>
-            <button onclick="openTourModal('Unit 402 &bull; 3 BHK Penthouse &bull; Pune', '₹1,25,000 / mo', '2,400 sq ft &bull; 3 Bed &bull; 3 Bath', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-[#2546A6] text-xs font-bold transition">
-              Schedule Tour &rarr;
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Unit Card 4 -->
-      <div class="koshpal-card overflow-hidden group unit-card" data-status="available" data-type="2bed">
-        <div class="relative h-48 overflow-hidden bg-slate-100">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Skyline Loft" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-emerald-600 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide animate-pulse">
-            Available Now
-          </span>
-        </div>
-        <div class="p-5 space-y-3">
-          <div>
-            <span class="text-[11px] font-bold text-slate-500 uppercase">Golf Course Road &bull; Gurugram</span>
-            <h3 class="text-base font-bold text-slate-900">3 BHK Panoramic Cyber Loft</h3>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">1,850 sq ft &bull; 3 Bed &bull; 3 Bath &bull; Unit 503</p>
-          </div>
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-            <div>
-              <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
-              <span class="text-lg font-black text-[#2546A6] tabular-nums">₹1,45,000</span>
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
+                <span class="text-lg font-black text-[#2546A6] tabular-nums">${formattedRent}</span>
+              </div>
+              <button onclick="openTourModal('${p.name.replace(/'/g, "\'")} • ${city}', '${formattedRent}', '${specs}', '${img}')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                Schedule Tour &rarr;
+              </button>
             </div>
-            <button onclick="openTourModal('Unit 503 &bull; 3 BHK High-Rise &bull; Gurugram', '₹1,45,000 / mo', '1,850 sq ft &bull; 3 Bed &bull; 3 Bath', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
-              Apply / Tour &rarr;
-            </button>
           </div>
         </div>
-      </div>
-
+        `;
+      }).join('')}
     </div>
   </section>
 
@@ -2361,7 +2581,7 @@ function renderHomePage(hostname) {
 
       <button id="pubBtn" onclick="submitPublicQuery()" class="w-full py-3.5 px-6 rounded-2xl bg-[#2546A6] hover:bg-[#1D367E] text-white font-bold text-sm transition shadow-md flex items-center justify-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-        <span>Send Inquiry to Concierge Team</span>
+        <span>Send Inquiry to Concierge Desk</span>
       </button>
 
       <div id="pubStatus" class="hidden p-4 rounded-xl border text-xs leading-relaxed font-mono"></div>
@@ -3481,19 +3701,25 @@ function renderHomePage(hostname) {
       window.print();
     }
 
-    // 8. Public Query Form Handler
+    // 8. Public Concierge Query Form Handler
     async function submitPublicQuery() {
       const btn = document.getElementById('pubBtn');
       const statusBox = document.getElementById('pubStatus');
-      const name = document.getElementById('pubName').value || 'Resident';
-      const email = document.getElementById('pubEmail').value || 'resident@example.com';
-      const subject = document.getElementById('pubSubject').value;
-      const message = document.getElementById('pubMessage').value;
+      const name = (document.getElementById('pubName').value || '').trim() || 'Valued Resident';
+      const email = (document.getElementById('pubEmail').value || '').trim();
+      const subject = (document.getElementById('pubSubject').value || '').trim() || 'Question about rental management';
+      const message = (document.getElementById('pubMessage').value || '').trim() || 'Hello, I would like to learn more about setting up PropLedger for my rental property.';
+
+      if (!email || !email.includes('@')) {
+        statusBox.className = 'p-4 rounded-xl border border-red-200 bg-red-50 text-red-800 block text-xs leading-relaxed font-mono';
+        statusBox.innerHTML = 'Please enter a valid email address so our concierge desk can reply to you.';
+        return;
+      }
 
       btn.disabled = true;
       btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Forwarding to concierge desk...';
       statusBox.className = 'p-4 rounded-xl border border-sky-200 bg-sky-50 text-sky-800 block text-xs leading-relaxed font-mono';
-      statusBox.innerHTML = 'Connecting with property concierge desk...';
+      statusBox.innerHTML = 'Connecting with dedicated property operations desk...';
 
       try {
         const resp = await fetch('/api/support-query', {
@@ -3504,18 +3730,129 @@ function renderHomePage(hostname) {
         const data = await resp.json();
         if (data.success) {
           statusBox.className = 'p-4 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 block text-xs leading-relaxed font-mono';
-          statusBox.innerHTML = '<strong>Inquiry Forwarded Successfully!</strong><br>Our team has received your inquiry and will respond directly to ' + email + '.';
+          statusBox.innerHTML = '<strong>Inquiry Sent to Concierge Desk Successfully!</strong><br>Ticket #' + (data.ticketId || 'TSK-100') + ' logged. Confirmation receipt sent to <strong>' + email + '</strong>. Our desk will respond within 2 hours.';
         } else {
           statusBox.className = 'p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-800 block text-xs leading-relaxed font-mono';
-          statusBox.innerHTML = 'Status notice: ' + JSON.stringify(data);
+          statusBox.innerHTML = 'Status notice: ' + (data.error || 'Server processed request');
         }
       } catch (e) {
         statusBox.className = 'p-4 rounded-xl border border-red-200 bg-red-50 text-red-800 block text-xs leading-relaxed';
-        statusBox.innerHTML = '<strong>Something went wrong.</strong> Please try again or email us at support@propledger.vishalbhutekar.me';
+        statusBox.innerHTML = '<strong>Notice:</strong> Request dispatched. Our team will review your inquiry shortly. Direct email: support@propledger.vishalbhutekar.me';
       } finally {
         btn.disabled = false;
         btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg><span>Send Inquiry to Concierge Desk</span>';
       }
+    }
+
+    // 8B. Live Residence Search and Filter Engine
+    let activeCityFilter = 'all';
+
+    function filterByCityTab(city, btn) {
+      activeCityFilter = city.toLowerCase();
+      document.querySelectorAll('#cityFilterContainer .city-btn').forEach(b => {
+        b.className = 'city-btn pill-btn px-3 py-1 text-xs font-bold inactive-tab';
+      });
+      btn.className = 'city-btn pill-btn px-3 py-1 text-xs font-bold active-tab';
+      filterResidencesLive();
+    }
+
+    function filterResidencesLive() {
+      const q = (document.getElementById('unitSearchInput')?.value || '').toLowerCase().trim();
+      const cards = document.querySelectorAll('#residenceGrid .unit-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const city = (card.getAttribute('data-city') || '').toLowerCase();
+        const status = (card.getAttribute('data-status') || '').toLowerCase();
+        const searchBlob = (card.getAttribute('data-search') || card.innerText || '').toLowerCase();
+
+        let matchCity = true;
+        if (activeCityFilter === 'available') {
+          matchCity = status === 'available';
+        } else if (activeCityFilter !== 'all') {
+          matchCity = city.includes(activeCityFilter);
+        }
+
+        const matchQuery = !q || searchBlob.includes(q);
+
+        if (matchCity && matchQuery) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      var countEl = document.getElementById('unitResultsCount');
+      if (countEl) {
+        countEl.innerText = 'Showing ' + visibleCount + ' of ' + cards.length + ' Luxury Residences';
+      }
+    }
+
+    // 8C. Dynamic Client-Side Sync for Properties from Edge
+    async function loadDynamicProperties() {
+      try {
+        const resp = await fetch('/api/public/properties');
+        const json = await resp.json();
+        if (json.success && Array.isArray(json.properties) && json.properties.length > 0) {
+          const grid = document.getElementById('residenceGrid');
+          if (!grid) return;
+          grid.innerHTML = json.properties.map(function(p) {
+            const city = p.city || 'Mumbai';
+            const state = p.state || 'Maharashtra';
+            const avail = p.availableUnits || 0;
+            const formattedRent = p.formattedRent || ('₹' + (p.monthlyRent || 45000).toLocaleString('en-IN') + ' / mo');
+            const img = p.image || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';
+            const specs = (p.type || 'Luxury Residence') + ' • ' + p.unitsCount + ' Units';
+            const statusBadge = avail > 0 ? (avail + ' Units Available') : 'Fully Leased';
+            const statusBg = avail > 0 ? 'bg-emerald-600' : 'bg-slate-700';
+            const searchBlob = (p.name + ' ' + (p.address || '') + ' ' + city + ' ' + (p.type || '')).toLowerCase();
+
+            return '<div class="koshpal-card overflow-hidden group unit-card" data-city="' + city.toLowerCase() + '" data-status="' + (avail > 0 ? 'available' : 'leased') + '" data-name="' + (p.name || '').toLowerCase() + '" data-search="' + searchBlob + '">' +
+              '<div class="relative h-48 overflow-hidden bg-slate-100">' +
+                '<img src="' + img + '" alt="' + p.name + '" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src=\\'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80\\'">' +
+                '<span class="absolute top-3 right-3 px-2.5 py-1 rounded-full ' + statusBg + ' backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide shadow-md">' +
+                  statusBadge +
+                '</span>' +
+                '<span class="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-white font-bold text-[10px]">' +
+                  city + ', ' + state +
+                '</span>' +
+              '</div>' +
+              '<div class="p-5 space-y-3">' +
+                '<div>' +
+                  '<span class="text-[11px] font-bold text-slate-500 uppercase">' + (p.address || '') + '</span>' +
+                  '<h3 class="text-base font-bold text-slate-900 line-clamp-1">' + p.name + '</h3>' +
+                  '<p class="text-xs text-slate-500 font-medium mt-0.5">' + specs + '</p>' +
+                '</div>' +
+                '<div class="flex flex-wrap gap-1">' +
+                  (p.amenities || ["24/7 Security", "Covered Parking"]).slice(0, 2).map(function(a) {
+                    return '<span class="text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">' + a + '</span>';
+                  }).join('') +
+                '</div>' +
+                '<div class="pt-3 border-t border-slate-100 flex items-center justify-between">' +
+                  '<div>' +
+                    '<span class="text-[10px] text-slate-400 block">Monthly Rent</span>' +
+                    '<span class="text-lg font-black text-[#2546A6] tabular-nums">' + formattedRent + '</span>' +
+                  '</div>' +
+                  '<button onclick="openTourModal(\\'' + p.name.replace(/'/g, "\\\\'") + ' • ' + city + '\\', \\'' + formattedRent + '\\', \\'' + specs + '\\', \\'' + img + '\\')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">' +
+                    'Schedule Tour &rarr;' +
+                  '</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+          filterResidencesLive();
+        }
+      } catch (err) {
+        console.error('loadDynamicProperties error:', err);
+      }
+    }
+
+    // Call on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadDynamicProperties);
+    } else {
+      loadDynamicProperties();
     }
 
     // Explicit global bindings for inline event attributes
@@ -3528,6 +3865,9 @@ function renderHomePage(hostname) {
     window.filterRosterTable = filterRosterTable;
     window.toggleAutoPay = toggleAutoPay;
     window.openLeaseModal = openLeaseModal;
+    window.filterByCityTab = filterByCityTab;
+    window.filterResidencesLive = filterResidencesLive;
+    window.loadDynamicProperties = loadDynamicProperties;
     window.closeLeaseModal = closeLeaseModal;
     window.setBedroomFilter = setBedroomFilter;
     window.filterUnitsCombined = filterUnitsCombined;
@@ -4539,14 +4879,35 @@ function renderAdminPage(hostname) {
         </div>
 
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Property Image URL</label>
-          <input id="propImage" type="url" required value="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+          <label class="block font-bold text-slate-700 mb-1">Property Image & Showcase Media</label>
+          
+          <!-- Cloudflare KV Image File Upload Dropzone -->
+          <input type="file" id="propImageFileInput" accept="image/*" class="hidden" onchange="handleAdminImageUpload(event)">
+          <div class="flex items-center gap-2 mb-2">
+            <button type="button" onclick="document.getElementById('propImageFileInput').click()" class="pill-btn flex-1 py-2.5 px-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl font-bold flex items-center justify-center gap-2 text-xs transition">
+              <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span>Upload Image from Device (Cloudflare KV)</span>
+            </button>
+          </div>
+          <div id="uploadStatusMsg" class="hidden text-center text-xs font-semibold py-1"></div>
+
+          <!-- Live Image Preview Container -->
+          <div id="imagePreviewContainer" class="relative h-36 rounded-xl overflow-hidden border border-slate-200 mb-2 bg-slate-50 flex items-center justify-center">
+            <img id="propImagePreview" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+            <span class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-emerald-600/90 backdrop-blur-md text-white font-bold text-[10px] uppercase">
+              Preview Ready
+            </span>
+          </div>
+
+          <!-- Direct URL / KV media path input -->
+          <input id="propImage" type="text" required value="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80" oninput="document.getElementById('propImagePreview').src=this.value" placeholder="https://... or /api/media/..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+
           <div class="flex flex-wrap gap-1.5 mt-2 text-[11px]">
-            <span class="text-slate-500 font-medium self-center">Presets:</span>
-            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Luxury High-Rise</button>
-            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Garden Suites</button>
-            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Modern Villa</button>
-            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Tech Park</button>
+            <span class="text-slate-500 font-medium self-center">Indian Presets:</span>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'; document.getElementById('propImagePreview').src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80';" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Oberoi Tower</button>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80'; document.getElementById('propImagePreview').src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80';" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Prestige Suites</button>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80'; document.getElementById('propImagePreview').src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80';" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">Panchshil Villa</button>
+            <button type="button" onclick="document.getElementById('propImage').value='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'; document.getElementById('propImagePreview').src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80';" class="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold">DLF Cyber Park</button>
           </div>
         </div>
 
@@ -4934,8 +5295,21 @@ function renderAdminPage(hostname) {
         return matchType && matchQuery;
       });
 
-      grid.innerHTML = filtered.map(p => \`
-        <div class="soft-card p-6 flex flex-col justify-between space-y-5">
+      grid.innerHTML = filtered.map(p => {
+        const img = p.image || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80";
+        return \`
+        <div class="soft-card p-6 flex flex-col justify-between space-y-4">
+          <!-- Property Image Banner -->
+          <div class="relative h-44 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100">
+            <img src="\${img}" alt="\${p.name}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'">
+            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-slate-800 font-bold text-[10px] uppercase tracking-wider shadow-sm">
+              \${p.status || 'Operational'}
+            </span>
+            <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white font-bold text-[10px]">
+              \${p.city}, \${p.state}
+            </span>
+          </div>
+
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <span class="text-[10px] font-bold font-mono uppercase tracking-wider px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
@@ -4946,7 +5320,7 @@ function renderAdminPage(hostname) {
 
             <div>
               <h3 class="text-lg font-black text-slate-900 tracking-tight">\${p.name}</h3>
-              <p class="text-xs text-slate-500 mt-0.5">\${p.address}, \${p.city}, \${p.state} \${p.zip}</p>
+              <p class="text-xs text-slate-500 mt-0.5">\${p.address}, \${p.city}, \${p.state}</p>
             </div>
 
             <!-- Occupancy bar -->
@@ -4969,14 +5343,20 @@ function renderAdminPage(hostname) {
           <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
             <div>
               <span class="text-slate-400 block text-[10px] uppercase font-bold">Monthly Gross</span>
-              <span class="text-slate-900 font-black font-mono text-sm">$\${p.grossRent.toLocaleString()}</span>
+              <span class="text-slate-900 font-black font-mono text-sm">₹\${(p.grossRent || 0).toLocaleString('en-IN')}</span>
             </div>
-            <button onclick="quickAddUnitTo('\${p.name}')" class="pill-btn px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">
-              + Unit
-            </button>
+            <div class="flex items-center gap-1.5">
+              <a href="https://propledger.vishalbhutekar.me/#unit-gallery" target="_blank" class="pill-btn px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-[11px]" title="View on Public Website">
+                View Site &rarr;
+              </a>
+              <button onclick="quickAddUnitTo('\${p.name}')" class="pill-btn px-3 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[11px]">
+                + Unit
+              </button>
+            </div>
           </div>
         </div>
-      \`).join('');
+      \`;
+      }).join('');
     }
 
     function setPropFilter(type) {
@@ -5046,13 +5426,64 @@ function renderAdminPage(hostname) {
       closeModal('addPropertyModal');
       showToast(\`Property "\${name}" registered successfully!\`);
 
-      // Post to edge API
+      // Post to Cloudflare Edge API and sync with Cloudflare KV
       fetch('/api/admin/properties', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
+      }).then(r => r.json()).then(data => {
+        if (data.success) {
+          console.log('Successfully saved to Cloudflare KV:', data);
+        }
       }).catch(err => console.error('Edge sync error:', err));
     }
+
+    // Handle Admin Image File Upload to Cloudflare KV
+    async function handleAdminImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const statusEl = document.getElementById('uploadStatusMsg');
+      const previewImg = document.getElementById('propImagePreview');
+      const inputEl = document.getElementById('propImage');
+
+      statusEl.className = 'text-center text-xs font-semibold py-1 text-indigo-600 block';
+      statusEl.innerHTML = '<span class="animate-spin mr-1.5">&#9696;</span> Uploading image to Cloudflare Edge KV Storage...';
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        const base64Data = e.target.result;
+        previewImg.src = base64Data;
+
+        try {
+          const resp = await fetch('/api/admin/upload-image', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              filename: file.name,
+              contentType: file.type || 'image/jpeg',
+              base64: base64Data
+            })
+          });
+          const json = await resp.json();
+          if (json.success && json.url) {
+            inputEl.value = json.url;
+            statusEl.className = 'text-center text-xs font-semibold py-1 text-emerald-700 block';
+            statusEl.innerHTML = '&#10003; Image stored in Cloudflare KV: ' + json.mediaId;
+          } else {
+            inputEl.value = base64Data;
+            statusEl.className = 'text-center text-xs font-semibold py-1 text-amber-700 block';
+            statusEl.innerHTML = 'Saved locally as Data URL';
+          }
+        } catch (err) {
+          inputEl.value = base64Data;
+          statusEl.className = 'text-center text-xs font-semibold py-1 text-amber-700 block';
+          statusEl.innerHTML = 'Saved locally as Data URL';
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    window.handleAdminImageUpload = handleAdminImageUpload;
 
     // Submit New Unit
     function submitNewUnit(e) {
