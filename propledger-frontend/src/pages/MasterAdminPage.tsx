@@ -9,7 +9,8 @@ import {
   Server, 
   KeyRound, 
   FileText,
-  Sparkles
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 import { StatCard } from '../components/ui';
 
@@ -268,7 +269,7 @@ export const MasterAdminPage = () => {
           <div className="pt-2 border-t border-slate-100 dark:border-white/5 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Test Support Forwarding:</span>
-              <span className="text-xs font-mono text-slate-400">&rarr; vishal.bhutekar1@gmail.com</span>
+              <span className="text-xs font-mono text-slate-400 inline-flex items-center gap-1"><ArrowRight className="w-3 h-3 text-slate-400" /> vishal.bhutekar1@gmail.com</span>
             </div>
 
             {supMessage && (

@@ -3691,7 +3691,7 @@ function renderAdminPage(hostname) {
         </div>
         
         <a href="https://propledger.vishalbhutekar.me" class="pill-btn text-xs font-bold px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center gap-1.5">
-          <span>&larr;</span>
+          <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
           <span>Public Portal</span>
         </a>
       </div>
@@ -4296,7 +4296,7 @@ function renderAdminPage(hostname) {
             <span>Download Audit (JSON)</span>
           </button>
           <button onclick="resetDataToSeed()" class="pill-btn px-4 py-2 bg-slate-800/80 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-amber-500/30 flex items-center gap-1.5">
-            <span>&#8634; Reload Sample Seed</span>
+            <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>Reload Sample Seed</span>
           </button>
         </div>
       </div>
@@ -4464,7 +4464,7 @@ function renderAdminPage(hostname) {
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <h3 class="text-lg font-black text-slate-900">Register New Property Asset</h3>
-        <button onclick="closeModal('addPropertyModal')" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+        <button onclick="closeModal('addPropertyModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
       <form onsubmit="submitNewProperty(event)" class="space-y-4 text-xs">
@@ -4527,7 +4527,7 @@ function renderAdminPage(hostname) {
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <h3 class="text-lg font-black text-slate-900">Add Unit to Property</h3>
-        <button onclick="closeModal('addUnitModal')" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+        <button onclick="closeModal('addUnitModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
       <form onsubmit="submitNewUnit(event)" class="space-y-4 text-xs">
@@ -4584,7 +4584,7 @@ function renderAdminPage(hostname) {
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <h3 class="text-lg font-black text-slate-900">Add User / Member</h3>
-        <button onclick="closeModal('addUserModal')" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+        <button onclick="closeModal('addUserModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
       <form onsubmit="submitNewUser(event)" class="space-y-4 text-xs">
@@ -4649,7 +4649,7 @@ function renderAdminPage(hostname) {
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-5 shadow-2xl border border-slate-200">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <h3 class="text-lg font-black text-slate-900">Create Operational Task</h3>
-        <button onclick="closeModal('addTaskModal')" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+        <button onclick="closeModal('addTaskModal')" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 transition" aria-label="Close"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
       </div>
 
       <form onsubmit="submitNewTask(event)" class="space-y-4 text-xs">
@@ -5066,8 +5066,8 @@ function renderAdminPage(hostname) {
               <button onclick="toggleUserStatus('\${u.id}')" class="pill-btn px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200">
                 \${u.status === 'Active' ? 'Suspend' : 'Activate'}
               </button>
-              <button onclick="deleteUser('\${u.id}')" class="text-slate-400 hover:text-red-600 text-sm px-1.5 py-1" title="Remove Account">
-                &times;
+              <button onclick="deleteUser('\${u.id}')" class="text-slate-400 hover:text-red-600 text-sm px-1.5 py-1" title="Remove Account" class="text-slate-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition inline-flex items-center justify-center">
+                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
               </button>
             </div>
           </td>
@@ -5191,7 +5191,7 @@ function renderAdminPage(hostname) {
                 ? 'bg-rose-100 text-rose-800 border-rose-200' 
                 : (t.priority === 'HIGH' ? 'bg-amber-100 text-amber-800 border-amber-200' : 'bg-blue-100 text-blue-800 border-blue-200');
               
-              const nextBtnText = col === 'backlog' ? 'Start <svg class="w-3 h-3 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' : (col === 'in_progress' ? 'Review <svg class="w-3 h-3 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' : (col === 'review' ? 'Resolve <svg class="w-3 h-3 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' : 'Reopen &#8634;'));
+              const nextBtnText = col === 'backlog' ? 'Start <svg class="w-3 h-3 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' : (col === 'in_progress' ? 'Review <svg class="w-3 h-3 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' : (col === 'review' ? 'Resolve <svg class="w-3 h-3 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' : 'Reopen <svg class="w-3 h-3 inline ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>'));
 
               return \`
                 <div class="soft-card p-4 space-y-3 bg-white border border-slate-200/90 rounded-2xl shadow-sm">
@@ -5370,7 +5370,7 @@ function renderAdminPage(hostname) {
       const property = document.getElementById('adminInvProperty').value;
 
       btn.disabled = true;
-      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Dispatching via Resend API...';
+      btn.innerHTML = '<svg class="animate-spin w-4 h-4 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Dispatching via Resend API...';
       statusBox.className = 'p-4 rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-800 block text-xs leading-relaxed font-mono';
       statusBox.innerHTML = 'Connecting to transactional mail engine...';
 
@@ -5402,7 +5402,7 @@ function renderAdminPage(hostname) {
       const statusBox = document.getElementById('adminPingResult');
 
       btn.disabled = true;
-      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Testing forward routing...';
+      btn.innerHTML = '<svg class="animate-spin w-4 h-4 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Testing forward routing...';
       statusBox.className = 'p-4 rounded-xl border border-sky-200 bg-sky-50 text-sky-800 block text-xs leading-relaxed font-mono';
       statusBox.innerHTML = 'Sending diagnostic packet...';
 
