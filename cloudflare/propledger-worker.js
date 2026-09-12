@@ -492,17 +492,14 @@ ${message}
   });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 1. PUBLIC WEBSITE: home.propledger.vishalbhutekar.me
-// Clean modern enterprise aesthetic for general public & residents
-// ─────────────────────────────────────────────────────────────────────────────
+// 1. PUBLIC WEBSITE: propledger.vishalbhutekar.me
 function renderHomePage(hostname) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PropLedger | Easy Property & Rental Management</title>
+  <title>PropLedger | Autonomous Property Operations & Rental Management</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -510,11 +507,14 @@ function renderHomePage(hostname) {
   <style>
     body { font-family: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #ffffff; color: #0f172a; -webkit-font-smoothing: antialiased; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .soft-card { background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 24px; box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02); transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .soft-card { background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.85); border-radius: 24px; box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02); transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
     .soft-card:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(0, 0, 0, 0.07), 0 4px 10px -2px rgba(0, 0, 0, 0.02); }
     .soft-inner { background: #f8fafc; border: 1px solid #edf2f7; border-radius: 16px; }
     .pill-btn { border-radius: 9999px; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
     .pill-btn:hover { transform: translateY(-1.5px); }
+    .active-tab { background-color: #4f46e5; color: #ffffff !important; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.3); }
+    .inactive-tab { background-color: #f1f5f9; color: #475569; }
+    .inactive-tab:hover { background-color: #e2e8f0; color: #0f172a; }
   </style>
 </head>
 <body class="min-h-screen antialiased bg-white text-slate-900 pb-32">
@@ -536,15 +536,19 @@ function renderHomePage(hostname) {
 
       <!-- Quick Nav Links -->
       <nav class="hidden md:flex items-center gap-1">
-        <a href="#what-it-does" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">What It Does</a>
-        <a href="#how-it-works" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">How It Works</a>
-        <a href="#live-simulator" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">Try Live Demo</a>
+        <a href="#dual-experience" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">Client Experience</a>
+        <a href="#live-simulator" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">Live Simulator</a>
+        <a href="#unit-gallery" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">Unit Showcase</a>
+        <a href="#roi-calculator" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">ROI Calculator</a>
         <a href="#resident-voucher" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">Sample Bill</a>
         <a href="#faq" class="pill-btn text-xs font-semibold px-4 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100">FAQ</a>
       </nav>
 
-      <!-- Master Admin Button -->
+      <!-- Action Buttons -->
       <div class="flex items-center gap-2">
+        <button onclick="openPaymentModal()" class="pill-btn text-xs font-bold px-4 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 hidden sm:flex items-center gap-1.5 transition">
+          <span>💳 Pay Rent Online</span>
+        </button>
         <a href="https://admin.vishalbhutekar.me" class="pill-btn text-xs font-bold px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-600/20 flex items-center gap-1.5">
           <span>Master Admin</span>
           <span>&rarr;</span>
@@ -560,7 +564,7 @@ function renderHomePage(hostname) {
     <div class="text-center max-w-3xl mx-auto space-y-6 pt-4">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        Simple, Stress-Free Rental Management
+        Simple, Stress-Free Rental Management Platform
       </div>
 
       <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
@@ -569,20 +573,19 @@ function renderHomePage(hostname) {
       </h1>
 
       <p class="text-slate-600 text-base sm:text-lg leading-relaxed font-normal max-w-2xl mx-auto">
-        PropLedger is the easiest tool for property owners to track apartments, prevent accidental double-bookings, and collect rent payments online without confusing spreadsheets or paper receipts.
+        PropLedger is the all-in-one software for landlords and property managers to track apartments, prevent accidental double-bookings, and collect rent payments online without confusing spreadsheets or paper receipts.
       </p>
 
       <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-        <a href="#live-simulator" class="pill-btn px-7 py-3.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-600/25 flex items-center gap-2">
-          <span>Try 10-Second Interactive Demo</span>
-          <span>&darr;</span>
+        <a href="#dual-experience" class="pill-btn px-7 py-3.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-600/25 flex items-center gap-2">
+          <span>Explore Interactive App &darr;</span>
         </a>
-        <a href="#resident-voucher" class="pill-btn px-7 py-3.5 rounded-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-bold text-sm shadow-sm">
-          View a Sample Bill &rarr;
-        </a>
+        <button onclick="openPaymentModal()" class="pill-btn px-7 py-3.5 rounded-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-bold text-sm shadow-sm flex items-center gap-2">
+          <span>Test Tenant Online Payment &rarr;</span>
+        </button>
       </div>
 
-      <!-- Trust Badges (Zero jargon, 100% human) -->
+      <!-- Trust Badges -->
       <div class="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 text-left max-w-2xl mx-auto border-t border-slate-100">
         <div class="flex items-center gap-2.5">
           <span class="w-7 h-7 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">&check;</span>
@@ -675,7 +678,217 @@ function renderHomePage(hostname) {
       </div>
     </div>
 
-    <!-- 3. HOW IT WORKS IN 3 EASY STEPS -->
+    <!-- 3. INTERACTIVE DUAL EXPERIENCE SWITCHER (LANDLORD VS TENANT) -->
+    <div id="dual-experience" class="soft-card p-8 sm:p-12 space-y-8 bg-gradient-to-b from-white to-slate-50/60">
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold">
+          ⚡ Interactive App Tour
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Experience Both Sides of PropLedger</h2>
+        <p class="text-xs sm:text-sm text-slate-500">Toggle between the Landlord Management Console and the Resident Portal below to see how easy both sides are.</p>
+        
+        <!-- Toggle Buttons -->
+        <div class="inline-flex p-1.5 rounded-full bg-slate-100 border border-slate-200 gap-2 mt-4">
+          <button onclick="switchExperience('landlord')" id="tabBtnLandlord" class="pill-btn px-6 py-2.5 text-xs font-bold active-tab">
+            🏢 Landlord Experience
+          </button>
+          <button onclick="switchExperience('tenant')" id="tabBtnTenant" class="pill-btn px-6 py-2.5 text-xs font-bold inactive-tab">
+            🏡 Resident & Tenant Portal
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW A: LANDLORD CONSOLE PREVIEW -->
+      <div id="viewLandlord" class="space-y-6">
+        <!-- Landlord Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="soft-inner p-5 bg-white border border-slate-200">
+            <span class="text-xs text-slate-500 font-medium block">Total Monthly Rent Collected</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="text-2xl font-black text-slate-900 font-mono">$128,450.00</span>
+              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-mono">+8.4%</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Settled via Automated ACH</p>
+          </div>
+
+          <div class="soft-inner p-5 bg-white border border-slate-200">
+            <span class="text-xs text-slate-500 font-medium block">Occupancy Rate</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="text-2xl font-black text-slate-900 font-mono">99.2%</span>
+              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-mono">402 / 405 Units</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Only 3 units available</p>
+          </div>
+
+          <div class="soft-inner p-5 bg-white border border-slate-200">
+            <span class="text-xs text-slate-500 font-medium block">Double-Booking Collision Rate</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="text-2xl font-black text-indigo-600 font-mono">0.00%</span>
+              <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full font-mono">Protected</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Calendar locking active</p>
+          </div>
+        </div>
+
+        <!-- Landlord Live Units List -->
+        <div class="soft-inner p-6 bg-white border border-slate-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-bold text-sm text-slate-900">Current Unit Roster & Lease Tracking</h4>
+              <p class="text-xs text-slate-500">Real-time status of all apartments under management</p>
+            </div>
+            <button onclick="dispatchBatchBills()" id="batchDispatchBtn" class="pill-btn px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-sm flex items-center gap-1.5">
+              <span>⚡ Batch Send Monthly Invoices</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="border-b border-slate-100 text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
+                  <th class="py-2.5">Unit</th>
+                  <th class="py-2.5">Type</th>
+                  <th class="py-2.5">Tenant</th>
+                  <th class="py-2.5">Rent / Month</th>
+                  <th class="py-2.5">Lease Status</th>
+                  <th class="py-2.5 text-right">Payment</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="py-3 font-bold text-slate-900">Unit 101</td>
+                  <td class="py-3 text-slate-600">1-Bed Studio</td>
+                  <td class="py-3 text-slate-800 font-medium">Sarah Connor</td>
+                  <td class="py-3 font-mono font-bold text-slate-900">$1,650.00</td>
+                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">Active Lease</span></td>
+                  <td class="py-3 text-right"><span class="text-emerald-600 font-bold font-mono">Paid (Sep 01)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-3 font-bold text-slate-900">Unit 204</td>
+                  <td class="py-3 text-slate-600">2-Bed Suite</td>
+                  <td class="py-3 text-slate-800 font-medium">Alex Mercer</td>
+                  <td class="py-3 font-mono font-bold text-slate-900">$2,400.00</td>
+                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">Active Lease</span></td>
+                  <td class="py-3 text-right"><span class="text-emerald-600 font-bold font-mono">Paid (Sep 01)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-3 font-bold text-slate-900">Unit 402</td>
+                  <td class="py-3 text-slate-600">Horizon Penthouse</td>
+                  <td class="py-3 text-slate-800 font-medium">Vishal Bhutekar</td>
+                  <td class="py-3 font-mono font-bold text-slate-900">$2,850.00</td>
+                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-[11px]">Active Lease</span></td>
+                  <td class="py-3 text-right"><span class="text-emerald-600 font-bold font-mono">Paid (Sep 01)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-3 font-bold text-slate-900">Unit 501</td>
+                  <td class="py-3 text-slate-600">Panoramic Loft</td>
+                  <td class="py-3 text-slate-400 italic">None (Vacant)</td>
+                  <td class="py-3 font-mono font-bold text-slate-900">$3,100.00</td>
+                  <td class="py-3"><span class="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 font-semibold text-[11px]">Available</span></td>
+                  <td class="py-3 text-right"><a href="#concierge" class="text-indigo-600 hover:underline font-bold">+ Sign Lease</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="batchDispatchNotice" class="hidden p-3 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 text-xs font-mono"></div>
+        </div>
+      </div>
+
+      <!-- VIEW B: TENANT CONSOLE PREVIEW -->
+      <div id="viewTenant" class="hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Tenant Home Summary -->
+          <div class="soft-inner p-6 bg-white border border-slate-200 space-y-4">
+            <div class="flex items-center gap-3">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=120&q=80" alt="Apartment" class="w-12 h-12 rounded-2xl object-cover">
+              <div>
+                <h4 class="font-bold text-sm text-slate-900">The Grand Horizon</h4>
+                <p class="text-xs text-slate-500">Unit 402 &bull; Resident Portal</p>
+              </div>
+            </div>
+            
+            <div class="space-y-2 pt-2 text-xs border-t border-slate-100">
+              <div class="flex justify-between text-slate-600">
+                <span>Lease Period:</span>
+                <span class="font-medium text-slate-900">Sep 2026 – Aug 2027</span>
+              </div>
+              <div class="flex justify-between text-slate-600">
+                <span>Next Rent Due:</span>
+                <span class="font-bold text-indigo-600 font-mono">October 01, 2026</span>
+              </div>
+              <div class="flex justify-between text-slate-600">
+                <span>Parking Space:</span>
+                <span class="font-medium text-slate-900">Subterranean Bay #14</span>
+              </div>
+            </div>
+
+            <button onclick="openPaymentModal()" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 flex items-center justify-center gap-1.5 transition">
+              <span>💳 Pay October Rent ($3,250.00)</span>
+            </button>
+          </div>
+
+          <!-- Current Itemized Bill -->
+          <div class="md:col-span-2 soft-inner p-6 bg-white border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">Transparent Resident Statement</span>
+                <h4 class="font-bold text-base text-slate-900">Statement #STM-202609-0402</h4>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold text-xs font-mono">
+                &bull; Reconciled & Clear
+              </span>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <div>
+                  <span class="font-bold text-slate-800 block">Residential Apartment Base Rent</span>
+                  <span class="text-slate-500 text-[11px]">Monthly contractual rent for Penthouse Unit 402</span>
+                </div>
+                <span class="font-mono font-bold text-slate-900 self-center">$2,850.00</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <div>
+                  <span class="font-bold text-slate-800 block">Reserved Underground Parking Bay #14</span>
+                  <span class="text-slate-500 text-[11px]">Dedicated secure stall with remote fob access</span>
+                </div>
+                <span class="font-mono font-bold text-slate-900 self-center">$250.00</span>
+              </div>
+              <div class="flex justify-between py-1.5 border-b border-slate-100">
+                <div>
+                  <span class="font-bold text-slate-800 block">Building Services & Common Maintenance</span>
+                  <span class="text-slate-500 text-[11px]">Elevator upkeep, concierge desk, security</span>
+                </div>
+                <span class="font-mono font-bold text-slate-900 self-center">$150.00</span>
+              </div>
+            </div>
+
+            <div class="pt-3 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-slate-500 block">Total Statement Balance</span>
+                <span class="text-2xl font-black text-emerald-600 font-mono">$3,250.00</span>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="openMaintenanceModal()" class="pill-btn px-4 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition">
+                  🛠️ Report Repair
+                </button>
+                <button onclick="downloadStatementPdf()" class="pill-btn px-4 py-2 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold transition">
+                  📄 Download PDF
+                </button>
+                <button onclick="openPaymentModal()" class="pill-btn px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
+                  Pay Now &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. HOW IT WORKS IN 3 EASY STEPS -->
     <div id="how-it-works" class="space-y-8 pt-4">
       <div class="text-center max-w-2xl mx-auto space-y-2">
         <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">How It Works in 3 Easy Steps</h2>
@@ -715,7 +928,7 @@ function renderHomePage(hostname) {
       </div>
     </div>
 
-    <!-- 4. INTERACTIVE LIVE DEMO & SIMULATOR ("TRY IT RIGHT NOW") -->
+    <!-- 5. INTERACTIVE LIVE SIMULATOR ("TRY IT RIGHT NOW") -->
     <div id="live-simulator" class="soft-card p-8 sm:p-12 space-y-8 bg-gradient-to-b from-white to-slate-50/50">
       <div class="text-center max-w-2xl mx-auto space-y-2">
         <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold">
@@ -762,6 +975,10 @@ function renderHomePage(hostname) {
               <input type="checkbox" id="simCAM" checked onchange="updateSimTotal()" class="w-4 h-4 text-indigo-600 rounded">
               <span>Building Services & Maintenance (+$150)</span>
             </label>
+            <label class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-slate-50 transition">
+              <input type="checkbox" id="simFiber" onchange="updateSimTotal()" class="w-4 h-4 text-indigo-600 rounded">
+              <span>Gigabit Fiber Internet (+$80)</span>
+            </label>
           </div>
         </div>
 
@@ -783,12 +1000,16 @@ function renderHomePage(hostname) {
               <span id="simRentVal" class="font-mono font-bold text-slate-900">$2,850.00</span>
             </div>
             <div id="simParkingRow" class="flex justify-between text-slate-700">
-              <span>Assigned Parking Bay</span>
+              <span>Assigned Parking Bay #14</span>
               <span class="font-mono font-bold text-slate-900">$250.00</span>
             </div>
             <div id="simCAMRow" class="flex justify-between text-slate-700">
               <span>Building Maintenance & Security</span>
               <span class="font-mono font-bold text-slate-900">$150.00</span>
+            </div>
+            <div id="simFiberRow" class="hidden justify-between text-slate-700">
+              <span>Dedicated High-Speed Fiber</span>
+              <span class="font-mono font-bold text-slate-900">$80.00</span>
             </div>
           </div>
 
@@ -797,10 +1018,15 @@ function renderHomePage(hostname) {
               <span class="text-xs text-slate-500 block">Total Due from Tenant:</span>
               <span id="simTotalDisplay" class="text-3xl font-black text-emerald-600 font-mono">$3,250.00</span>
             </div>
-            <button onclick="runSimDispatch()" id="simDispatchBtn" class="pill-btn px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-              <span>Click to Send Simulated Rent Email &rarr;</span>
-            </button>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="openPaymentModal()" class="pill-btn px-5 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold text-xs shadow-sm">
+                Test Payment Modal
+              </button>
+              <button onclick="runSimDispatch()" id="simDispatchBtn" class="pill-btn px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                <span>Click to Send Simulated Rent Email &rarr;</span>
+              </button>
+            </div>
           </div>
 
           <div id="simAlert" class="hidden p-3.5 rounded-xl border text-xs font-mono"></div>
@@ -809,7 +1035,203 @@ function renderHomePage(hostname) {
       </div>
     </div>
 
-    <!-- 5. "BEFORE VS AFTER" (Old Way vs PropLedger Way) -->
+    <!-- 6. INTERACTIVE AVAILABLE UNITS SHOWCASE (UNIT GALLERY) -->
+    <div id="unit-gallery" class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold mb-2">
+            🏢 The Grand Horizon Residences
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Explore Featured Apartment Suites</h2>
+          <p class="text-xs sm:text-sm text-slate-500">Live inventory of premium luxury living spaces with real-time lease status.</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex items-center gap-2 p-1.5 bg-slate-100 rounded-full border border-slate-200 self-start md:self-auto">
+          <button onclick="filterUnits('all')" id="filterBtn-all" class="pill-btn px-4 py-1.5 text-xs font-bold active-tab">All Units</button>
+          <button onclick="filterUnits('available')" id="filterBtn-available" class="pill-btn px-4 py-1.5 text-xs font-bold inactive-tab">Available Now</button>
+          <button onclick="filterUnits('leased')" id="filterBtn-leased" class="pill-btn px-4 py-1.5 text-xs font-bold inactive-tab">Leased</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Unit Card 1 -->
+        <div class="soft-card overflow-hidden group unit-card" data-status="leased">
+          <div class="relative h-48 overflow-hidden bg-slate-100">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80" alt="Executive Studio" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-emerald-500/90 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide">
+              Leased
+            </span>
+          </div>
+          <div class="p-5 space-y-3">
+            <div>
+              <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 101 &bull; 1st Floor</span>
+              <h3 class="text-base font-bold text-slate-900">Executive Urban Studio</h3>
+              <p class="text-xs text-slate-500 font-mono mt-0.5">540 sq ft &bull; 1 Bed &bull; 1 Bath</p>
+            </div>
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
+                <span class="text-lg font-black text-indigo-600 font-mono">$1,650</span>
+              </div>
+              <button onclick="openTourModal('Unit 101 &bull; Executive Urban Studio', '$1,650 / mo', '540 sq ft &bull; 1 Bed &bull; 1 Bath', 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                Schedule Tour &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unit Card 2 -->
+        <div class="soft-card overflow-hidden group unit-card" data-status="leased">
+          <div class="relative h-48 overflow-hidden bg-slate-100">
+            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80" alt="Modern 2-Bedroom" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-emerald-500/90 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide">
+              Leased
+            </span>
+          </div>
+          <div class="p-5 space-y-3">
+            <div>
+              <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 204 &bull; 2nd Floor</span>
+              <h3 class="text-base font-bold text-slate-900">Modern 2-Bedroom Suite</h3>
+              <p class="text-xs text-slate-500 font-mono mt-0.5">1,150 sq ft &bull; 2 Bed &bull; 2 Bath</p>
+            </div>
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
+                <span class="text-lg font-black text-indigo-600 font-mono">$2,400</span>
+              </div>
+              <button onclick="openTourModal('Unit 204 &bull; Modern 2-Bedroom Suite', '$2,400 / mo', '1,150 sq ft &bull; 2 Bed &bull; 2 Bath', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                Schedule Tour &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unit Card 3 -->
+        <div class="soft-card overflow-hidden group unit-card" data-status="leased">
+          <div class="relative h-48 overflow-hidden bg-slate-100">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" alt="Horizon Penthouse" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-indigo-600/90 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide">
+              Penthouse
+            </span>
+          </div>
+          <div class="p-5 space-y-3">
+            <div>
+              <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 402 &bull; 4th Floor</span>
+              <h3 class="text-base font-bold text-slate-900">Horizon Luxury Penthouse</h3>
+              <p class="text-xs text-slate-500 font-mono mt-0.5">2,400 sq ft &bull; 3 Bed &bull; 3 Bath</p>
+            </div>
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
+                <span class="text-lg font-black text-indigo-600 font-mono">$2,850</span>
+              </div>
+              <button onclick="openTourModal('Unit 402 &bull; Horizon Luxury Penthouse', '$2,850 / mo', '2,400 sq ft &bull; 3 Bed &bull; 3 Bath', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition">
+                Schedule Tour &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unit Card 4 -->
+        <div class="soft-card overflow-hidden group unit-card" data-status="available">
+          <div class="relative h-48 overflow-hidden bg-slate-100">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Skyline Loft" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-emerald-600/90 backdrop-blur-md text-white font-bold text-[10px] uppercase tracking-wide animate-pulse">
+              Available Now
+            </span>
+          </div>
+          <div class="p-5 space-y-3">
+            <div>
+              <span class="text-[11px] font-bold text-slate-500 uppercase">Unit 503 &bull; 5th Floor</span>
+              <h3 class="text-base font-bold text-slate-900">Panoramic Skyline Loft</h3>
+              <p class="text-xs text-slate-500 font-mono mt-0.5">1,850 sq ft &bull; 2 Bed &bull; 2.5 Bath</p>
+            </div>
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-400 block">Monthly Rent</span>
+                <span class="text-lg font-black text-indigo-600 font-mono">$3,100</span>
+              </div>
+              <button onclick="openTourModal('Unit 503 &bull; Panoramic Skyline Loft', '$3,100 / mo', '1,850 sq ft &bull; 2 Bed &bull; 2.5 Bath', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80')" class="pill-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
+                Apply / Tour &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 7. INTERACTIVE ROI & REVENUE CALCULATOR FOR LANDLORDS -->
+    <div id="roi-calculator" class="soft-card p-8 sm:p-12 space-y-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">
+          💰 Landlord Profit & Efficiency Calculator
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Calculate Your Time & Money Saved</h2>
+        <p class="text-xs sm:text-sm text-slate-500">See how much paperwork and manual bookkeeping PropLedger eliminates for your rental portfolio.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto items-center">
+        <!-- Sliders -->
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs font-bold text-slate-800">
+              <span>Total Units You Manage:</span>
+              <span id="sliderUnitsVal" class="text-indigo-600 font-mono text-sm font-black">12 Units</span>
+            </div>
+            <input type="range" id="sliderUnits" min="1" max="100" value="12" oninput="calculateRoi()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+            <div class="flex justify-between text-[11px] text-slate-400">
+              <span>1 Unit</span>
+              <span>50 Units</span>
+              <span>100+ Units</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs font-bold text-slate-800">
+              <span>Average Rent per Unit:</span>
+              <span id="sliderRentVal" class="text-indigo-600 font-mono text-sm font-black">$2,200 / mo</span>
+            </div>
+            <input type="range" id="sliderRent" min="800" max="5000" step="50" value="2200" oninput="calculateRoi()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+            <div class="flex justify-between text-[11px] text-slate-400">
+              <span>$800</span>
+              <span>$2,500</span>
+              <span>$5,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Metrics Output -->
+        <div class="soft-inner p-6 sm:p-8 bg-slate-900 text-white space-y-4 rounded-3xl shadow-lg">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block">Estimated Automated Impact</span>
+          
+          <div class="space-y-3">
+            <div>
+              <span class="text-xs text-slate-400 block">Monthly Rental Revenue Managed:</span>
+              <p id="outRevenue" class="text-2xl sm:text-3xl font-black text-white font-mono">$26,400 / mo</p>
+            </div>
+            <div class="pt-3 border-t border-slate-800 grid grid-cols-2 gap-4">
+              <div>
+                <span class="text-xs text-slate-400 block">Hours Saved / Month:</span>
+                <p id="outHours" class="text-xl font-bold text-emerald-400 font-mono">36 Hours</p>
+              </div>
+              <div>
+                <span class="text-xs text-slate-400 block">Annual Savings:</span>
+                <p id="outSavings" class="text-xl font-bold text-indigo-400 font-mono">$5,400 / yr</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-[11px] text-slate-400 leading-relaxed pt-2">
+            Eliminates paper receipt writing, phone rent reminders, bank reconciliation, and spreadsheet formula repairs.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. "BEFORE VS AFTER" (Old Way vs PropLedger Way) -->
     <div class="space-y-8">
       <div class="text-center max-w-2xl mx-auto space-y-2">
         <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Why Switch to PropLedger?</h2>
@@ -875,40 +1297,7 @@ function renderHomePage(hostname) {
       </div>
     </div>
 
-    <!-- 6. WHO IS IT FOR? (Landlords vs Tenants) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="soft-card p-8 sm:p-10 space-y-4 border-l-4 border-l-indigo-600">
-        <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-        </div>
-        <h3 class="text-xl font-bold text-slate-900">For Landlords & Property Owners</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          See your total monthly rental income, view occupancy rates, and eliminate manual bookkeeping. Never deal with lost paper checks or billing disputes again.
-        </p>
-        <ul class="text-xs text-slate-600 space-y-2 pt-2">
-          <li class="flex items-center gap-2 font-medium"><span class="text-emerald-500 font-bold">&check;</span> Real-time income and rent collection tracker</li>
-          <li class="flex items-center gap-2 font-medium"><span class="text-emerald-500 font-bold">&check;</span> Zero double-booking lease protection</li>
-          <li class="flex items-center gap-2 font-medium"><span class="text-emerald-500 font-bold">&check;</span> Automated monthly invoice dispatches</li>
-        </ul>
-      </div>
-
-      <div class="soft-card p-8 sm:p-10 space-y-4 border-l-4 border-l-emerald-500">
-        <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-        </div>
-        <h3 class="text-xl font-bold text-slate-900">For Tenants & Residents</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Get transparent itemized bills every month showing rent, parking, and utilities. Settle payments online with one click and submit maintenance tickets directly from your phone.
-        </p>
-        <ul class="text-xs text-slate-600 space-y-2 pt-2">
-          <li class="flex items-center gap-2 font-medium"><span class="text-emerald-500 font-bold">&check;</span> Transparent breakdown of all monthly fees</li>
-          <li class="flex items-center gap-2 font-medium"><span class="text-emerald-500 font-bold">&check;</span> Simple one-click online payment</li>
-          <li class="flex items-center gap-2 font-medium"><span class="text-emerald-500 font-bold">&check;</span> Instant repair requests sent to maintenance</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 7. CLEAN RESIDENT FINANCIAL STATEMENT (Sample Bill) -->
+    <!-- 9. CLEAN RESIDENT FINANCIAL STATEMENT (Sample Bill) -->
     <div id="resident-voucher" class="soft-card p-8 sm:p-12 relative overflow-hidden">
       <div class="max-w-2xl mx-auto space-y-6">
         <div class="text-center space-y-2">
@@ -982,15 +1371,60 @@ function renderHomePage(hostname) {
               <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Total Statement Balance</span>
               <p class="text-3xl font-extrabold text-emerald-400 font-mono tracking-tight mt-0.5">$3,250.00</p>
             </div>
-            <a href="mailto:support@propledger.vishalbhutekar.me?subject=Inquiry%20regarding%20Unit%20402%20Statement" class="pill-btn px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-500/30 text-center">
-              Inquire with Concierge Desk &rarr;
-            </a>
+            <div class="flex gap-2">
+              <button onclick="openPaymentModal()" class="pill-btn px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold text-xs shadow-md text-center">
+                💳 Test Online Payment &rarr;
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 8. FREQUENTLY ASKED QUESTIONS (FAQ FOR NEW USERS) -->
+    <!-- 10. CLIENT TESTIMONIALS & TRUST -->
+    <div class="space-y-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Trusted by Property Owners & Residents</h2>
+        <p class="text-xs sm:text-sm text-slate-500">What landlords and tenants say about their experience with PropLedger.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="soft-card p-6 space-y-4">
+          <div class="text-amber-400 text-sm">★★★★★</div>
+          <p class="text-xs text-slate-600 leading-relaxed italic">
+            "PropLedger completely removed the anxiety of rent week. Every tenant gets their bill on the 1st automatically, and we have had zero double-booking issues across our 120 units."
+          </p>
+          <div class="pt-2 border-t border-slate-100">
+            <p class="text-xs font-bold text-slate-900">Marcus Vance</p>
+            <p class="text-[11px] text-slate-500">Managing Partner, Vanguard Living</p>
+          </div>
+        </div>
+
+        <div class="soft-card p-6 space-y-4">
+          <div class="text-amber-400 text-sm">★★★★★</div>
+          <p class="text-xs text-slate-600 leading-relaxed italic">
+            "As a tenant, receiving a clear breakdown of rent, parking, and building services with a one-click payment button makes paying rent completely hassle-free."
+          </p>
+          <div class="pt-2 border-t border-slate-100">
+            <p class="text-xs font-bold text-slate-900">Elena Rostova</p>
+            <p class="text-[11px] text-slate-500">Resident at The Grand Horizon</p>
+          </div>
+        </div>
+
+        <div class="soft-card p-6 space-y-4">
+          <div class="text-amber-400 text-sm">★★★★★</div>
+          <p class="text-xs text-slate-600 leading-relaxed italic">
+            "The automated subledger saved our accounting team over 15 hours at the end of every month. Everything reconciles down to the exact penny."
+          </p>
+          <div class="pt-2 border-t border-slate-100">
+            <p class="text-xs font-bold text-slate-900">David Chen</p>
+            <p class="text-[11px] text-slate-500">CPA & Portfolio Asset Controller</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. FREQUENTLY ASKED QUESTIONS (FAQ FOR NEW USERS) -->
     <div id="faq" class="space-y-8">
       <div class="text-center max-w-2xl mx-auto space-y-2">
         <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Frequently Asked Questions</h2>
@@ -1037,7 +1471,7 @@ function renderHomePage(hostname) {
       </div>
     </div>
 
-    <!-- 9. RESIDENT SUPPORT & CONCIERGE DESK (Soft UI) -->
+    <!-- 12. RESIDENT SUPPORT & CONCIERGE DESK (Soft UI) -->
     <div id="concierge" class="soft-card p-8 sm:p-10 space-y-6">
       <div class="flex items-center justify-between pb-4 border-b border-slate-200/80">
         <div class="flex items-center gap-3.5">
@@ -1080,7 +1514,7 @@ function renderHomePage(hostname) {
       <div id="pubStatus" class="hidden p-4 rounded-xl border text-xs leading-relaxed font-mono"></div>
     </div>
 
-    <!-- 10. ENGINEERING SPECIFICATIONS & STRATEGIC WHITE PAPERS -->
+    <!-- 13. ENGINEERING SPECIFICATIONS & STRATEGIC WHITE PAPERS -->
     <div id="handbooks" class="soft-card p-8 sm:p-10 space-y-6">
       <div class="flex items-center justify-between pb-4 border-b border-slate-200/80">
         <div class="flex items-center gap-3.5">
@@ -1153,8 +1587,463 @@ function renderHomePage(hostname) {
     </div>
   </footer>
 
+  <!-- Floating Quick-Action Dock (Modern Glass Island) -->
+  <div class="fixed bottom-6 inset-x-0 z-40 flex justify-center px-4 pointer-events-none">
+    <div class="pointer-events-auto bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-full px-5 py-2.5 shadow-[0_10px_35px_-5px_rgba(0,0,0,0.12)] flex items-center gap-2 sm:gap-4 transition hover:shadow-[0_14px_45px_-5px_rgba(0,0,0,0.16)]">
+      <button onclick="openPaymentModal()" class="flex items-center gap-1.5 text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-1.5 rounded-full border border-emerald-200/80 transition">
+        <span>💳</span>
+        <span>Pay Rent</span>
+      </button>
+      <button onclick="openTourModal('The Grand Horizon Luxury Suites', '$1,650 - $3,100 / mo', 'Full Suite Inventory', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80')" class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-1.5 rounded-full transition">
+        <span>📅</span>
+        <span class="hidden sm:inline">Schedule Tour</span>
+        <span class="sm:hidden">Tour</span>
+      </button>
+      <button onclick="openMaintenanceModal()" class="hidden md:flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-1.5 rounded-full transition">
+        <span>🛠️</span>
+        <span>Resident Desk</span>
+      </button>
+      <a href="#concierge" class="flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-1.5 rounded-full transition">
+        <span>💬</span>
+        <span class="hidden sm:inline">Concierge</span>
+      </a>
+      <div class="h-4 w-px bg-slate-200"></div>
+      <a href="https://admin.vishalbhutekar.me" class="flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-700 transition">
+        <span>⚡ Master Admin</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 1. INTERACTIVE PAYMENT MODAL & DIGITAL RECEIPT -->
+  <div id="paymentModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 overflow-hidden max-h-[90vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-lg">
+            💳
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Secure Rent Settlement</h3>
+            <p class="text-xs text-slate-500 font-mono">The Grand Horizon &bull; Unit 402</p>
+          </div>
+        </div>
+        <button onclick="closePaymentModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold text-sm">
+          &times;
+        </button>
+      </div>
+
+      <!-- Main Payment Flow Container -->
+      <div id="paymentFlowContainer" class="space-y-5">
+        <!-- Payment Method Switcher -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Select Payment Method</label>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <button onclick="setPayMethod('ach')" id="pmAch" class="p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center transition">
+              Bank ACH (0% Fee)
+            </button>
+            <button onclick="setPayMethod('card')" id="pmCard" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition">
+              Card (0% Fee)
+            </button>
+            <button onclick="setPayMethod('apple')" id="pmApple" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition">
+              Apple Pay / GPay
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Payment Method Details -->
+        <div id="payDetailsAch" class="soft-inner p-4 space-y-3 bg-slate-50 border border-slate-200/80">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">Connected Checking Account</span>
+            <span class="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 font-semibold px-2 py-0.5 rounded-full font-mono">&check; Verified ACH</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" class="p-2 rounded-xl border-2 border-indigo-600 bg-white text-xs font-bold text-slate-800 text-left">
+              <span class="text-[10px] text-indigo-600 block">Primary</span>
+              Chase &bull; 8421
+            </button>
+            <button type="button" class="p-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 text-left hover:border-slate-300">
+              <span class="text-[10px] text-slate-400 block">Secondary</span>
+              BofA &bull; 1904
+            </button>
+            <button type="button" class="p-2 rounded-xl border border-slate-200 bg-white text-xs text-slate-600 text-left hover:border-slate-300">
+              <span class="text-[10px] text-slate-400 block">Savings</span>
+              Wells &bull; 5532
+            </button>
+          </div>
+          <div class="text-[11px] text-slate-500 font-mono flex items-center justify-between pt-1">
+            <span>Routing: <strong>021000021</strong></span>
+            <span>Clearing Speed: <strong>Instant Settlement</strong></span>
+          </div>
+        </div>
+
+        <div id="payDetailsCard" class="hidden soft-inner p-4 space-y-3 bg-slate-50 border border-slate-200/80">
+          <div class="space-y-1">
+            <label class="block text-[11px] font-bold text-slate-700 uppercase">Cardholder Name</label>
+            <input type="text" value="Vishal Bhutekar" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 font-medium">
+          </div>
+          <div class="space-y-1">
+            <label class="block text-[11px] font-bold text-slate-700 uppercase">Card Number</label>
+            <input type="text" value="4242 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4242" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1">
+              <label class="block text-[11px] font-bold text-slate-700 uppercase">Expires</label>
+              <input type="text" value="08 / 29" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
+            </div>
+            <div class="space-y-1">
+              <label class="block text-[11px] font-bold text-slate-700 uppercase">CVC</label>
+              <input type="text" value="842" class="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 font-medium">
+            </div>
+          </div>
+        </div>
+
+        <div id="payDetailsApple" class="hidden soft-inner p-5 space-y-3 bg-slate-50 border border-slate-200/80 text-center">
+          <p class="text-xs text-slate-600">Biometric 1-click authorization via Apple Wallet or Google Pay.</p>
+          <div class="p-3 rounded-2xl bg-black text-white font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md hover:bg-slate-900 transition">
+            <span> Pay</span>
+            <span class="font-mono">$3,250.00</span>
+          </div>
+          <p class="text-[10px] text-slate-400 font-mono">Touch ID / Face ID encrypted cryptographic key exchange</p>
+        </div>
+
+        <!-- Itemized Balance Display -->
+        <div class="soft-inner p-4 space-y-2 text-xs bg-slate-50 border border-slate-200/80">
+          <div class="flex justify-between text-slate-600">
+            <span>Base Apartment Rent (Unit 402):</span>
+            <span class="font-mono font-bold text-slate-800">$2,850.00</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>Assigned Parking Bay #14:</span>
+            <span class="font-mono font-bold text-slate-800">$250.00</span>
+          </div>
+          <div class="flex justify-between text-slate-600">
+            <span>Building Services & CAM:</span>
+            <span class="font-mono font-bold text-slate-800">$150.00</span>
+          </div>
+          <div class="pt-2 border-t border-slate-200 flex justify-between font-bold text-sm">
+            <span class="text-slate-900">Total Cleared Balance:</span>
+            <span class="text-emerald-600 font-mono text-base font-black">$3,250.00</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="space-y-3">
+          <button id="paySubmitBtn" onclick="processTestPayment()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md shadow-emerald-600/25 flex items-center justify-center gap-2 transition">
+            <span>Confirm & Settle $3,250.00</span>
+            <span>&rarr;</span>
+          </button>
+          <p class="text-[11px] text-center text-slate-400 font-mono">
+            🔒 256-Bit Bank Grade Encryption &bull; Instant Subledger Clearance
+          </p>
+        </div>
+      </div>
+
+      <!-- Success Receipt View (Rendered dynamically upon payment) -->
+      <div id="paymentReceiptContainer" class="hidden space-y-5">
+        <div class="text-center space-y-2">
+          <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-black mx-auto shadow-inner">
+            &check;
+          </div>
+          <h4 class="text-xl font-black text-slate-900">Payment Settled & Reconciled!</h4>
+          <p class="text-xs text-slate-500">Funds transferred and registered in PropLedger subledger.</p>
+        </div>
+
+        <div class="soft-inner p-5 space-y-3.5 bg-slate-50 border border-slate-200 text-xs font-mono">
+          <div class="flex justify-between border-b border-slate-200/80 pb-2">
+            <span class="text-slate-500">Transaction ID:</span>
+            <span class="font-bold text-slate-900">TXN-2026-ACH-98214</span>
+          </div>
+          <div class="flex justify-between border-b border-slate-200/80 pb-2">
+            <span class="text-slate-500">Cleared Amount:</span>
+            <span class="font-bold text-emerald-600 text-sm">$3,250.00 USD</span>
+          </div>
+          <div class="flex justify-between border-b border-slate-200/80 pb-2">
+            <span class="text-slate-500">Resident / Unit:</span>
+            <span class="font-bold text-slate-900">Vishal Bhutekar &bull; Unit 402</span>
+          </div>
+          <div class="flex justify-between border-b border-slate-200/80 pb-2">
+            <span class="text-slate-500">Settlement Method:</span>
+            <span class="font-bold text-slate-900" id="receiptMethodText">Automated Bank ACH (Chase)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Timestamp:</span>
+            <span class="text-slate-700" id="receiptTimestamp">Sep 12, 2026 &bull; Real-time</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button onclick="window.print()" class="flex-1 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition">
+            <span>🖨️ Print Receipt</span>
+          </button>
+          <button onclick="downloadStatementPdf()" class="flex-1 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition">
+            <span>📥 Download PDF</span>
+          </button>
+          <button onclick="closePaymentModal()" class="flex-1 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition">
+            <span>Done</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. INTERACTIVE SCHEDULE TOUR & APPLICATION MODAL -->
+  <div id="tourModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 overflow-hidden max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-lg">
+            🏢
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Schedule Private Tour & Apply</h3>
+            <p class="text-xs text-slate-500 font-mono" id="tourModalSubtitle">The Grand Horizon Luxury Suites</p>
+          </div>
+        </div>
+        <button onclick="closeTourModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold text-sm">
+          &times;
+        </button>
+      </div>
+
+      <!-- Unit Preview Snapshot -->
+      <div class="soft-inner p-4 bg-slate-50 border border-slate-200 flex items-center gap-3.5">
+        <img id="tourUnitImg" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=160&q=80" alt="Apartment preview" class="w-16 h-16 rounded-xl object-cover">
+        <div>
+          <h4 id="tourUnitTitle" class="font-bold text-sm text-slate-900">Unit 503 &bull; Panoramic Skyline Loft</h4>
+          <p id="tourUnitSpecs" class="text-xs text-slate-500 font-mono">1,850 sq ft &bull; 2 Bed &bull; 2.5 Bath</p>
+          <p id="tourUnitRent" class="text-xs font-black text-indigo-600 font-mono mt-0.5">$3,100 / mo</p>
+        </div>
+      </div>
+
+      <div id="tourFormContainer" class="space-y-4">
+        <!-- Tour Type Toggle -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Select Tour Experience</label>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <button type="button" onclick="setTourType('person')" id="ttPerson" class="p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center">
+              🏢 In-Person Tour
+            </button>
+            <button type="button" onclick="setTourType('video')" id="ttVideo" class="p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center hover:border-slate-300">
+              📹 4K Virtual Walkthrough
+            </button>
+          </div>
+        </div>
+
+        <!-- Preferred Time Slot -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Preferred Date & Time</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <button type="button" onclick="setTourTime(this)" class="p-2 rounded-xl border-2 border-indigo-600 bg-indigo-50/40 font-bold text-indigo-700 text-center">
+              Tomorrow 10:30 AM
+            </button>
+            <button type="button" onclick="setTourTime(this)" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-center hover:border-slate-300">
+              Tomorrow 2:00 PM
+            </button>
+            <button type="button" onclick="setTourTime(this)" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-center hover:border-slate-300">
+              Saturday 11:00 AM
+            </button>
+            <button type="button" onclick="setTourTime(this)" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-center hover:border-slate-300">
+              Sunday 3:30 PM
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase mb-1">Your Full Name</label>
+            <input id="tourName" type="text" placeholder="Alex Mercer" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase mb-1">Phone Number</label>
+            <input id="tourPhone" type="tel" placeholder="+1 (555) 019-2834" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-mono text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="text-xs">
+          <label class="block font-bold text-slate-700 uppercase mb-1">Email Address for Tour Invitation</label>
+          <input id="tourEmail" type="email" placeholder="alex@example.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-mono text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none">
+        </div>
+
+        <button id="tourSubmitBtn" onclick="submitTourRequest()" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 flex items-center justify-center gap-2 transition">
+          <span>Confirm Tour & Receive Application Packet &rarr;</span>
+        </button>
+      </div>
+
+      <div id="tourSuccessCard" class="hidden space-y-4 text-center py-4">
+        <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto">
+          &check;
+        </div>
+        <h4 class="text-lg font-bold text-slate-900">Tour Reservation Confirmed!</h4>
+        <p class="text-xs text-slate-600 max-w-sm mx-auto" id="tourSuccessMsg">
+          A calendar invite and application link have been forwarded to your email. Our concierge desk will meet you at the primary lobby.
+        </p>
+        <button onclick="closeTourModal()" class="pill-btn px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. INTERACTIVE RESIDENT MAINTENANCE & REPAIR MODAL -->
+  <div id="maintenanceModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 overflow-hidden max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-black text-lg">
+            🛠️
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Resident Maintenance Desk</h3>
+            <p class="text-xs text-slate-500 font-mono">Unit 402 &bull; Vishal Bhutekar</p>
+          </div>
+        </div>
+        <button onclick="closeMaintenanceModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold text-sm">
+          &times;
+        </button>
+      </div>
+
+      <div id="maintFormContainer" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Issue Category</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <button type="button" onclick="setMaintCategory(this, 'Plumbing & Water')" class="p-2 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-left">
+              💧 Plumbing / Leak
+            </button>
+            <button type="button" onclick="setMaintCategory(this, 'HVAC & Climate')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
+              ❄️ HVAC / A/C
+            </button>
+            <button type="button" onclick="setMaintCategory(this, 'Electrical & Lighting')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
+              ⚡ Electrical
+            </button>
+            <button type="button" onclick="setMaintCategory(this, 'Kitchen Appliance')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
+              🍳 Appliances
+            </button>
+            <button type="button" onclick="setMaintCategory(this, 'Lock & Keycard')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
+              🔑 Key & Fob
+            </button>
+            <button type="button" onclick="setMaintCategory(this, 'General Repair')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300">
+              📦 Other Repair
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Urgency Level</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="setMaintUrgency(this, 'Routine')" class="p-2 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center">
+              Routine (48h)
+            </button>
+            <button type="button" onclick="setMaintUrgency(this, 'Priority')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-center hover:border-slate-300">
+              Priority (24h)
+            </button>
+            <button type="button" onclick="setMaintUrgency(this, 'Emergency')" class="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-center hover:border-slate-300">
+              Emergency (24/7)
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Problem Details</label>
+          <textarea id="maintDescription" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:border-indigo-500 focus:outline-none" placeholder="Describe the issue (e.g. Master bathroom sink pressure is low)...">Master bathroom sink hot water valve has minor dripping.</textarea>
+        </div>
+
+        <div class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 cursor-pointer hover:bg-slate-100 transition">
+          <span>📷</span>
+          <span>Attach Photo or Video (Optional)</span>
+        </div>
+
+        <button id="maintSubmitBtn" onclick="submitMaintenanceTicket()" class="w-full py-3.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md shadow-sky-600/20 flex items-center justify-center gap-2 transition">
+          <span>Submit Maintenance Ticket &rarr;</span>
+        </button>
+      </div>
+
+      <div id="maintSuccessCard" class="hidden space-y-4 text-center py-4 font-mono">
+        <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl font-bold mx-auto">
+          &check;
+        </div>
+        <h4 class="text-base font-bold text-slate-900">Work Order Created: TKT-2026-402-918</h4>
+        <p class="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
+          Assigned to: <strong>Metro Facilities Team Lead Dave M.</strong><br>
+          A technician has been dispatched to Unit 402. Updates will be sent via SMS and email.
+        </p>
+        <button onclick="closeMaintenanceModal()" class="pill-btn px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold font-sans">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Live Simulator Logic
+    // 1. Dual Experience Switcher
+    function switchExperience(type) {
+      const landlordView = document.getElementById('viewLandlord');
+      const tenantView = document.getElementById('viewTenant');
+      const btnL = document.getElementById('tabBtnLandlord');
+      const btnT = document.getElementById('tabBtnTenant');
+
+      if (type === 'landlord') {
+        landlordView.classList.remove('hidden');
+        tenantView.classList.add('hidden');
+        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab';
+        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab';
+      } else {
+        landlordView.classList.add('hidden');
+        tenantView.classList.remove('hidden');
+        btnL.className = 'pill-btn px-6 py-2.5 text-xs font-bold inactive-tab';
+        btnT.className = 'pill-btn px-6 py-2.5 text-xs font-bold active-tab';
+      }
+    }
+
+    function dispatchBatchBills() {
+      const btn = document.getElementById('batchDispatchBtn');
+      const notice = document.getElementById('batchDispatchNotice');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="animate-spin mr-1">&#9696;</span> Dispatching across 402 units...';
+
+      setTimeout(() => {
+        notice.classList.remove('hidden');
+        notice.innerHTML = '<strong>Batch Invoicing Complete!</strong><br>Successfully generated and emailed itemized statements across all 402 occupied units via Resend API.';
+        btn.disabled = false;
+        btn.innerHTML = '<span>⚡ Invoices Dispatched (402 Sent)</span>';
+      }, 800);
+    }
+
+    // 2. Unit Gallery Filtering
+    function filterUnits(category) {
+      document.querySelectorAll('[id^="filterBtn-"]').forEach(b => {
+        b.className = 'pill-btn px-4 py-1.5 text-xs font-bold inactive-tab';
+      });
+      document.getElementById('filterBtn-' + category).className = 'pill-btn px-4 py-1.5 text-xs font-bold active-tab';
+
+      document.querySelectorAll('.unit-card').forEach(card => {
+        if (category === 'all') {
+          card.style.display = 'block';
+        } else {
+          card.style.display = card.getAttribute('data-status') === category ? 'block' : 'none';
+        }
+      });
+    }
+
+    // 3. ROI Calculator
+    function calculateRoi() {
+      const units = parseInt(document.getElementById('sliderUnits').value);
+      const rent = parseInt(document.getElementById('sliderRent').value);
+
+      document.getElementById('sliderUnitsVal').innerText = units + (units === 1 ? ' Unit' : ' Units');
+      document.getElementById('sliderRentVal').innerText = '$' + rent.toLocaleString() + ' / mo';
+
+      const monthlyRev = units * rent;
+      const hoursSaved = Math.round(units * 3.2);
+      const annualSavings = Math.round(units * 450);
+
+      document.getElementById('outRevenue').innerText = '$' + monthlyRev.toLocaleString() + ' / mo';
+      document.getElementById('outHours').innerText = hoursSaved + ' Hours';
+      document.getElementById('outSavings').innerText = '$' + annualSavings.toLocaleString() + ' / yr';
+    }
+
+    // 4. Live Simulator Logic
     let currentRent = 2850;
     let currentUnit = 'Unit 402';
     let currentTenant = 'Vishal Bhutekar';
@@ -1185,12 +2074,15 @@ function renderHomePage(hostname) {
       let total = currentRent;
       const parking = document.getElementById('simParking').checked;
       const cam = document.getElementById('simCAM').checked;
+      const fiber = document.getElementById('simFiber').checked;
 
       document.getElementById('simParkingRow').style.display = parking ? 'flex' : 'none';
       document.getElementById('simCAMRow').style.display = cam ? 'flex' : 'none';
+      document.getElementById('simFiberRow').style.display = fiber ? 'flex' : 'none';
 
       if (parking) total += 250;
       if (cam) total += 150;
+      if (fiber) total += 80;
 
       document.getElementById('simTotalDisplay').innerText = '$' + total.toLocaleString() + '.00';
     }
@@ -1213,7 +2105,200 @@ function renderHomePage(hostname) {
       }, 700);
     }
 
-    // Public Query Form Handler
+    // 5. Payment Modal Logic
+    let activePayMethod = 'ach';
+
+    function openPaymentModal() {
+      const modal = document.getElementById('paymentModal');
+      document.getElementById('paymentFlowContainer').classList.remove('hidden');
+      document.getElementById('paymentReceiptContainer').classList.add('hidden');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePaymentModal() {
+      const modal = document.getElementById('paymentModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function setPayMethod(m) {
+      activePayMethod = m;
+      document.getElementById('pmAch').className = m === 'ach' ? 'p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
+      document.getElementById('pmCard').className = m === 'card' ? 'p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
+      document.getElementById('pmApple').className = m === 'apple' ? 'p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center transition' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center transition';
+
+      document.getElementById('payDetailsAch').classList.toggle('hidden', m !== 'ach');
+      document.getElementById('payDetailsCard').classList.toggle('hidden', m !== 'card');
+      document.getElementById('payDetailsApple').classList.toggle('hidden', m !== 'apple');
+    }
+
+    function processTestPayment() {
+      const btn = document.getElementById('paySubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Step 1/3: Encrypting via 256-bit TLS...';
+
+      setTimeout(() => {
+        btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Step 2/3: Validating Subledger...';
+      }, 500);
+
+      setTimeout(() => {
+        btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Step 3/3: Settling to Escrow...';
+      }, 900);
+
+      setTimeout(() => {
+        document.getElementById('paymentFlowContainer').classList.add('hidden');
+        const receiptContainer = document.getElementById('paymentReceiptContainer');
+        receiptContainer.classList.remove('hidden');
+
+        const methodMap = {
+          'ach': 'Automated Bank ACH (Chase Checking • 8421)',
+          'card': 'Debit / Credit Card (Visa • 4242)',
+          'apple': 'Apple Pay Biometric Clearance'
+        };
+        document.getElementById('receiptMethodText').innerText = methodMap[activePayMethod] || 'Automated Clearing House';
+        document.getElementById('receiptTimestamp').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' • ' + new Date().toLocaleTimeString('en-US');
+        btn.disabled = false;
+        btn.innerHTML = '<span>Confirm & Settle $3,250.00</span><span>&rarr;</span>';
+      }, 1400);
+    }
+
+    // 6. Schedule Tour Modal Logic
+    let selectedTourType = 'In-Person Tour';
+    let selectedTourSlot = 'Tomorrow 10:30 AM';
+
+    function openTourModal(title, rent, specs, img) {
+      document.getElementById('tourUnitTitle').innerHTML = title;
+      document.getElementById('tourUnitRent').innerText = rent;
+      document.getElementById('tourUnitSpecs').innerHTML = specs;
+      if (img) document.getElementById('tourUnitImg').src = img;
+      document.getElementById('tourFormContainer').classList.remove('hidden');
+      document.getElementById('tourSuccessCard').classList.add('hidden');
+      const modal = document.getElementById('tourModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeTourModal() {
+      const modal = document.getElementById('tourModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function setTourType(t) {
+      selectedTourType = t === 'person' ? 'In-Person Tour' : '4K Virtual Walkthrough';
+      document.getElementById('ttPerson').className = t === 'person' ? 'p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center hover:border-slate-300';
+      document.getElementById('ttVideo').className = t === 'video' ? 'p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center' : 'p-2.5 rounded-xl border border-slate-200 bg-white font-medium text-slate-600 text-center hover:border-slate-300';
+    }
+
+    function setTourTime(btn) {
+      btn.parentElement.querySelectorAll('button').forEach(b => {
+        b.className = 'p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-center hover:border-slate-300';
+      });
+      btn.className = 'p-2 rounded-xl border-2 border-indigo-600 bg-indigo-50/40 font-bold text-indigo-700 text-center';
+      selectedTourSlot = btn.innerText.trim();
+    }
+
+    async function submitTourRequest() {
+      const btn = document.getElementById('tourSubmitBtn');
+      const name = document.getElementById('tourName').value || 'Prospective Resident';
+      const email = document.getElementById('tourEmail').value || 'resident@example.com';
+      const phone = document.getElementById('tourPhone').value || 'Unspecified';
+      const unit = document.getElementById('tourUnitTitle').innerText;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Registering reservation...';
+
+      try {
+        await fetch('/api/support-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            senderName: name,
+            senderEmail: email,
+            subject: 'Tour Reservation: ' + unit + ' (' + selectedTourSlot + ')',
+            message: ['Applicant: ' + name, 'Email: ' + email, 'Phone: ' + phone, 'Tour Type: ' + selectedTourType, 'Time Slot: ' + selectedTourSlot, 'Unit: ' + unit].join('\\n')
+          })
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      document.getElementById('tourFormContainer').classList.add('hidden');
+      document.getElementById('tourSuccessCard').classList.remove('hidden');
+      document.getElementById('tourSuccessMsg').innerHTML = 'Tour confirmed for <strong>' + selectedTourSlot + '</strong> (' + selectedTourType + '). An invitation and digital lease packet have been emailed to ' + email + '.';
+      btn.disabled = false;
+      btn.innerHTML = '<span>Confirm Tour & Receive Application Packet &rarr;</span>';
+    }
+
+    // 7. Resident Maintenance Desk Logic
+    let maintCategory = 'Plumbing & Water';
+    let maintUrgency = 'Routine';
+
+    function openMaintenanceModal() {
+      document.getElementById('maintFormContainer').classList.remove('hidden');
+      document.getElementById('maintSuccessCard').classList.add('hidden');
+      const modal = document.getElementById('maintenanceModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeMaintenanceModal() {
+      const modal = document.getElementById('maintenanceModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function setMaintCategory(btn, cat) {
+      btn.parentElement.querySelectorAll('button').forEach(b => {
+        b.className = 'p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-left hover:border-slate-300';
+      });
+      btn.className = 'p-2 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-left';
+      maintCategory = cat;
+    }
+
+    function setMaintUrgency(btn, urg) {
+      btn.parentElement.querySelectorAll('button').forEach(b => {
+        b.className = 'p-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-center hover:border-slate-300';
+      });
+      btn.className = 'p-2 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-indigo-700 text-center';
+      maintUrgency = urg;
+    }
+
+    async function submitMaintenanceTicket() {
+      const btn = document.getElementById('maintSubmitBtn');
+      const desc = document.getElementById('maintDescription').value;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="animate-spin mr-2">&#9696;</span> Dispatching work order...';
+
+      try {
+        await fetch('/api/support-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            senderName: 'Vishal Bhutekar (Unit 402)',
+            senderEmail: 'vishal.bhutekar1@gmail.com',
+            subject: 'Maintenance Ticket [Unit 402]: ' + maintCategory + ' (' + maintUrgency + ')',
+            message: ['Resident: Vishal Bhutekar', 'Unit: 402', 'Category: ' + maintCategory, 'Priority: ' + maintUrgency, 'Details: ' + desc].join('\\n')
+          })
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      document.getElementById('maintFormContainer').classList.add('hidden');
+      document.getElementById('maintSuccessCard').classList.remove('hidden');
+      btn.disabled = false;
+      btn.innerHTML = '<span>Submit Maintenance Ticket &rarr;</span>';
+    }
+
+    // 8. Download Statement Helper
+    function downloadStatementPdf() {
+      window.print();
+    }
+
+    // 9. Public Query Form Handler
     async function submitPublicQuery() {
       const btn = document.getElementById('pubBtn');
       const statusBox = document.getElementById('pubStatus');
