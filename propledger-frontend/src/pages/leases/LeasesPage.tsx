@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { leasesApi, unitsApi, tenantsApi } from '../../api/client';
 import { StatusBadge, SearchBar, Pagination, LoadingState, ErrorState, Modal } from '../../components/ui';
-import { FileText, Plus, CheckCircle, XCircle } from 'lucide-react';
+import { FileText, Plus, CheckCircle, XCircle, TrendingUp, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import type { Lease, Unit, Tenant } from '../../types';
 
 export default function LeasesPage() {
@@ -16,6 +16,25 @@ export default function LeasesPage() {
     leaseId: null,
   });
   const [terminateReason, setTerminateReason] = useState('');
+
+  const [escalateModal, setEscalateModal] = useState<{ isOpen: boolean; lease: Lease | null }>({
+    isOpen: false,
+    lease: null,
+  });
+  const [escalatePercent, setEscalatePercent] = useState('5.0');
+  const [escalateLoading, setEscalateLoading] = useState(false);
+
+  const [settleModal, setSettleModal] = useState<{ isOpen: boolean; lease: Lease | null }>({
+    isOpen: false,
+    lease: null,
+  });
+  const [settleForm, setSettleForm] = useState({
+    damageDeductions: '0',
+    unpaidRentDeductions: '0',
+    remarks: 'Standard move-out condition inspection',
+  });
+  const [settleLoading, setSettleLoading] = useState(false);
+  const [leaseNotice, setLeaseNotice] = useState<string | null>(null);
 
   // Form state
   const [leaseForm, setLeaseForm] = useState({
@@ -78,6 +97,43 @@ export default function LeasesPage() {
     },
   });
 
+  const handleEscalateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!escalateModal.lease) return;
+    setEscalateLoading(true);
+    try {
+      const updated = await leasesApi.escalateRent(escalateModal.lease.leaseId, Number(escalatePercent));
+      setLeaseNotice(`Rent escalated by ${escalatePercent}% for Lease #${updated.leaseId} (${updated.tenantName || 'Resident'}). New Monthly Rent: ₹${Number(updated.monthlyRent || updated.rentAmount).toLocaleString()}`);
+      queryClient.invalidateQueries({ queryKey: ['leases'] });
+      setEscalateModal({ isOpen: false, lease: null });
+    } catch (err: any) {
+      alert('Failed to escalate rent: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setEscalateLoading(false);
+    }
+  };
+
+  const handleSettleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!settleModal.lease) return;
+    setSettleLoading(true);
+    try {
+      const res = await leasesApi.settleDeposit(settleModal.lease.leaseId, {
+        damageDeductions: Number(settleForm.damageDeductions),
+        unpaidRentDeductions: Number(settleForm.unpaidRentDeductions),
+        remarks: settleForm.remarks,
+      });
+      setLeaseNotice(`Deposit settled for ${res.tenantName || 'Resident'}! Original Deposit: ₹${Number(res.originalDeposit).toLocaleString()}, Deductions: ₹${Number(res.totalDeductions).toLocaleString()}, Net Refund: ₹${Number(res.netRefundAmount).toLocaleString()}. Lease terminated & unit marked vacant.`);
+      queryClient.invalidateQueries({ queryKey: ['leases'] });
+      queryClient.invalidateQueries({ queryKey: ['units'] });
+      setSettleModal({ isOpen: false, lease: null });
+    } catch (err: any) {
+      alert('Failed to settle deposit: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setSettleLoading(false);
+    }
+  };
+
   const leases: Lease[] = data?.content || [];
   const units: Unit[] = unitsData?.content || [];
   const tenants: Tenant[] = tenantsData?.content || [];
@@ -100,6 +156,16 @@ export default function LeasesPage() {
           Draft Lease
         </button>
       </div>
+
+      {leaseNotice && (
+        <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 flex items-center justify-between text-xs font-semibold">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span>{leaseNotice}</span>
+          </div>
+          <button onClick={() => setLeaseNotice(null)} className="text-xs hover:underline text-emerald-500">Dismiss</button>
+        </div>
+      )}
 
       {/* Filter Bar */}
       <div className="flex flex-col md:flex-row gap-3 items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -188,13 +254,38 @@ export default function LeasesPage() {
                           </button>
                         )}
                         {lease.status === 'ACTIVE' && (
-                          <button
-                            onClick={() => setTerminateModal({ isOpen: true, leaseId: lease.leaseId })}
-                            className="inline-flex items-center gap-1 px-2.5 py-1 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-300 rounded font-semibold text-[11px] hover:bg-rose-100 transition-colors"
-                          >
-                            <XCircle className="w-3 h-3" />
-                            Terminate
-                          </button>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              onClick={() => {
+                                setEscalateModal({ isOpen: true, lease });
+                                setEscalatePercent('5.0');
+                              }}
+                              className="inline-flex items-center gap-1 px-2 py-1 bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 rounded font-semibold text-[11px] hover:bg-amber-100 transition-colors"
+                              title="Annual Rent Escalation"
+                            >
+                              <TrendingUp className="w-3 h-3" />
+                              Escalate
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSettleModal({ isOpen: true, lease });
+                                setSettleForm({ damageDeductions: '0', unpaidRentDeductions: '0', remarks: 'Move-out inspection deposit settlement' });
+                              }}
+                              className="inline-flex items-center gap-1 px-2 py-1 bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 rounded font-semibold text-[11px] hover:bg-indigo-100 transition-colors"
+                              title="Move-Out Security Deposit Settlement"
+                            >
+                              <ShieldCheck className="w-3 h-3" />
+                              Settle Deposit
+                            </button>
+                            <button
+                              onClick={() => setTerminateModal({ isOpen: true, leaseId: lease.leaseId })}
+                              className="inline-flex items-center gap-1 px-2 py-1 bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 rounded font-semibold text-[11px] hover:bg-rose-100 transition-colors"
+                              title="Terminate Lease"
+                            >
+                              <XCircle className="w-3 h-3" />
+                              Terminate
+                            </button>
+                          </div>
                         )}
                       </div>
                     </td>
@@ -386,6 +477,152 @@ export default function LeasesPage() {
             </button>
           </div>
         </div>
+      </Modal>
+
+      {/* Escalate Rent Modal */}
+      <Modal
+        isOpen={escalateModal.isOpen}
+        onClose={() => setEscalateModal({ isOpen: false, lease: null })}
+        title="Annual Rent Escalation"
+      >
+        {escalateModal.lease && (
+          <form onSubmit={handleEscalateSubmit} className="space-y-4 text-xs">
+            <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 text-amber-900 dark:text-amber-200">
+              <span className="font-bold block mb-1">Contractual Rent Adjustment</span>
+              Escalate annual rent for {escalateModal.lease.tenantName} ({escalateModal.lease.unitNumber}). This automatically recalculates future recurring invoices and logs an immutable audit trail.
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-slate-500 mb-1">Current Monthly Rent</label>
+                <div className="text-base font-black text-slate-900 dark:text-white">
+                  ₹{Number(escalateModal.lease.rentAmount || escalateModal.lease.monthlyRent || 0).toLocaleString()}
+                </div>
+              </div>
+              <div>
+                <label className="block text-slate-500 mb-1">Escalation Rate (%)</label>
+                <input
+                  type="number"
+                  step="0.5"
+                  min="0.1"
+                  max="100"
+                  required
+                  value={escalatePercent}
+                  onChange={(e) => setEscalatePercent(e.target.value)}
+                  className="w-full px-3 py-1.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono font-bold"
+                />
+              </div>
+            </div>
+
+            <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-slate-500">Projected New Monthly Rent:</span>
+                <span className="text-base font-black text-emerald-600 dark:text-emerald-400">
+                  ₹{Math.round(Number(escalateModal.lease.rentAmount || escalateModal.lease.monthlyRent || 0) * (1 + (Number(escalatePercent) || 0) / 100)).toLocaleString()}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+              <button
+                type="button"
+                onClick={() => setEscalateModal({ isOpen: false, lease: null })}
+                className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={escalateLoading || !escalatePercent}
+                className="px-4 py-2 text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition-colors shadow-sm disabled:opacity-50"
+              >
+                {escalateLoading ? 'Applying...' : 'Apply Escalation'}
+              </button>
+            </div>
+          </form>
+        )}
+      </Modal>
+
+      {/* Settle Deposit Modal */}
+      <Modal
+        isOpen={settleModal.isOpen}
+        onClose={() => setSettleModal({ isOpen: false, lease: null })}
+        title="Move-Out Security Deposit Settlement"
+      >
+        {settleModal.lease && (
+          <form onSubmit={handleSettleSubmit} className="space-y-4 text-xs">
+            <div className="p-3 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-900 text-indigo-900 dark:text-indigo-200">
+              <span className="font-bold block mb-1">Final Move-Out Reconciliation</span>
+              Calculate physical damage repairs, unpaid utility/rent dues, and final refund to {settleModal.lease.tenantName}. Upon execution, the unit will be marked VACANT.
+            </div>
+
+            <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex justify-between items-center">
+              <span className="font-semibold text-slate-500">Security Deposit Escrow Held:</span>
+              <span className="text-base font-black text-slate-900 dark:text-white">
+                ₹{Number(settleModal.lease.securityDeposit || 0).toLocaleString()}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Damage Repair Deductions (₹)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="100"
+                  value={settleForm.damageDeductions}
+                  onChange={(e) => setSettleForm({ ...settleForm, damageDeductions: e.target.value })}
+                  className="w-full px-3 py-1.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono"
+                />
+              </div>
+              <div>
+                <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Unpaid Rent / Utility Deductions (₹)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="100"
+                  value={settleForm.unpaidRentDeductions}
+                  onChange={(e) => setSettleForm({ ...settleForm, unpaidRentDeductions: e.target.value })}
+                  className="w-full px-3 py-1.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-slate-600 dark:text-slate-300 font-semibold mb-1">Inspection Notes & Remarks</label>
+              <textarea
+                rows={2}
+                value={settleForm.remarks}
+                onChange={(e) => setSettleForm({ ...settleForm, remarks: e.target.value })}
+                className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+              />
+            </div>
+
+            <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex justify-between items-center">
+              <span className="font-bold text-emerald-800 dark:text-emerald-300">Net Refund Due to Resident:</span>
+              <span className="text-base font-black text-emerald-700 dark:text-emerald-300">
+                ₹{Math.max(0, Number(settleModal.lease.securityDeposit || 0) - (Number(settleForm.damageDeductions) || 0) - (Number(settleForm.unpaidRentDeductions) || 0)).toLocaleString()}
+              </span>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+              <button
+                type="button"
+                onClick={() => setSettleModal({ isOpen: false, lease: null })}
+                className="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={settleLoading}
+                className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-sm disabled:opacity-50"
+              >
+                {settleLoading ? 'Executing Settlement...' : 'Finalize Settlement & Vacate Unit'}
+              </button>
+            </div>
+          </form>
+        )}
       </Modal>
     </div>
   );

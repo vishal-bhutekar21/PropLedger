@@ -11,6 +11,7 @@ import com.propledger.repository.InvoiceRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +33,97 @@ import java.util.List;
 public class InvoiceController {
 
     private final InvoiceRepository invoiceRepository;
+    private final com.propledger.repository.LeaseRepository leaseRepository;
+    private final com.propledger.service.BillingService billingService;
+
+    @PostMapping("/generate-monthly")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'PROPERTY_MANAGER', 'ACCOUNTANT')")
+    @Operation(summary = "Batch generate monthly rent invoices for all active leases")
+    public ResponseEntity<java.util.Map<String, Object>> generateMonthly(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate billingDate,
+            org.springframework.security.core.Authentication auth) {
+        return ResponseEntity.ok(billingService.generateMonthlyInvoices(billingDate, auth != null ? auth.getName() : "ADMIN"));
+    }
+
+    @PostMapping("/assess-late-fees")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'PROPERTY_MANAGER', 'ACCOUNTANT')")
+    @Operation(summary = "Assess late fees on all overdue invoices")
+    public ResponseEntity<java.util.Map<String, Object>> assessLateFees(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate asOfDate,
+            @RequestParam(required = false) BigDecimal feeAmount,
+            org.springframework.security.core.Authentication auth) {
+        return ResponseEntity.ok(billingService.assessLateFees(asOfDate, feeAmount, auth != null ? auth.getName() : "ADMIN"));
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'PROPERTY_MANAGER', 'ACCOUNTANT')")
+    @Operation(summary = "Create an invoice manually with line items")
+    public ResponseEntity<InvoiceResponse> createInvoice(@Valid @RequestBody com.propledger.dto.request.InvoiceRequest request) {
+        com.propledger.entity.Lease lease = leaseRepository.findById(request.getLeaseId())
+                .orElseThrow(() -> new ResourceNotFoundException("Lease", "leaseId", request.getLeaseId()));
+
+        String invoiceNumber = (request.getInvoiceNumber() != null && !request.getInvoiceNumber().isBlank())
+                ? request.getInvoiceNumber()
+                : "INV-" + java.time.format.DateTimeFormatter.ofPattern("yyyyMM").format(request.getInvoiceDate()) + "-" + String.format("%05d", (int)(Math.random() * 90000) + 10000);
+
+        BigDecimal subtotal = BigDecimal.ZERO;
+        List<InvoiceItem> items = new java.util.ArrayList<>();
+
+        Invoice invoice = Invoice.builder()
+                .lease(lease)
+                .invoiceNumber(invoiceNumber)
+                .invoiceDate(request.getInvoiceDate())
+                .dueDate(request.getDueDate())
+                .billingPeriodStart(request.getBillingPeriodStart())
+                .billingPeriodEnd(request.getBillingPeriodEnd())
+                .status("UNPAID")
+                .notes(request.getNotes())
+                .build();
+
+        if (request.getItems() != null && !request.getItems().isEmpty()) {
+            for (com.propledger.dto.request.InvoiceItemRequest itemReq : request.getItems()) {
+                BigDecimal qty = itemReq.getQuantity() != null ? itemReq.getQuantity() : BigDecimal.ONE;
+                BigDecimal unitPrice = itemReq.getUnitPrice() != null ? itemReq.getUnitPrice() : BigDecimal.ZERO;
+                BigDecimal itemAmount = (itemReq.getAmount() != null && itemReq.getAmount().compareTo(BigDecimal.ZERO) > 0)
+                        ? itemReq.getAmount()
+                        : qty.multiply(unitPrice);
+
+                subtotal = subtotal.add(itemAmount);
+
+                items.add(InvoiceItem.builder()
+                        .invoice(invoice)
+                        .description(itemReq.getDescription())
+                        .itemType(itemReq.getItemType() != null ? itemReq.getItemType() : "RENT")
+                        .quantity(qty)
+                        .unitPrice(unitPrice)
+                        .amount(itemAmount)
+                        .build());
+            }
+        } else {
+            // Default base rent line item if empty
+            BigDecimal rent = lease.getMonthlyRent();
+            subtotal = rent;
+            items.add(InvoiceItem.builder()
+                    .invoice(invoice)
+                    .description("Monthly Base Rent")
+                    .itemType("RENT")
+                    .quantity(BigDecimal.ONE)
+                    .unitPrice(rent)
+                    .amount(rent)
+                    .build());
+        }
+
+        BigDecimal tax = request.getTax() != null ? request.getTax() : BigDecimal.ZERO;
+        BigDecimal total = subtotal.add(tax);
+
+        invoice.setSubtotal(subtotal);
+        invoice.setTax(tax);
+        invoice.setTotalAmount(total);
+        invoice.setItems(items);
+
+        Invoice saved = invoiceRepository.save(invoice);
+        return ResponseEntity.status(org.springframework.http.HttpStatus.CREATED).body(toResponse(saved));
+    }
 
     @GetMapping
     @Operation(summary = "Get paginated invoices with filter by lease, status, date range")
@@ -82,7 +174,7 @@ public class InvoiceController {
 
     private InvoiceResponse toResponse(Invoice i) {
         BigDecimal paid = i.getPayments() != null ? i.getPayments().stream()
-                .filter(p -> "COMPLETED".equals(p.getStatus()))
+                .filter(p -> "SUCCESS".equalsIgnoreCase(p.getStatus()) || "COMPLETED".equalsIgnoreCase(p.getStatus()))
                 .map(Payment::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add) : BigDecimal.ZERO;
 

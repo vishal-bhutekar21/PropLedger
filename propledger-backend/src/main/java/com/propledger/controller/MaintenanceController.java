@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping({"/api/maintenance", "/api/v1/maintenance"})
@@ -36,6 +37,7 @@ public class MaintenanceController {
     private final MaintenanceRequestRepository maintenanceRepository;
     private final UnitRepository unitRepository;
     private final TenantRepository tenantRepository;
+    private final com.propledger.repository.WorkOrderRepository workOrderRepository;
 
     @GetMapping
     @Operation(summary = "Get paginated maintenance tickets with filtering by priority, status, unit")
@@ -121,6 +123,41 @@ public class MaintenanceController {
         if (actualCost != null) req.setActualCost(actualCost);
 
         return ResponseEntity.ok(toResponse(maintenanceRepository.save(req)));
+    }
+
+    @GetMapping("/{id}/work-orders")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Get all work orders for a maintenance ticket")
+    public ResponseEntity<List<com.propledger.dto.response.WorkOrderResponse>> getWorkOrdersForRequest(@PathVariable Long id) {
+        MaintenanceRequest req = maintenanceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("MaintenanceRequest", "requestId", id));
+
+        List<com.propledger.entity.WorkOrder> workOrders = workOrderRepository.findByMaintenanceRequest_RequestId(id);
+        List<com.propledger.dto.response.WorkOrderResponse> resp = workOrders.stream().map(wo ->
+            com.propledger.dto.response.WorkOrderResponse.builder()
+                .workOrderId(wo.getWorkOrderId())
+                .requestId(id)
+                .requestTitle(req.getTitle())
+                .unitNumber(req.getUnit() != null ? req.getUnit().getUnitNumber() : null)
+                .propertyName(req.getUnit() != null && req.getUnit().getBuilding() != null && req.getUnit().getBuilding().getProperty() != null
+                        ? req.getUnit().getBuilding().getProperty().getPropertyName() : null)
+                .vendorId(wo.getVendor() != null ? wo.getVendor().getVendorId() : null)
+                .vendorName(wo.getVendor() != null ? wo.getVendor().getCompanyName() : null)
+                .workOrderNumber(wo.getWorkOrderNumber())
+                .description(wo.getDescription())
+                .scheduledDate(wo.getScheduledDate())
+                .completionDate(wo.getCompletionDate())
+                .estimatedCost(wo.getEstimatedCost())
+                .actualCost(wo.getActualCost())
+                .status(wo.getStatus())
+                .vendorNotes(wo.getVendorNotes())
+                .internalNotes(wo.getInternalNotes())
+                .createdAt(wo.getCreatedAt())
+                .updatedAt(wo.getUpdatedAt())
+                .build()
+        ).toList();
+
+        return ResponseEntity.ok(resp);
     }
 
     private MaintenanceRequestResponse toResponse(MaintenanceRequest m) {

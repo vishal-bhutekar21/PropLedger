@@ -245,6 +245,81 @@ public class LeaseServiceImpl implements LeaseService {
                 .build();
     }
 
+    @Override
+    @Transactional
+    public LeaseResponse escalateRent(Long id, java.math.BigDecimal percentage, String username) {
+        Lease lease = getLeaseEntityById(id);
+        if (percentage == null || percentage.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+            percentage = new java.math.BigDecimal("5.0");
+        }
+
+        java.math.BigDecimal oldRent = lease.getMonthlyRent();
+        java.math.BigDecimal multiplier = java.math.BigDecimal.ONE.add(percentage.divide(java.math.BigDecimal.valueOf(100), 4, java.math.RoundingMode.HALF_UP));
+        java.math.BigDecimal newRent = oldRent.multiply(multiplier).setScale(2, java.math.RoundingMode.HALF_UP);
+
+        lease.setMonthlyRent(newRent);
+        lease.setNotes((lease.getNotes() != null ? lease.getNotes() : "") +
+                " [Annual rent escalated by " + percentage + "% from ₹" + oldRent + " to ₹" + newRent + " by " + username + "]");
+
+        Lease saved = leaseRepository.save(lease);
+
+        auditLogService.log(username, "RENT_ESCALATED", "LEASE", saved.getLeaseId(),
+                Map.of("oldRent", oldRent),
+                Map.of("newRent", newRent, "percentage", percentage),
+                "Escalated monthly rent on lease #" + id + " by " + percentage + "% to ₹" + newRent);
+
+        return mapToResponse(saved);
+    }
+
+    @Override
+    @Transactional
+    public com.propledger.dto.response.DepositSettlementResponse settleDeposit(
+            Long id, com.propledger.dto.request.DepositSettlementRequest request, String username) {
+        Lease lease = getLeaseEntityById(id);
+
+        java.math.BigDecimal originalDeposit = lease.getSecurityDeposit() != null ? lease.getSecurityDeposit() : java.math.BigDecimal.ZERO;
+        java.math.BigDecimal damageDeductions = request != null && request.getDamageDeductions() != null ? request.getDamageDeductions() : java.math.BigDecimal.ZERO;
+        java.math.BigDecimal unpaidRentDeductions = request != null && request.getUnpaidRentDeductions() != null ? request.getUnpaidRentDeductions() : java.math.BigDecimal.ZERO;
+        java.math.BigDecimal totalDeductions = damageDeductions.add(unpaidRentDeductions);
+        java.math.BigDecimal netRefund = originalDeposit.subtract(totalDeductions).max(java.math.BigDecimal.ZERO);
+
+        lease.setStatus("TERMINATED");
+        lease.setNotes((lease.getNotes() != null ? lease.getNotes() : "") +
+                " [Deposit settled: ₹" + originalDeposit + " - ₹" + totalDeductions + " deductions = ₹" + netRefund + " refunded]");
+
+        Unit unit = lease.getUnit();
+        if (unit != null) {
+            unit.setStatus("VACANT");
+            unitRepository.save(unit);
+        }
+
+        leaseRepository.save(lease);
+
+        auditLogService.log(username, "DEPOSIT_SETTLED", "LEASE", lease.getLeaseId(),
+                null,
+                Map.of("originalDeposit", originalDeposit, "totalDeductions", totalDeductions, "netRefund", netRefund),
+                "Settled security deposit on lease #" + id + ": net refund ₹" + netRefund);
+
+        return com.propledger.dto.response.DepositSettlementResponse.builder()
+                .settlementNumber("SETTLE-" + lease.getLeaseId() + "-" + System.currentTimeMillis())
+                .leaseId(lease.getLeaseId())
+                .tenantName(lease.getTenant().getFullName())
+                .unitNumber(unit != null ? unit.getUnitNumber() : "")
+                .propertyName(unit != null && unit.getBuilding() != null && unit.getBuilding().getProperty() != null
+                        ? unit.getBuilding().getProperty().getPropertyName() : "")
+                .originalDeposit(originalDeposit)
+                .damageDeductions(damageDeductions)
+                .unpaidRentDeductions(unpaidRentDeductions)
+                .totalDeductions(totalDeductions)
+                .netRefundAmount(netRefund)
+                .deductionNotes(request != null ? request.getDeductionNotes() : "Move-out deposit inspection complete")
+                .settledBy(username)
+                .settlementDate(LocalDate.now())
+                .leaseStatus("TERMINATED")
+                .timestamp(java.time.OffsetDateTime.now())
+                .build();
+    }
+
     private PagedResponse<LeaseResponse> buildPagedResponse(Page<Lease> page) {
         return PagedResponse.<LeaseResponse>builder()
                 .content(page.getContent().stream().map(this::mapToResponse).collect(Collectors.toList()))

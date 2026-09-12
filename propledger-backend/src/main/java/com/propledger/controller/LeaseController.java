@@ -81,4 +81,24 @@ public class LeaseController {
     public ResponseEntity<List<LeaseResponse>> expiring(@RequestParam(defaultValue = "30") int days) {
         return ResponseEntity.ok(leaseService.getExpiringLeases(days));
     }
+
+    @PostMapping("/{id}/escalate-rent")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROPERTY_MANAGER')")
+    @Operation(summary = "Apply annual rent escalation percentage (e.g. 5% or 10%)")
+    public ResponseEntity<LeaseResponse> escalateRent(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "5.0") java.math.BigDecimal percentage,
+            Authentication auth) {
+        return ResponseEntity.ok(leaseService.escalateRent(id, percentage, auth != null ? auth.getName() : "ADMIN"));
+    }
+
+    @PostMapping("/{id}/settle-deposit")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROPERTY_MANAGER')")
+    @Operation(summary = "Settle move-out security deposit with damage and unpaid rent deductions")
+    public ResponseEntity<com.propledger.dto.response.DepositSettlementResponse> settleDeposit(
+            @PathVariable Long id,
+            @RequestBody(required = false) com.propledger.dto.request.DepositSettlementRequest request,
+            Authentication auth) {
+        return ResponseEntity.ok(leaseService.settleDeposit(id, request, auth != null ? auth.getName() : "ADMIN"));
+    }
 }

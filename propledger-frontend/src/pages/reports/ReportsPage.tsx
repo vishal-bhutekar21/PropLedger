@@ -3,10 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { reportsApi } from '../../api/client';
 import { LoadingState } from '../../components/ui';
 import { RevenueChart } from '../../components/charts/RevenueChart';
-import { BarChart3, TrendingUp, Clock, AlertOctagon, Building2 } from 'lucide-react';
+import { BarChart3, TrendingUp, Clock, AlertOctagon, Building2, Landmark, CheckCircle2 } from 'lucide-react';
 
 export default function ReportsPage() {
-  const [activeTab, setActiveTab] = useState<'occupancy' | 'outstanding' | 'profitability' | 'maintenance' | 'trends'>('occupancy');
+  const [activeTab, setActiveTab] = useState<'occupancy' | 'outstanding' | 'profitability' | 'maintenance' | 'trends' | 'distribution'>('occupancy');
+  const [mgmtFeeRate, setMgmtFeeRate] = useState(8.0);
 
   const { data: occupancyData, isLoading: isOccLoading } = useQuery({
     queryKey: ['report-occupancy'],
@@ -36,6 +37,12 @@ export default function ReportsPage() {
     queryKey: ['report-trend'],
     queryFn: () => reportsApi.revenueTrend(12),
     enabled: activeTab === 'trends',
+  });
+
+  const { data: distData, isLoading: isDistLoading } = useQuery({
+    queryKey: ['report-distribution', mgmtFeeRate],
+    queryFn: () => reportsApi.ownerDistribution(mgmtFeeRate),
+    enabled: activeTab === 'distribution',
   });
 
   return (
@@ -104,6 +111,17 @@ export default function ReportsPage() {
         >
           <BarChart3 className="w-4 h-4" />
           Cash Flow Trends
+        </button>
+        <button
+          onClick={() => setActiveTab('distribution')}
+          className={`pb-3 flex items-center gap-2 border-b-2 transition-colors whitespace-nowrap ${
+            activeTab === 'distribution'
+              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
+              : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
+          }`}
+        >
+          <Landmark className="w-4 h-4" />
+          Owner Distributions & Payouts
         </button>
       </div>
 
@@ -333,6 +351,137 @@ export default function ReportsPage() {
             <LoadingState message="Rendering historical cash flow..." />
           ) : (
             <RevenueChart data={Array.isArray(trendData) ? trendData : []} />
+          )}
+        </div>
+      )}
+
+      {/* Tab 6: Owner Distributions & Payouts */}
+      {activeTab === 'distribution' && (
+        <div className="space-y-6">
+          {/* Controls Bar */}
+          <div className="card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              <Landmark className="w-4 h-4 text-brand-500" />
+              <span>Property Management Fee Deduction</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Management Fee (%):</label>
+              <input
+                type="number"
+                min="0"
+                max="50"
+                step="0.5"
+                value={mgmtFeeRate}
+                onChange={(e) => setMgmtFeeRate(Number(e.target.value) || 0)}
+                className="w-24 px-3 py-1 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono text-center font-bold"
+              />
+            </div>
+          </div>
+
+          {/* Distribution Content */}
+          {isDistLoading ? (
+            <LoadingState message="Calculating owner net disbursements & distributions..." />
+          ) : !distData || distData.length === 0 ? (
+            <div className="card p-12 text-center">
+              <Landmark className="w-12 h-12 text-slate-300 dark:text-slate-700 mx-auto mb-3" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">No owner distribution data available</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Ensure active leases and payment collections are recorded.</p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Summary Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="card p-4">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase">Gross Rent Collected</span>
+                  <div className="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
+                    ₹{distData.reduce((acc: number, d: any) => acc + Number(d.grossRentCollected || 0), 0).toLocaleString()}
+                  </div>
+                  <span className="text-[10px] text-slate-400 mt-1 block">Total rental collections</span>
+                </div>
+                <div className="card p-4">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase">Management Fee ({mgmtFeeRate}%)</span>
+                  <div className="text-xl font-black text-indigo-600 dark:text-indigo-400 mt-1">
+                    ₹{distData.reduce((acc: number, d: any) => acc + Number(d.managementFeeAmount || 0), 0).toLocaleString()}
+                  </div>
+                  <span className="text-[10px] text-slate-400 mt-1 block">Platform management retainer</span>
+                </div>
+                <div className="card p-4">
+                  <span className="text-[11px] font-bold text-slate-400 uppercase">Operating Expenses</span>
+                  <div className="text-xl font-black text-rose-600 dark:text-rose-400 mt-1">
+                    ₹{distData.reduce((acc: number, d: any) => acc + Number(d.totalExpensesIncurred || 0), 0).toLocaleString()}
+                  </div>
+                  <span className="text-[10px] text-slate-400 mt-1 block">Maintenance & repair debits</span>
+                </div>
+                <div className="card p-4 bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-500/30">
+                  <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase">Net Owner Disbursal</span>
+                  <div className="text-xl font-black text-emerald-700 dark:text-emerald-300 mt-1">
+                    ₹{distData.reduce((acc: number, d: any) => acc + Number(d.netOwnerPayout || 0), 0).toLocaleString()}
+                  </div>
+                  <span className="text-[10px] text-emerald-600/80 dark:text-emerald-400/80 mt-1 block">Net funds due to property owners</span>
+                </div>
+              </div>
+
+              {/* Breakdown Table */}
+              <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">Owner Disbursal Statements (Current Period)</h3>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
+                    {distData[0]?.periodStart} to {distData[0]?.periodEnd}
+                  </span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                    <thead className="bg-slate-50 dark:bg-slate-800/60 font-bold uppercase text-[10px] text-slate-500 border-b border-slate-100 dark:border-slate-800">
+                      <tr>
+                        <th className="px-4 py-3">Property Owner</th>
+                        <th className="px-4 py-3">Properties</th>
+                        <th className="px-4 py-3">Gross Collected</th>
+                        <th className="px-4 py-3">Mgmt Fee ({mgmtFeeRate}%)</th>
+                        <th className="px-4 py-3">Property Expenses</th>
+                        <th className="px-4 py-3">Net Disbursal</th>
+                        <th className="px-4 py-3 text-right">Settlement Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                      {distData.map((row: any, idx: number) => (
+                        <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
+                          <td className="px-4 py-3">
+                            <div className="font-bold text-slate-900 dark:text-white">{row.ownerName}</div>
+                            <div className="text-[11px] text-slate-400">{row.companyName || row.email}</div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono font-semibold text-slate-700 dark:text-slate-300">
+                              {row.propertyCount} Properties
+                            </span>
+                            <div className="text-[10px] text-slate-400 truncate max-w-xs mt-0.5">
+                              {Array.isArray(row.propertyNames) ? row.propertyNames.join(', ') : ''}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 font-semibold text-emerald-600 dark:text-emerald-400">
+                            ₹{Number(row.grossRentCollected || 0).toLocaleString()}
+                          </td>
+                          <td className="px-4 py-3 font-mono text-slate-600 dark:text-slate-400">
+                            -₹{Number(row.managementFeeAmount || 0).toLocaleString()}
+                          </td>
+                          <td className="px-4 py-3 font-mono text-rose-600 dark:text-rose-400">
+                            -₹{Number(row.totalExpensesIncurred || 0).toLocaleString()}
+                          </td>
+                          <td className="px-4 py-3 font-bold text-emerald-600 dark:text-emerald-300 text-sm">
+                            ₹{Number(row.netOwnerPayout || 0).toLocaleString()}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 font-semibold text-[10px]">
+                              <CheckCircle2 className="w-3 h-3" />
+                              READY TO DISBURSE
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       )}

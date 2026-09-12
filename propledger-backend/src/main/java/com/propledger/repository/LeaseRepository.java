@@ -17,6 +17,8 @@ public interface LeaseRepository extends JpaRepository<Lease, Long> {
 
     List<Lease> findByTenant_TenantIdAndStatusIn(Long tenantId, List<String> statuses);
 
+    List<Lease> findByStatus(String status);
+
     @Query("SELECT l FROM Lease l WHERE l.unit.unitId = :unitId AND l.status = 'ACTIVE'")
     Optional<Lease> findActiveLeaseByUnitId(@Param("unitId") Long unitId);
 

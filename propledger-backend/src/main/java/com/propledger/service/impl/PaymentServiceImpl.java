@@ -105,6 +105,65 @@ public class PaymentServiceImpl {
         return mapToResponse(payment);
     }
 
+    @Transactional
+    public PaymentResponse refundPayment(Long id, com.propledger.dto.request.RefundRequest request, String refundedByUsername) {
+        Payment payment = paymentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Payment", "id", id));
+
+        if (!"SUCCESS".equalsIgnoreCase(payment.getStatus())) {
+            throw new BusinessException("Cannot refund payment with status: " + payment.getStatus());
+        }
+
+        payment.setStatus("REFUNDED");
+        payment.setNotes((payment.getNotes() != null ? payment.getNotes() : "") + " [Refunded: " + request.getReason() + "]");
+        Payment saved = paymentRepository.save(payment);
+
+        auditLogService.log(refundedByUsername, "PAYMENT_REFUNDED", "PAYMENT", saved.getPaymentId(),
+                null,
+                Map.of("invoice", payment.getInvoice().getInvoiceNumber(), "amount", payment.getAmount(), "reason", request.getReason()),
+                "Payment of " + payment.getAmount() + " refunded: " + request.getReason()
+        );
+
+        return mapToResponse(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public com.propledger.dto.response.ReceiptResponse getReceipt(Long id) {
+        Payment p = paymentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Payment", "id", id));
+
+        Invoice inv = p.getInvoice();
+        Lease lease = inv.getLease();
+        Tenant tenant = lease.getTenant();
+        Unit unit = lease.getUnit();
+        Property prop = unit.getBuilding().getProperty();
+
+        BigDecimal alreadyPaid = paymentRepository.sumSuccessfulPayments(inv.getInvoiceId());
+        BigDecimal outstanding = inv.getTotalAmount().subtract(alreadyPaid).max(BigDecimal.ZERO);
+
+        return com.propledger.dto.response.ReceiptResponse.builder()
+                .receiptNumber("RCP-" + p.getPaymentId() + "-" + p.getPaymentDate().toString().replace("-", ""))
+                .paymentId(p.getPaymentId())
+                .invoiceId(inv.getInvoiceId())
+                .invoiceNumber(inv.getInvoiceNumber())
+                .tenantName(tenant.getFullName())
+                .tenantEmail(tenant.getEmail())
+                .unitNumber(unit.getUnitNumber())
+                .propertyName(prop.getPropertyName())
+                .propertyAddress(prop.getAddressLine1() + ", " + prop.getCity())
+                .amount(p.getAmount())
+                .paymentDate(p.getPaymentDate())
+                .paymentMethod(p.getPaymentMethod())
+                .transactionReference(p.getTransactionReference())
+                .status(p.getStatus())
+                .notes(p.getNotes())
+                .recordedBy(p.getRecordedBy() != null ? p.getRecordedBy().getUsername() : "System")
+                .invoiceTotalAmount(inv.getTotalAmount())
+                .invoiceRemainingBalance(outstanding)
+                .issuedAt(p.getCreatedAt())
+                .build();
+    }
+
     @Transactional(readOnly = true)
     public PaymentResponse getById(Long id) {
         return mapToResponse(paymentRepository.findById(id)

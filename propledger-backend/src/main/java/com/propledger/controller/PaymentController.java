@@ -48,10 +48,27 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getById(id));
     }
 
+    @GetMapping("/{id}/receipt")
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "Get formal payment receipt breakdown")
+    public ResponseEntity<com.propledger.dto.response.ReceiptResponse> getReceipt(@PathVariable Long id) {
+        return ResponseEntity.ok(paymentService.getReceipt(id));
+    }
+
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'ACCOUNTANT')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ACCOUNTANT', 'TENANT', 'SUPER_ADMIN')")
     @Operation(summary = "Record payment — atomic transaction: validates, inserts, updates invoice status, logs audit")
     public ResponseEntity<PaymentResponse> record(@Valid @RequestBody PaymentRequest request, Authentication auth) {
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.recordPayment(request, auth.getName()));
+    }
+
+    @PostMapping("/{id}/refund")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ACCOUNTANT', 'SUPER_ADMIN')")
+    @Operation(summary = "Refund or reverse a payment (chargeback, bounced cheque, duplicate)")
+    public ResponseEntity<PaymentResponse> refund(
+            @PathVariable Long id,
+            @Valid @RequestBody com.propledger.dto.request.RefundRequest request,
+            Authentication auth) {
+        return ResponseEntity.ok(paymentService.refundPayment(id, request, auth.getName()));
     }
 }

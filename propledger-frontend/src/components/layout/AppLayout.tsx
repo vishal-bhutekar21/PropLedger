@@ -139,7 +139,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           <div className="hidden sm:flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-mono tracking-tight">Cloudflare Edge Live</span>
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-mono tracking-tight">Spring Boot 3.3 • PostgreSQL</span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -154,7 +154,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/60 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               <span className="hidden md:inline">{user?.fullName || 'Master Administrator'}</span>
-              <span className="font-mono text-[10px] text-slate-400">vishalbhutekar.me</span>
+              <span className="font-mono text-[10px] text-slate-400">Local Enterprise</span>
             </div>
           </div>
         </header>

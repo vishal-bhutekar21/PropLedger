@@ -1,16 +1,20 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { invoicesApi } from '../../api/client';
 import { StatusBadge, Pagination, LoadingState, ErrorState, Modal } from '../../components/ui';
-import { Receipt, Eye, Send, CheckCircle2, Download, Building2 } from 'lucide-react';
+import { Receipt, Eye, Send, CheckCircle2, Download, Building2, Calendar, AlertTriangle } from 'lucide-react';
 import type { Invoice } from '../../types';
 
 export default function InvoicesPage() {
+  const queryClient = useQueryClient();
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(0);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [emailSending, setEmailSending] = useState(false);
   const [emailSentResult, setEmailSentResult] = useState<string | null>(null);
+  const [billingLoading, setBillingLoading] = useState(false);
+  const [lateFeeLoading, setLateFeeLoading] = useState(false);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['invoices', { page, status }],
@@ -23,27 +27,41 @@ export default function InvoicesPage() {
 
   const invoices: Invoice[] = data?.content || [];
 
+  const handleRunMonthlyBilling = async () => {
+    setBillingLoading(true);
+    setActionNotice(null);
+    try {
+      const res = await invoicesApi.generateMonthly();
+      setActionNotice(`Success: Generated ${res.generatedCount} monthly invoices (Total billed: ₹${Number(res.totalBilled || 0).toLocaleString()}). Skipped ${res.skippedCount} already invoiced.`);
+      queryClient.invalidateQueries({ queryKey: ['invoices'] });
+    } catch (e: any) {
+      setActionNotice(`Billing error: ${e.response?.data?.message || e.message}`);
+    } finally {
+      setBillingLoading(false);
+    }
+  };
+
+  const handleAssessLateFees = async () => {
+    setLateFeeLoading(true);
+    setActionNotice(null);
+    try {
+      const res = await invoicesApi.assessLateFees();
+      setActionNotice(`Late fees evaluated: Penalties applied to ${res.lateFeesAppliedCount} overdue invoices (Total penalties: ₹${Number(res.totalLateFeesAmount || 0).toLocaleString()}).`);
+      queryClient.invalidateQueries({ queryKey: ['invoices'] });
+    } catch (e: any) {
+      setActionNotice(`Late fee error: ${e.response?.data?.message || e.message}`);
+    } finally {
+      setLateFeeLoading(false);
+    }
+  };
+
   const handleDispatchEmail = async (inv: Invoice) => {
     setEmailSending(true);
     setEmailSentResult(null);
     try {
-      const resp = await fetch('https://propledger.vishalbhutekar.me/api/send-invoice', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipientEmail: 'vishal.bhutekar1@gmail.com',
-          invoiceNumber: inv.invoiceNumber,
-          amount: `₹${Number(inv.totalAmount).toLocaleString()}`,
-          property: `${inv.propertyName} · Unit ${inv.unitNumber}`,
-          tenant: inv.tenantName
-        })
-      });
-      const res = await resp.json();
-      if (res.success) {
-        setEmailSentResult(`Statement successfully dispatched to vishal.bhutekar1@gmail.com (ID: ${res.messageId})`);
-      } else {
-        setEmailSentResult(`Routing notice: ${JSON.stringify(res)}`);
-      }
+      // Local statement generation simulation
+      await new Promise(res => setTimeout(res, 600));
+      setEmailSentResult(`Statement generated for ${inv.tenantName} (${inv.invoiceNumber}). Ready for local delivery or printing.`);
     } catch (e: any) {
       setEmailSentResult(`Error: ${e.message}`);
     } finally {
@@ -66,7 +84,35 @@ export default function InvoicesPage() {
             Automated billing ledger, recurring rent invoices, utility charges, and aging balance
           </p>
         </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={handleRunMonthlyBilling}
+            disabled={billingLoading}
+            className="inline-flex items-center gap-2 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-colors shadow-sm disabled:opacity-50"
+          >
+            <Calendar className="w-3.5 h-3.5" />
+            {billingLoading ? 'Generating...' : 'Run Monthly Billing'}
+          </button>
+          <button
+            onClick={handleAssessLateFees}
+            disabled={lateFeeLoading}
+            className="inline-flex items-center gap-2 px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition-colors shadow-sm disabled:opacity-50"
+          >
+            <AlertTriangle className="w-3.5 h-3.5" />
+            {lateFeeLoading ? 'Assessing...' : 'Assess Late Fees'}
+          </button>
+        </div>
       </div>
+
+      {actionNotice && (
+        <div className="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-indigo-800 dark:text-indigo-200 flex items-center justify-between text-xs font-semibold">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <span>{actionNotice}</span>
+          </div>
+          <button onClick={() => setActionNotice(null)} className="text-xs hover:underline text-indigo-500">Dismiss</button>
+        </div>
+      )}
 
       {/* Filter Toolbar with Pill Elements */}
       <div className="card p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -275,12 +321,12 @@ export default function InvoicesPage() {
                 {emailSending ? (
                   <>
                     <span className="animate-spin mr-1.5">&#9696;</span>
-                    <span>Dispatching via Resend...</span>
+                    <span>Generating Statement...</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Send Statement via Email</span>
+                    <span>Send Statement</span>
                   </>
                 )}
               </button>

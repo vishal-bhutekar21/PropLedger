@@ -22,42 +22,34 @@
 
 ---
 
-## 🌐 Live Cloudflare Edge Deployment & Portals
+## 🖥️ Local Full-Stack Architecture
 
-| Portal | URL | Purpose |
+| Component | Port / Path | Purpose |
 | :--- | :--- | :--- |
-| **Public Showcase & Ledger** | [**https://propledger.vishalbhutekar.me**](https://propledger.vishalbhutekar.me) | Clean modern showcase, resident statements, concierge desk |
-| **Master Admin Console** | [**https://admin.vishalbhutekar.me**](https://admin.vishalbhutekar.me) | Executive operations center, credentials vault, email triggers |
-| **Alternate Admin Route** | [**https://admin-propledger.vishalbhutekar.me**](https://admin-propledger.vishalbhutekar.me) | Dedicated admin gateway (SSL covered) |
-| **Zensar Preparation Suite** | [**https://zensar-prep.vishalbhutekar.me**](https://zensar-prep.vishalbhutekar.me) | High-speed edge reverse proxy to Netlify preparation suite |
-| **Inbound Concierge Email** | `support@propledger.vishalbhutekar.me` | Auto-forwarded via Cloudflare Workers to executive desk |
+| **React Web Application** | [**http://localhost:5173**](http://localhost:5173) | Single-page operations console, leasing roster, resident billing & payments |
+| **Spring Boot REST API** | [**http://localhost:8080**](http://localhost:8080) | Java 21 enterprise backend engine, ACID subledgers, JWT security |
+| **Swagger Interactive Docs** | [**http://localhost:8080/swagger-ui.html**](http://localhost:8080/swagger-ui.html) | OpenAPI 3.0 interactive endpoints explorer |
+| **PostgreSQL Database** | `localhost:5432` (`propledger`) | 12 Flyway schema migrations, triggers, functions, and audit logs |
 
-### 🛡️ Master Administrator Access
-PropLedger is pre-configured with a master super-administrator account auto-provisioned on startup:
-* **Email:** `vishal.bhutekar1@gmail.com`
-* **Password:** `Vishal@1233`
-* **Assigned Roles:** `ROLE_SUPER_ADMIN`, `ROLE_PROPERTY_MANAGER`, `ROLE_ACCOUNTANT`
-* **Master Admin Console:** [**https://admin.vishalbhutekar.me**](https://admin.vishalbhutekar.me)
-
-### 📬 Transactional Email & Invoice Pipeline (Resend + Cloudflare Workers)
-The platform integrates **Resend** transactional mail routing directly into Cloudflare Workers and Spring Boot:
-* **Automated Trigger:** When a lease or invoice is finalized, the worker generates a responsive HTML invoice packet with PDF attachments and delivers it to the tenant/owner.
-* **Direct Edge Dispatch Command:**
-  ```bash
-  curl -X POST https://propledger.vishalbhutekar.me/api/send-invoice \
-    -H "Content-Type: application/json" \
-    -d '{
-      "recipientEmail": "vishal.bhutekar1@gmail.com",
-      "invoiceNumber": "INV-202609-00001",
-      "amount": "$3,250.00",
-      "property": "The Grand Horizon - Unit 402",
-      "tenant": "Vishal Bhutekar"
-    }'
-  ```
+### 🛡️ Default Administrator Access
+PropLedger includes a deterministic administrator account seeded in the database:
+* **Username:** `admin` (or `admin@propledger.io`)
+* **Password:** `Password@123`
+* **Assigned Roles:** `ROLE_ADMIN`
+* **Console URL:** [**http://localhost:5173/login**](http://localhost:5173/login)
 
 ---
 
 ## 🚀 How to Run PropLedger Locally
+
+### ⚡ One-Click Windows Launcher (Recommended)
+Simply double-click or run from command prompt:
+```cmd
+start_all.bat
+```
+*(Or run `.\run_local.ps1` in PowerShell)*. This automatically starts the Spring Boot backend on `localhost:8080`, the React frontend on `localhost:5173`, and opens the app in your browser!
+
+---
 
 ### 1. Prerequisites
 * **Java:** JDK 21+ (`java -version`)
@@ -93,7 +85,7 @@ cd propledger-frontend
 npm install
 npm run dev
 # Frontend will start on http://localhost:5173
-# Login with master credentials: vishal.bhutekar1@gmail.com / Vishal@1233
+# Login with default admin credentials: admin / Password@123 (or admin@propledger.io)
 ```
 
 ---
@@ -389,6 +381,38 @@ We separate payments from invoices via a junction settlement entity called <code
 <br>
 Pure 3NF normalization would require calculating an invoice's remaining balance on every read by summing all historical <code>payment_allocations</code>, and calculating unit availability by evaluating all historical lease date ranges. On high-volume dashboards and checkout screens, these subqueries create severe I/O bottlenecks. PropLedger caches derived aggregates (<code>invoices.balance_due</code>, <code>units.status</code>) directly on parent tables, but <b>never</b> allows application code to manipulate that state manually. Instead, ACID-compliant database triggers synchronize those fields in lockstep on every insert/update/delete, providing $O(1)$ read performance with guaranteed transactional consistency.
 </details>
+
+---
+
+## 📊 Module Implementation Matrix & Enterprise Capabilities
+
+| Functional Module | Implementation Status | Backend Implementation | Frontend UI Component |
+| :--- | :---: | :--- | :--- |
+| **Property & Portfolio Hierarchy** | ✅ 100% Complete | `PropertyController`, `BuildingController` | `PropertiesPage.tsx` |
+| **Unit Inventory & Status State Machine** | ✅ 100% Complete | `UnitController`, `UnitRepository` | `UnitsPage.tsx` |
+| **Tenant Lifecycle & Resident Onboarding** | ✅ 100% Complete | `TenantController`, `TenantRepository` | `TenantsPage.tsx` |
+| **Leasing Operations & GiST Overlap Guard** | ✅ 100% Complete | `LeaseController`, `LeaseServiceImpl` | `LeasesPage.tsx` |
+| **Annual Rent Escalation Engine** | ✅ 100% Complete | `POST /api/leases/{id}/escalate-rent` | `LeasesPage.tsx` (Escalate Modal) |
+| **Move-Out Deposit Final Accounting** | ✅ 100% Complete | `POST /api/leases/{id}/settle-deposit` | `LeasesPage.tsx` (Settle Modal) |
+| **Rental Invoicing & AR Subledger** | ✅ 100% Complete | `InvoiceController`, `InvoiceRepository` | `InvoicesPage.tsx` |
+| **Automated Monthly Recurring Billing Engine**| ✅ 100% Complete | `BillingServiceImpl`, `@Scheduled` cron | `InvoicesPage.tsx` ("Run Monthly Billing") |
+| **Contractual Late Fee Assessment Engine** | ✅ 100% Complete | `POST /api/invoices/assess-late-fees` | `InvoicesPage.tsx` ("Assess Late Fees") |
+| **Payment Collections & Reconciliation** | ✅ 100% Complete | `PaymentController`, `PaymentServiceImpl` | `PaymentsPage.tsx` |
+| **Payment Reversals & Refunds Flow** | ✅ 100% Complete | `POST /api/payments/{id}/refund` | `PaymentsPage.tsx` (Refund Modal) |
+| **Official GST Tax Invoices & Rent Receipts** | ✅ 100% Complete | `GET /api/payments/{id}/receipt` | `PaymentsPage.tsx` (Printable Receipt Modal) |
+| **Vendor Directory & Expense Payables** | ✅ 100% Complete | `VendorController`, `ExpenseController` | `VendorsPage.tsx`, `ExpensesPage.tsx` |
+| **Maintenance Requests & Work Orders** | ✅ 100% Complete | `MaintenanceController`, `WorkOrderController` | `MaintenancePage.tsx` |
+| **Financial Analytics & P&L Reporting** | ✅ 100% Complete | `ReportController` (Occupancy, Aging AR, NOI) | `ReportsPage.tsx` |
+| **Owner Distributions & Remittances** | ✅ 100% Complete | `GET /api/reports/owner-distribution` | `ReportsPage.tsx` ("Owner Distributions" tab) |
+| **Audit Trail & Regulatory Compliance** | ✅ 100% Complete | `AuditLogController`, `AuditLogService` | `AuditLogsPage.tsx` |
+| **One-Click Windows & PowerShell Launcher** | ✅ 100% Complete | `start_all.bat`, `run_local.bat`, `run_local.ps1` | Native Windows CMD & Browser launch |
+
+### 🔮 Future Enterprise Roadmap (Phase 2 Potential Extensions)
+While all 18 core ERP modules are fully operational, the following optional enhancements represent natural Phase 2 additions:
+1. **Server-Side PDF Generation**: Integrating Apache PDFBox or OpenPDF to export downloadable binary PDFs directly from the server.
+2. **Resident Mobile App**: React Native or Flutter mobile client for resident rent payments and maintenance photo uploads.
+3. **SMS / WhatsApp Resident Notifications**: Webhook integration with Twilio or Gupshup for automated WhatsApp rent reminders on the 1st of the month.
+4. **Multi-Currency Live FX Exchange**: Live currency conversion for NRI / international property portfolios.
 
 ---
 

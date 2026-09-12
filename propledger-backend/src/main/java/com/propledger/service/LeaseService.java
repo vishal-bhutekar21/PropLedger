@@ -16,4 +16,6 @@ public interface LeaseService {
     LeaseResponse terminateLease(Long id, String reason, String username);
     LeaseResponse renewLease(Long id, LeaseRequest request, String username);
     List<LeaseResponse> getExpiringLeases(int daysAhead);
+    LeaseResponse escalateRent(Long id, java.math.BigDecimal percentage, String username);
+    com.propledger.dto.response.DepositSettlementResponse settleDeposit(Long id, com.propledger.dto.request.DepositSettlementRequest request, String username);
 }

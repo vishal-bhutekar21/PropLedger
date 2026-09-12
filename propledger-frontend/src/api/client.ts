@@ -89,6 +89,9 @@ export const leasesApi = {
   terminate: (id: number, reason: string) => apiClient.put(`/api/leases/${id}/terminate`, { reason }).then(r => r.data),
   renew: (id: number, data: unknown) => apiClient.post(`/api/leases/${id}/renew`, data).then(r => r.data),
   expiring: (days = 30) => apiClient.get(`/api/leases/expiring?days=${days}`).then(r => r.data),
+  escalateRent: (id: number, percentage = 5.0) => apiClient.post(`/api/leases/${id}/escalate-rent?percentage=${percentage}`).then(r => r.data),
+  settleDeposit: (id: number, data: { damageDeductions: number; unpaidRentDeductions: number; remarks?: string }) =>
+    apiClient.post(`/api/leases/${id}/settle-deposit`, data).then(r => r.data),
 };
 
 // ── Invoices ──────────────────────────────────
@@ -96,6 +99,8 @@ export const invoicesApi = {
   list: (params?: Record<string, unknown>) => apiClient.get('/api/invoices', { params }).then(r => r.data),
   get: (id: number) => apiClient.get(`/api/invoices/${id}`).then(r => r.data),
   create: (data: unknown) => apiClient.post('/api/invoices', data).then(r => r.data),
+  generateMonthly: (billingDate?: string) => apiClient.post('/api/invoices/generate-monthly', null, { params: { billingDate } }).then(r => r.data),
+  assessLateFees: () => apiClient.post('/api/invoices/assess-late-fees').then(r => r.data),
 };
 
 // ── Payments ──────────────────────────────────
@@ -103,6 +108,8 @@ export const paymentsApi = {
   list: (params?: Record<string, unknown>) => apiClient.get('/api/payments', { params }).then(r => r.data),
   get: (id: number) => apiClient.get(`/api/payments/${id}`).then(r => r.data),
   record: (data: unknown) => apiClient.post('/api/payments', data).then(r => r.data),
+  refund: (id: number, reason: string) => apiClient.post(`/api/payments/${id}/refund`, { reason }).then(r => r.data),
+  receipt: (id: number) => apiClient.get(`/api/payments/${id}/receipt`).then(r => r.data),
 };
 
 // ── Expenses ──────────────────────────────────
@@ -136,6 +143,7 @@ export const reportsApi = {
   profitability: (params?: Record<string, unknown>) => apiClient.get('/api/reports/profitability', { params }).then(r => r.data),
   maintenancePerformance: () => apiClient.get('/api/reports/maintenance-performance').then(r => r.data),
   revenueTrend: (months = 12) => apiClient.get(`/api/reports/revenue-trend?months=${months}`).then(r => r.data),
+  ownerDistribution: (managementFeePercentage = 8.0) => apiClient.get(`/api/reports/owner-distribution?managementFeePercentage=${managementFeePercentage}`).then(r => r.data),
 };
 
 // ── Audit Logs ────────────────────────────────
